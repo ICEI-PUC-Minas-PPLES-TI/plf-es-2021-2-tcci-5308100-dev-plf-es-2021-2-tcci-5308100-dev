@@ -15,6 +15,8 @@ Este diretório mantém os artefatos do projeto.
 	* `/diagramas-de-sequencia`: Contem os diagramas de sequencia completos
 	* `/diagramas-entidade-relacionamento`: Contem o diagrama entidade-relacionamento
   	* **diagramas-uml.asta**: Arquivo do Astah, onde os diagramas foram feitos
+* `/Documentação de Projeto`: Contem a versão final da documentação do projeto que é avaliada pela banca
+	* **ProjetoPreBanca_Atividade_A7.pdf**: Versão final da documentação do projeto
 * `/interfaces`: Contem todas as telas prototipadas do sistema
   	* `/administrador`: Contem as telas prototipadas para os administradores
 	* `/explorador`: Contem as telas prototipadas para os exploradores
