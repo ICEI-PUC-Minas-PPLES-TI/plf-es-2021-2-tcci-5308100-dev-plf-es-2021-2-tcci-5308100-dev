@@ -1,0 +1,10 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "skipLibCheck": true,
+    "baseUrl": "./"
+  }
+}

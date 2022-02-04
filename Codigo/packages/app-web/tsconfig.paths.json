@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@GlobalTypes": ["./src/utils/types.ts"],
+      "@Utils/*": ["./src/utils/*"],
+      "@Pages/*": ["./src/pages/*"],
+      "@Views/*": ["./src/views/*"],
+      "@Components/*": ["./src/components/*"],
+      "@Services/*": ["./src/services/*"],
+      "@Assets/*": ["./src/assets/*"],
+      "~/*": ["./src/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}
