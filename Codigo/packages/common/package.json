@@ -4,6 +4,7 @@
   "main": "index.js",
   "license": "ISC",
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "dev": "tsc -w"
   }
 }

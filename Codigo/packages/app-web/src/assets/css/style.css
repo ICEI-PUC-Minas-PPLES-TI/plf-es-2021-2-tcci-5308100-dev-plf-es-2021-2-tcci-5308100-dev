@@ -51,3 +51,23 @@ link.no-border-focus:focus {
 
 .min-window-size {min-height: calc(100vh - 120px);}
 .flex-center {display: flex; justify-content: center; align-items: center;}
+
+div.has-error input,
+div.has-error select,
+div.has-error textarea
+ {border-color: red;}
+
+div.has-error input:focus,
+div.has-error select:focus,
+div.has-error textarea:focus
+ {border-color: red; box-shadow: 0 0 0 0.25rem rgb(253 13 13 / 25%);}
+
+div.has-success input,
+div.has-success select,
+div.has-success textarea
+ {border-color: green;}
+
+div.has-success input,
+div.has-success select,
+div.has-success textarea
+ {border-color: green; box-shadow: 0 0 0 0.25rem rgb(13 253 20 / 25%);}

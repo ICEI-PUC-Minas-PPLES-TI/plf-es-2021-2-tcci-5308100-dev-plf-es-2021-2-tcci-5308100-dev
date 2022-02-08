@@ -16,8 +16,11 @@ import { SavedFile } from './entities/SavedFile.entity';
 import { SocialMedia } from './entities/SocialMedia.entity';
 import { SocialMediaParam } from './entities/SocialMediaParam.entity';
 import { User } from './entities/User.entity';
+import { ProfileSeed } from './seeds/profile.seed';
+import { SocialMediaSeed } from './seeds/social-media.seed';
+import { UserSeed } from './seeds/user.seed';
 
-const databaseEntities = [
+const repositories = TypeOrmModule.forFeature([
   Administrator,
   Challenge,
   ChallengeAccepted,
@@ -32,13 +35,11 @@ const databaseEntities = [
   SocialMedia,
   SocialMediaParam,
   User,
-];
+]);
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(config),
-    TypeOrmModule.forFeature(databaseEntities),
-  ],
-  exports: [TypeOrmModule.forFeature(databaseEntities)],
+  imports: [TypeOrmModule.forRoot(config), repositories],
+  providers: [ProfileSeed, SocialMediaSeed, UserSeed],
+  exports: [repositories],
 })
 export class DatabaseModule {}

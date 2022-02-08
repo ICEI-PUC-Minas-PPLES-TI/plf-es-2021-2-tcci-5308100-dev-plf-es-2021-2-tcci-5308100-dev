@@ -8,7 +8,6 @@ import { ApiModule } from '~/api/api.module';
 
 @Module({
   imports: [
-    ApiModule,
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
@@ -17,5 +16,6 @@ import { ApiModule } from '~/api/api.module';
   ],
   providers: [AuthenticationService, JwtStrategy],
   controllers: [],
+  exports: [AuthenticationService],
 })
 export class AuthenticationModule {}

@@ -4,34 +4,21 @@ import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Token } from '@sec/common';
 import * as bcrypt from 'bcrypt';
-import { AdministratorService } from '~/api/administrator/administrator.service';
 
 @Injectable()
 export class AuthenticationService {
-  constructor(
-    private administratorService: AdministratorService,
-    private jwtService: JwtService,
-  ) {}
+  constructor(private jwtService: JwtService) {}
 
-  async validateUser(email: string, password: string): Promise<Administrator> {
-    const user = await this.administratorService.findByEmailWithPassword(email);
-
-    if (!!user && (await bcrypt.compare(password, user.password))) {
-      user.password = null;
-      return user;
-    }
-    return undefined;
+  async validateUser(
+    password: string,
+    hashedPassword: string,
+  ): Promise<boolean> {
+    return await bcrypt.compare(password, hashedPassword);
   }
 
-  createToken(user: User) {
-    const payload: Token = {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      type: user.profile.type,
-    };
+  createToken(user: Token) {
     return {
-      token: this.jwtService.sign(payload),
+      token: this.jwtService.sign(user),
     };
   }
 }

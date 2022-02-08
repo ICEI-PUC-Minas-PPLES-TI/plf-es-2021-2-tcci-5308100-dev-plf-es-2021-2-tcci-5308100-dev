@@ -4,6 +4,7 @@ import { ChallengeAccepted } from './ChallengeAccepted.entity';
 import { User } from './User.entity';
 import { Explorer as IExplorer, ExplorerStatus, UserType } from '@sec/common';
 
+console.log(User);
 @ChildEntity(UserType.EXPLORER)
 export class Explorer extends User implements IExplorer {
   constructor() {

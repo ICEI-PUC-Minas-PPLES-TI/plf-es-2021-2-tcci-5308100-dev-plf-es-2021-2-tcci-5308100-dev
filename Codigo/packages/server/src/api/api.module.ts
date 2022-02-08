@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { AuthenticationModule } from '~/authentication/authentication.module';
 import { DatabaseModule } from '~/database/database.module';
 import { UtilsModule } from '~/utils/utils.module';
 import { AdministratorController } from './administrator/administrator.controller';
@@ -31,7 +32,7 @@ import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 
 @Module({
-  imports: [UtilsModule, DatabaseModule],
+  imports: [UtilsModule, DatabaseModule, AuthenticationModule],
   controllers: [
     AdministratorController,
     ChallengeController,

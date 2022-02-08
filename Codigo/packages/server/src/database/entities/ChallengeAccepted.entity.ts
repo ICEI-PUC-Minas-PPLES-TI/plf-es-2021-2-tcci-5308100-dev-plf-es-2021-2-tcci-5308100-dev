@@ -3,13 +3,14 @@ import { Challenge } from './Challenge.entity';
 import { ChallengeAcceptedResponse } from './ChallengeAcceptedResponse.entity';
 import { Comment } from './Comment.entity';
 import { Explorer } from './Explorer.entity';
-import { Model } from './Model';
+import { Model } from './Model.abstract';
 import {
   ChallengeAccepted as IChallengeAccepted,
   ChallengeAcceptedStatus,
   ChallengeRecompenseStatus,
 } from '@sec/common';
 
+console.log(Model);
 @Entity()
 export class ChallengeAccepted extends Model implements IChallengeAccepted {
   @Column({ enum: ChallengeAcceptedStatus })

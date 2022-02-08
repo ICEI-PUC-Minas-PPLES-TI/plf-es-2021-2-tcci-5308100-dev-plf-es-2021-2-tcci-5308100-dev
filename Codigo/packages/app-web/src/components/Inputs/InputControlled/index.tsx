@@ -22,7 +22,7 @@ const InputControlled: React.FunctionComponent<InputControlledProps> = ({
   const inputRef = useRef<HTMLInputElement | any>(null);
 
   return (
-    <Group className={'has-label ' + (hasError === undefined ? '' : hasError ? 'has-error' : 'has-success')}>
+    <Group className={'has-label ' + (hasError === undefined ? '' : hasError ? 'has-error' : ''/* 'has-success' */)}>
       {label && (
         <label className='label-with-loading'>
           {label}

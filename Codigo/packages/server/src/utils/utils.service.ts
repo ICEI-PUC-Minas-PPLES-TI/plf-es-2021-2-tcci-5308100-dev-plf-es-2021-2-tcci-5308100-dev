@@ -22,8 +22,8 @@ export class UtilsService {
 
   apiResponseSuccessOrFail(params: {
     success: boolean;
-    onSuccess: { message: string; payload: Record<string, unknown> };
-    onFail: { message: string; payload?: Record<string, unknown> };
+    onSuccess: { message: string; payload: any };
+    onFail: { message: string; payload?: any };
   }) {
     return params.success
       ? this.apiResponseSuccess({
@@ -36,13 +36,7 @@ export class UtilsService {
         });
   }
 
-  apiResponseSuccess({
-    message,
-    payload,
-  }: {
-    message: string;
-    payload: Record<string, unknown>;
-  }) {
+  apiResponseSuccess({ message, payload }: { message: string; payload: any }) {
     return this.apiResponse({
       status: 'SUCCESS',
       message,
@@ -50,13 +44,7 @@ export class UtilsService {
     });
   }
 
-  apiResponseFail({
-    message,
-    payload,
-  }: {
-    message: string;
-    payload?: Record<string, unknown>;
-  }) {
+  apiResponseFail({ message, payload }: { message: string; payload?: any }) {
     return this.apiResponse({
       status: 'FAIL',
       message,
@@ -64,13 +52,7 @@ export class UtilsService {
     });
   }
 
-  apiResponseWarning({
-    message,
-    payload,
-  }: {
-    message: string;
-    payload?: Record<string, unknown>;
-  }) {
+  apiResponseWarning({ message, payload }: { message: string; payload?: any }) {
     return this.apiResponse({
       status: 'WARNING',
       message,

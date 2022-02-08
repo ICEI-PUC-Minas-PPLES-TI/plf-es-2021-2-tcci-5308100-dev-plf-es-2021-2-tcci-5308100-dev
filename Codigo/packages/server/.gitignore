@@ -1,4 +1,6 @@
 .env
+/public/upload
+/public/app-web
 
 # compiled output
 /dist

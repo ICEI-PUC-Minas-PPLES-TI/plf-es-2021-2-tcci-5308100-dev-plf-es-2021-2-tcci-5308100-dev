@@ -17,6 +17,7 @@ import ErrorCatcher from '~/components/error/ErrorCatcher';
 import AdministratorLogin from '@Pages/administrator/login';
 
 import ExplorerLogin from '@Pages/explorer/login';
+import Administrators from '@Pages/administrator/administrators';
 
 const urlPrefix = {
   [UserType.ADMINISTRATOR]: '/administrador',
@@ -32,7 +33,7 @@ const routesAdministrator: RouteSettings[] = [
     component: () => <div>Dashboard</div>,
     show: true,
     hasNavMenu: true,
-    bgClass: 'bg-blue-gradient text-white',
+    bgClass: '',
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios',
@@ -42,7 +43,27 @@ const routesAdministrator: RouteSettings[] = [
     component: () => <div>Desafios</div>,
     show: true,
     hasNavMenu: true,
-    bgClass: 'bg-orange-gradient text-white',
+    bgClass: '',
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/administradores',
+    allowedUsers: [UserType.ADMINISTRATOR],
+    label: 'Administradores',
+    iconClass: 'fas fa-user-tie',
+    component: Administrators,
+    show: true,
+    hasNavMenu: false,
+    bgClass: '',
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/exploradores',
+    allowedUsers: [UserType.ADMINISTRATOR],
+    label: 'Exploradores',
+    iconClass: 'fas fa-user-friends',
+    component: () => <div>Exploradores</div>,
+    show: true,
+    hasNavMenu: false,
+    bgClass: '',
   },
 ];
 
@@ -88,7 +109,7 @@ const Routes: React.FunctionComponent = () => {
                     element={<ErrorCatcher>{React.createElement(route.component)}</ErrorCatcher>}
                   />
                 ))}
-                <Route path={'*'} element={<div className='min-window-size d-flex justify-content-center align-items-center'>Erro 404</div>} />
+                <Route path={'/*'} element={<div className='min-window-size d-flex justify-content-center align-items-center'>Erro 404</div>} />
               </ReactRoutes>
             </MainLayout>
           </PrivateRoutes>

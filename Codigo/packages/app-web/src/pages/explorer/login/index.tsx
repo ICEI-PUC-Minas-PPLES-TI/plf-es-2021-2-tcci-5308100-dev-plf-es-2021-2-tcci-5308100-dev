@@ -1,8 +1,22 @@
+import { UserType } from '@sec/common';
 import CommonLoginView from '@Views/Common/Login';
-import React from 'react';
+import { useContext } from 'react';
+import { AuthContext } from '~/context/AuthContext';
 
 const ExplorerLogin = () => {
-  return <CommonLoginView></CommonLoginView>;
+  const { signIn } = useContext(AuthContext);
+
+  return (
+    <CommonLoginView
+      cardHeader={
+        <>
+          <h4>Bem-vindo, Explorador!</h4>
+          Faça login um sua conta utilizando sua conta Shopify
+        </>
+      }
+      onSubmit={(credentials) => signIn(UserType.EXPLORER, credentials)}
+    />
+  );
 };
 
 export default ExplorerLogin;

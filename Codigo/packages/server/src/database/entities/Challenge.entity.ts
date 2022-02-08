@@ -8,11 +8,12 @@ import {
 } from 'typeorm';
 import { ChallengeAccepted } from './ChallengeAccepted.entity';
 import { Explorer } from './Explorer.entity';
-import { Model } from './Model';
+import { Model } from './Model.abstract';
 import { Recompense } from './Recompense.entity';
 import { SavedFile } from './SavedFile.entity';
 import { Challenge as IChallenge, ChallengeStatus } from '@sec/common';
 
+console.log(Model);
 @Entity()
 export class Challenge extends Model implements IChallenge {
   @Column({ enum: ChallengeStatus })

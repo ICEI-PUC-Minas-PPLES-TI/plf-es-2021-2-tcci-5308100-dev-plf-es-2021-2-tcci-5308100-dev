@@ -1,5 +1,5 @@
 import { Column, Entity, JoinTable, ManyToMany } from 'typeorm';
-import { Model } from './Model';
+import { Model } from './Model.abstract';
 import { SocialMedia } from './SocialMedia.entity';
 import {
   SocialMediaParam as ISocialMediaParam,
@@ -7,6 +7,7 @@ import {
   SocialMediaParamStatus,
 } from '@sec/common';
 
+console.log(Model);
 @Entity()
 export class SocialMediaParam extends Model implements ISocialMediaParam {
   @Column()

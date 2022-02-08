@@ -1,7 +1,8 @@
 import { AfterLoad, Column, Entity } from 'typeorm';
-import { Model } from './Model';
+import { Model } from './Model.abstract';
 import { SavedFile as ISavedFile, FileType } from '@sec/common';
 
+console.log(Model);
 @Entity()
 export class SavedFile extends Model implements ISavedFile {
   @Column()

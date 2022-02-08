@@ -6,6 +6,7 @@ import {
   UserType,
 } from '@sec/common';
 
+console.log(User);
 @ChildEntity(UserType.ADMINISTRATOR)
 export class Administrator extends User implements IAdministrator {
   constructor() {

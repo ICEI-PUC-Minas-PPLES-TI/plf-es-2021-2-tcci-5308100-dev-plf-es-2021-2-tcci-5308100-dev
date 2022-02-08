@@ -1,4 +1,4 @@
-import { UserType } from "./models/User";
+import { UserType } from './models/User';
 export * from './models/Administrator';
 export * from './models/Challenge';
 export * from './models/ChallengeAccepted';
@@ -26,6 +26,7 @@ export declare type Token = {
     name: string;
     type: UserType;
 };
-interface teste {
+export interface AuthenticationPayload {
+    token: string;
+    user: Token;
 }
-export default teste;

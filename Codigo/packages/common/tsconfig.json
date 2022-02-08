@@ -4,6 +4,7 @@
     "declaration": true,
     "allowSyntheticDefaultImports": true,
     "target": "es2017",
+    "experimentalDecorators": true,
     "skipLibCheck": true,
     "baseUrl": "./"
   }

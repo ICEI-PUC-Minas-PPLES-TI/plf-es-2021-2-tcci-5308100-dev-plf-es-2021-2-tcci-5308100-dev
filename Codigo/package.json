@@ -10,9 +10,12 @@
   },
   "scripts": {
     "build:common": "yarn workspace @sec/common build",
-    "build:api": "yarn workspace @sec/server build",
+    "build:server": "yarn workspace @sec/server build",
     "build:app-web": "yarn workspace @sec/app-web build",
-    "start:api": "yarn workspace @sec/server start",
+    "dev:common": "yarn workspace @sec/common dev",
+    "dev:server": "yarn workspace @sec/server dev",
+    "dev:app-web": "yarn workspace @sec/app-web dev",
+    "start:server": "yarn workspace @sec/server start",
     "start:app-web": "yarn workspace @sec/app-web start"
   },
   "dependencies": {

@@ -1,9 +1,10 @@
 import { Column, Entity, ManyToOne } from 'typeorm';
 import { ChallengeAccepted } from './ChallengeAccepted.entity';
-import { Model } from './Model';
+import { Model } from './Model.abstract';
 import { User } from './User.entity';
 import { Comment as IComment } from '@sec/common';
 
+console.log(Model);
 @Entity()
 export class Comment extends Model implements IComment {
   @Column({ length: 200 })

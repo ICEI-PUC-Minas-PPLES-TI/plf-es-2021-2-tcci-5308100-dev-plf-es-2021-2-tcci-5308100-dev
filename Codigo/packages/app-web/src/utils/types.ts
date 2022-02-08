@@ -16,6 +16,7 @@ export interface RouteSettings {
   show: boolean;
   hasNavMenu: boolean;
   bgClass?: string;
+  tabHeader?: string | ((params: any) => string);
 }
 
 export interface FormControlled {

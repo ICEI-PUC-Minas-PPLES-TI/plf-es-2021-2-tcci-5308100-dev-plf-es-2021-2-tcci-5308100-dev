@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, Col, Collapse, Container, Row } from 'react-bootstrap';
 import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 
@@ -16,33 +16,33 @@ const ErrorFallback = ({ error, resetErrorBoundary }: FallbackProps) => {
   return (
     <Container fluid>
       <Row>
-        <Col sm="12">
+        <Col sm='12'>
           <Card>
             <Card.Header>
-              <Card.Title as="h4">Algo deu errado.</Card.Title>
-              <button className="btn btn-secondary" onClick={resetErrorBoundary}>
+              <Card.Title as='h4'>Algo deu errado.</Card.Title>
+              <button className='btn btn-secondary' onClick={resetErrorBoundary}>
                 Tentar novamente
               </button>
             </Card.Header>
             <Card.Body>
-              <div className="accordions" id="accordion">
+              <div className='accordions' id='accordion'>
                 <Card>
                   <Card.Header style={{ textAlign: 'left' }}>
-                    <Card.Title as="h4">
+                    <Card.Title as='h4'>
                       <a
                         aria-expanded={collapsibleAccordion === 1}
-                        data-toggle="collapse"
-                        href="#pablo"
+                        data-toggle='collapse'
+                        href='#pablo'
                         onClick={(e) => {
                           e.preventDefault();
                           collapsibleAccordion === 1 ? setCollapsibleAccordion(-1) : setCollapsibleAccordion(1);
                         }}
                       >
-                        Informação de depuração <b className="caret"></b>
+                        Informação de depuração <b className='caret'></b>
                       </a>
                     </Card.Title>
                   </Card.Header>
-                  <Collapse className="card-collapse" in={collapsibleAccordion === 1}>
+                  <Collapse className='card-collapse' in={collapsibleAccordion === 1}>
                     <Card.Body>
                       <pre>{error.message}</pre>
                       <pre>{error.stack}</pre>
