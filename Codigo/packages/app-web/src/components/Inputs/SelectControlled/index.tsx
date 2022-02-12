@@ -1,6 +1,6 @@
 import React, { useRef } from 'react';
 import { Controller } from 'react-hook-form';
-import Select, { createFilter, MultiValue } from 'react-select';
+import Select, { createFilter, MultiValue, components } from 'react-select';
 import { Form } from 'react-bootstrap';
 import SpinLoading from '~/components/loading/SpinLoading';
 import { SelectControlledOption, SelectControlledProps } from '@GlobalTypes';
@@ -18,6 +18,7 @@ const SelectControlled: <T extends SelectControlledOption>(props: SelectControll
   isLoading,
   options,
   isDisabled,
+  placeholder,
   onBlur,
   isMulti,
   formatOptionLabel,
@@ -41,9 +42,6 @@ const SelectControlled: <T extends SelectControlledOption>(props: SelectControll
         name={name}
         control={control}
         defaultValue={defaultValue}
-        // onFocus={() => {
-        //   selectRef.current.focus();
-        // }}
         render={({ field: { onChange, value, ref } }) => (
           <Select
             {...rest}
@@ -53,7 +51,7 @@ const SelectControlled: <T extends SelectControlledOption>(props: SelectControll
             classNamePrefix='react-select'
             value={isMulti ? (value ? options.filter((o) => value.includes(o.value)) : []) : options.find((o) => o.value === value) || null}
             isDisabled={isDisabled}
-            placeholder='Escolha...'
+            placeholder={placeholder || ''}
             onChange={(e: SelectControlledOption | MultiValue<SelectControlledOption> | null) => {
               if (e) {
                 if (isMulti) {
@@ -73,6 +71,9 @@ const SelectControlled: <T extends SelectControlledOption>(props: SelectControll
             closeMenuOnSelect={!isMulti}
             formatOptionLabel={formatOptionLabel}
             filterOption={filterOptions}
+            // components={{
+            //   Input: ({ autoComplete, ...props }) => <components.Input {...props} autoComplete="off" />,
+            // }}
           />
         )}
       />

@@ -1,30 +1,12 @@
 import { Variant } from '@GlobalTypes';
 import { Property } from 'csstype';
+import { Indexable } from '@sec/common';
 
-export const toCurrency = (value: number | bigint) => {
-  return Intl.NumberFormat('pt-BR', {
-    style: 'currency',
-    currency: 'BRL',
-  }).format(value);
-};
+export const nestedPropByIndex = (object: { [index: string]: any }, index: string) => index.split('.').reduce((p, prop) => p[prop], object);
 
-export const formatPhone = (phone: string) =>
-  phone ? phone.replace(/^(\d\d)(\d)(\d{4})(\d{4}).*/, '($1) $2 $3-$4') : phone;
+export const hasError = (data: any | Error): data is Error => Object.prototype.toString.call(data) === '[object Error]';
 
-export const formatCPF = (cpf: string) =>
-  cpf ? cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4') : cpf;
-
-export const nestedPropByIndex = (
-  object: { [index: string]: any },
-  index: string,
-) => index.split('.').reduce((p, prop) => p[prop], object);
-
-export const hasError = (data: any | Error): data is Error =>
-  Object.prototype.toString.call(data) === '[object Error]';
-
-export const getVariantColor = (
-  variant: Variant | undefined,
-): Property.Color => {
+export const getVariantColor = (variant: Variant | undefined): Property.Color => {
   switch (variant) {
     case 'primary':
       return '#447DF7';
@@ -66,5 +48,48 @@ export const copyToClipboard = async (textToCopy: string) => {
     }
   } catch (e) {
     return false;
+  }
+};
+
+export const range: (start: number, end?: number) => number[] = (start, end?) => {
+  const arrayRange = [];
+  let index = end ? start : 0;
+  const range = end || start;
+
+  for (index; index < range; index++) {
+    arrayRange.push(index);
+  }
+
+  return arrayRange;
+};
+
+export const buildFormData: (data: Indexable<any>) => FormData = (data) => {
+  const formData = new FormData();
+  appendFormData(formData, data, undefined);
+
+  // console.log(formData);
+  // for (const pair of formData) {
+  //   console.log(`${pair[0]} >> `, pair[1]);
+  // }
+
+  return formData;
+};
+
+export const appendFormData: (formData: FormData, data: Indexable<any>, parentKey?: string) => void = (formData, data, parentKey?) => {
+  if (
+    data &&
+    typeof data === 'object' &&
+    !(data instanceof Date) &&
+    !(data instanceof File) &&
+    !(data instanceof Blob) &&
+    !(Array.isArray(data) && !data.length)
+  ) {
+    Object.keys(data).forEach((key) => {
+      appendFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
+    });
+  } else {
+    const value: any = data == null ? '' : data;
+
+    formData.append(parentKey as string, value);
   }
 };

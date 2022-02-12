@@ -14,8 +14,9 @@ export class ProfileSeed implements ISeed {
 
   async seed() {
     const profiles = await this.profileRepository.save([
-      { id: 1, type: UserType.ADMINISTRATOR },
-      { id: 2, type: UserType.EXPLORER },
+      { id: 1, type: UserType.SUPER_ADMINISTRATOR },
+      { id: 2, type: UserType.ADMINISTRATOR },
+      { id: 3, type: UserType.EXPLORER },
     ]);
 
     await this.profileRepository.update(

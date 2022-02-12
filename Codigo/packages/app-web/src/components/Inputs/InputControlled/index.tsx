@@ -6,6 +6,7 @@ import SpinLoading from '~/components/loading/SpinLoading';
 const { Group, Control } = Form;
 
 const InputControlled: React.FunctionComponent<InputControlledProps> = ({
+  className,
   hasError,
   label,
   isRequired,
@@ -19,10 +20,8 @@ const InputControlled: React.FunctionComponent<InputControlledProps> = ({
   inputStyle,
   ...rest
 }) => {
-  const inputRef = useRef<HTMLInputElement | any>(null);
-
   return (
-    <Group className={'has-label ' + (hasError === undefined ? '' : hasError ? 'has-error' : ''/* 'has-success' */)}>
+    <Group className={`mb-3 has-label ${className} ${hasError === undefined ? '' : hasError ? 'has-error' : '' /* 'has-success' */}`}>
       {label && (
         <label className='label-with-loading'>
           {label}
@@ -44,6 +43,7 @@ const InputControlled: React.FunctionComponent<InputControlledProps> = ({
         render={({ field: { onChange, value, ref } }) => (
           <Control
             {...rest}
+            autoComplete={type === 'password' ? 'new-password' : undefined}
             ref={ref}
             type={type}
             value={value}

@@ -16,7 +16,7 @@ export class UserSeed implements ISeed {
 
     const superAdmin = this.administratorRepository.create({
       nickname: 'sudo -s',
-      email: 'admin@email.com',
+      email: 'sudo@email.com',
       name: 'Super administrador',
       profile: 1 as any,
       password,

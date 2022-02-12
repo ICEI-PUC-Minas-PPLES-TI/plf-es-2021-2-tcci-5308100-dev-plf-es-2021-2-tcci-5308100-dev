@@ -1,30 +1,72 @@
 import { Variant } from '@GlobalTypes';
 import React from 'react';
+import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+
+type PageCardActions = {
+  variant: Variant;
+  label: string;
+  type: 'BUTTON' | 'LINK' | 'ROUTER';
+};
+
+type PageCardActionsButton = PageCardActions & {
+  type: 'BUTTON';
+  onClick: () => void;
+};
+
+type PageCardActionsLink = PageCardActions & {
+  type: 'LINK';
+  href: string;
+};
+
+type PageCardActionsRouterLink = PageCardActions & {
+  type: 'ROUTER';
+  to: string;
+};
 
 interface PageCardProps {
   title: string | JSX.Element;
-  buttons?: {
-    variant: Variant;
-    label: string;
-    onclick: () => void;
-  }[];
+  showBackButton?: boolean;
+  actions?: (PageCardActionsButton | PageCardActionsLink | PageCardActionsRouterLink)[];
 }
-const PageCard: React.FunctionComponent<PageCardProps> = ({ children, title, buttons }) => {
+const PageCard: React.FunctionComponent<PageCardProps> = ({ children, title, actions, showBackButton = false }) => {
+  const navigate = useNavigate();
+
   return (
-    <div className='card' style={{ borderRadius: '25px 25px 0px 0px' }}>
+    <div className='card rounded-md h-100'>
       <div
         className='card-header flex-center'
-        style={{ borderRadius: '25px 25px 0px 0px', backgroundColor: 'gray', color: 'white', fontWeight: '500', justifyContent: 'space-between' }}
+        style={{
+          borderRadius: '15px 15px 0px 0px',
+          backgroundColor: 'gray',
+          color: 'white',
+          fontWeight: '500',
+          justifyContent: 'space-between',
+          minHeight: '55px',
+        }}
       >
         <div>{title}</div>
-        {buttons && (
-          <div>
-            {buttons.map((button) => (
-              <button className={`rounded-lg btn btn-${button.variant}`} onClick={button.onclick}>
-                {button.label}
-              </button>
-            ))}
-          </div>
+        {actions?.map((action, i) =>
+          action.type === 'BUTTON' ? (
+            <button key={'PageCard_Button' + i} className={`rounded-lg btn btn-${action.variant}`} onClick={action.onClick}>
+              {action.label}
+            </button>
+          ) : action.type === 'LINK' ? (
+            <a key={'PageCard_Link' + i} className={`rounded-lg btn btn-${action.variant}`} href={action.href}>
+              {action.label}
+            </a>
+          ) : action.type === 'ROUTER' ? (
+            <Link key={'PageCard_Router' + i} className={`rounded-lg btn btn-${action.variant}`} to={action.to}>
+              {action.label}
+            </Link>
+          ) : (
+            <></>
+          )
+        )}
+        {showBackButton && (
+          <button className={`rounded-lg btn btn-secondary`} onClick={() => navigate(-1)}>
+            Voltar
+          </button>
         )}
       </div>
 

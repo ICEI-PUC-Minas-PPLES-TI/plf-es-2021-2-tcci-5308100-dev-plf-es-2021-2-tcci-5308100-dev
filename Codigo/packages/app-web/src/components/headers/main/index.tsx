@@ -16,8 +16,8 @@ const MainHeader: React.FunctionComponent<MainHeaderType> = ({ centerMenus, left
         <input
           className='form-control bg-grey border-0 py-2 ps-5 pe-3 rounded-lg no-border-focus'
           type='text'
-          placeholder='Search'
-          aria-label='Search'
+          placeholder='Pesquisar'
+          aria-label='Pesquisar'
         />
       </div>
 
@@ -60,8 +60,8 @@ const MainHeader: React.FunctionComponent<MainHeaderType> = ({ centerMenus, left
         <input
           className='form-control bg-grey border-0 py-2 ps-5 pe-4 rounded-lg no-border-focus'
           type='text'
-          placeholder='Search'
-          aria-label='Search'
+          placeholder='Pesquisar'
+          aria-label='Pesquisar'
         />
         <i className='fas fa-times end' data-bs-toggle='collapse' data-bs-target='#nav-input-search' aria-expanded='false' />
       </div>

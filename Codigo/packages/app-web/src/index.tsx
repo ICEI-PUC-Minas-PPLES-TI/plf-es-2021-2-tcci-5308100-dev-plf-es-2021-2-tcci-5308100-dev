@@ -12,6 +12,7 @@ import '@fortawesome/fontawesome-free/css/all.min.css'
 import '~/assets/css/style.css'
 import '~/assets/css/sidebar.css'
 import '~/assets/css/header.css'
+import '~/assets/css/toast.css'
 import '~/assets/css/custom.css'
 
 ReactDOM.render(

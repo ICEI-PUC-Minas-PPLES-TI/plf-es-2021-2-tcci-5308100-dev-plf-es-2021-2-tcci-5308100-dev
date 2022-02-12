@@ -1,8 +1,7 @@
-import React, { useContext, useEffect, useState } from 'react';
+import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-
 import Logo from '@Assets/img/logo.png';
 import SLogo from '@Assets/img/s-logo.png';
 import LoginBackground from '@Assets/img/login-background.jpg';
@@ -29,7 +28,7 @@ const schema: yup.SchemaOf<FormInput> = yup.object().shape({
   password: yup.string().required(),
 });
 
-const CommonLoginView: React.FunctionComponent<CommonLoginViewProps> = ({ onSubmit, cardHeader }) => {
+const CommonLoginView: FunctionComponent<CommonLoginViewProps> = ({ onSubmit, cardHeader }) => {
   const { signOut } = useContext(AuthContext);
   const navigate = useNavigate();
   const {
@@ -45,7 +44,6 @@ const CommonLoginView: React.FunctionComponent<CommonLoginViewProps> = ({ onSubm
 
   useEffect(() => {
     signOut();
-    console.log('signOut rerender');
   }, [signOut]);
 
   const handleOnSubmit = async (data: FormInput): Promise<void> => {
@@ -53,8 +51,6 @@ const CommonLoginView: React.FunctionComponent<CommonLoginViewProps> = ({ onSubm
       setIsSending(true);
 
       const response = await onSubmit(data);
-
-      console.log(response);
 
       if (response.success === true) {
         navigate(urlPrefix[response.type]);

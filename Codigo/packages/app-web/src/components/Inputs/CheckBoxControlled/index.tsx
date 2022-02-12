@@ -1,25 +1,33 @@
-import React, { ChangeEvent, ChangeEventHandler } from 'react';
-import { Controller } from 'react-hook-form';
-import { Form } from 'react-bootstrap';
-import { FormControlled } from '@GlobalTypes';
+import React, { ChangeEvent, ChangeEventHandler } from "react";
+import { Controller } from "react-hook-form";
+import { Form } from "react-bootstrap";
+import { CheckBoxControlledProps } from "@GlobalTypes";
 const { Group, Check } = Form;
 
-const CheckBoxControlled: React.FunctionComponent<FormControlled> = ({ label, name, control, defaultValue, ...rest }) => {
-  const e: ChangeEventHandler = (e) => {};
+const CheckBoxControlled: React.FunctionComponent<CheckBoxControlledProps> = ({
+  label,
+  name,
+  control,
+  defaultValue,
+}) => {
   return (
-    <div className='input-group has-label'>
+    <div className="input-group has-label">
       <Controller
         name={name}
         control={control}
         defaultValue={defaultValue}
         render={({ field: { onChange, value } }) => (
-          <Check style={{ paddingLeft: 0 }}>
-            <Check.Label style={{ textTransform: 'initial' }}>
-              <Check.Input type='checkbox' checked={value} onChange={(e: any) => onChange(e.target.checked)} />
-              <span className='form-check-sign'></span>
+          <div className="form-check">
+            <label className="form-check-label">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                checked={value}
+                onChange={(e: any) => onChange(e.target.checked)}
+              />
               {label}
-            </Check.Label>
-          </Check>
+            </label>
+          </div>
         )}
       />
     </div>

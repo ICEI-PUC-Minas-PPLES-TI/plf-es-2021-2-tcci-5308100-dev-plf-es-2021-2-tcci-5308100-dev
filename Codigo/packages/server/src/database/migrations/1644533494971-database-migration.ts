@@ -1,12 +1,12 @@
 import {MigrationInterface, QueryRunner} from "typeorm";
 
-export class databaseMigration1644275232978 implements MigrationInterface {
-    name = 'databaseMigration1644275232978'
+export class databaseMigration1644533494971 implements MigrationInterface {
+    name = 'databaseMigration1644533494971'
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`CREATE TABLE "notification" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "text" character varying NOT NULL, "status" character varying NOT NULL, "userId" integer, CONSTRAINT "PK_705b6c7cdf9b2c2ff7ac7872cb7" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE TABLE "profile" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "type" character varying NOT NULL, CONSTRAINT "PK_3dd8bfc97e4a77c70971591bdcb" PRIMARY KEY ("id"))`);
-        await queryRunner.query(`CREATE TYPE "public"."user_typeentity_enum" AS ENUM('ADMINISTRATOR', 'EXPLORER')`);
+        await queryRunner.query(`CREATE TYPE "public"."user_typeentity_enum" AS ENUM('SUPER_ADMINISTRATOR', 'ADMINISTRATOR', 'EXPLORER')`);
         await queryRunner.query(`CREATE TABLE "user" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "nickname" character varying NOT NULL, "email" character varying NOT NULL, "name" character varying NOT NULL, "password" character varying, "isSuper" boolean, "status" character varying, "token" character varying, "biography" character varying, "favoriteProduct" character varying, "instagram" character varying, "tikTok" character varying, "twitter" character varying, "facebook" character varying, "linkedIn" character varying, "typeEntity" "public"."user_typeentity_enum" NOT NULL, "profileId" integer, CONSTRAINT "UQ_e12875dfb3b1d92d7d7c5377e22" UNIQUE ("email"), CONSTRAINT "PK_cace4a159ff9f2512dd42373760" PRIMARY KEY ("id"))`);
         await queryRunner.query(`CREATE INDEX "IDX_c366fbdb4f298f4307866dfb4c" ON "user" ("typeEntity") `);
         await queryRunner.query(`CREATE TABLE "saved_file" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "name" character varying NOT NULL, "filename" character varying NOT NULL, "type" character varying NOT NULL, CONSTRAINT "PK_9be0f89ffdf149c7c08bcc4bffe" PRIMARY KEY ("id"))`);

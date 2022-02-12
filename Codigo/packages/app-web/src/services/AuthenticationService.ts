@@ -1,6 +1,6 @@
 import api from '../config/api';
 import { APIError } from '~/error/APIError';
-import { ApiResponse, Token, AuthenticationPayload } from '@sec/common';
+import { ApiResponse, AuthenticationPayload } from '@sec/common';
 
 export const loginAdministrator = async ({ email, password }: { email: string; password: string }) => {
   const { data } = await api.post<ApiResponse<AuthenticationPayload>>('/administrator/login', {

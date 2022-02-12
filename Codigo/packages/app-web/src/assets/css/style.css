@@ -5,12 +5,7 @@
 
 html,
 body {
-  /* height: 100%; */
   margin: 0;
-  
-  /* background-color: #cbcbd226 !important; */
-  /* background-color: #fbfcfe !important; */
-  
   --bs-bg-opacity: 1;
   background-color: rgba(var(--bs-light-rgb),var(--bs-bg-opacity))!important;
 }
@@ -18,6 +13,21 @@ body {
 .wrapper {
   min-height: calc(100vh - 112px);
   margin-top: 112px;
+}
+
+.wrapper>div>nav {
+  width: 300px;
+}
+
+.wrapper>div>main {
+  width: calc(100% - 300px);
+}
+
+@media (max-width: 768px) {
+  .wrapper>div>main {
+    width: 100%;
+    padding-left: 12px !important;
+  }
 }
 
 .bg-grey {background-color: #eee !important;}
@@ -52,22 +62,29 @@ link.no-border-focus:focus {
 .min-window-size {min-height: calc(100vh - 120px);}
 .flex-center {display: flex; justify-content: center; align-items: center;}
 
-div.has-error input,
-div.has-error select,
-div.has-error textarea
+div.has-error>input,
+div.has-error>select,
+div.has-error>textarea
  {border-color: red;}
 
-div.has-error input:focus,
-div.has-error select:focus,
-div.has-error textarea:focus
+div.has-error>input:focus,
+div.has-error>select:focus,
+div.has-error>textarea:focus
  {border-color: red; box-shadow: 0 0 0 0.25rem rgb(253 13 13 / 25%);}
 
-div.has-success input,
-div.has-success select,
-div.has-success textarea
+div.has-success>input,
+div.has-success>select,
+div.has-success>textarea
  {border-color: green;}
 
-div.has-success input,
-div.has-success select,
-div.has-success textarea
+div.has-success>input,
+div.has-success>select,
+div.has-success>textarea
  {border-color: green; box-shadow: 0 0 0 0.25rem rgb(13 253 20 / 25%);}
+
+.card-filter {
+  margin-top: 10px;
+  margin-bottom: 26px;
+  display: flex;
+  justify-content: flex-end;
+}

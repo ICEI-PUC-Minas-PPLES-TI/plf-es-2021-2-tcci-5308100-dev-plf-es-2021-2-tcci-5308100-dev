@@ -5,6 +5,7 @@ import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import helmet from 'helmet';
 import { requestContextMiddleware } from './utils/context.middleware';
 import { RequestMethod } from '@nestjs/common';
+import { ForbiddenExceptionFilter } from './utils/forbidden-exception.filter';
 
 dotenv.config();
 
@@ -19,6 +20,8 @@ async function bootstrap() {
   app.setGlobalPrefix('api/v1', {
     exclude: [{ path: '/', method: RequestMethod.GET }],
   });
+
+  app.useGlobalFilters(new ForbiddenExceptionFilter());
 
   await app.listen(process.env.PORT || 3000);
 }

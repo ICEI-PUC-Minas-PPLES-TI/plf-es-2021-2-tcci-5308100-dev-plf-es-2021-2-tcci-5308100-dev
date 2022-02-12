@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ApiResponse } from '@sec/common';
+import { webcrypto } from 'crypto';
 
 @Injectable()
 export class UtilsService {
@@ -20,13 +21,13 @@ export class UtilsService {
     });
   }
 
-  apiResponseSuccessOrFail(params: {
+  apiResponseSuccessOrFail<T>(params: {
     success: boolean;
-    onSuccess: { message: string; payload: any };
+    onSuccess: { message: string; payload: T };
     onFail: { message: string; payload?: any };
   }) {
     return params.success
-      ? this.apiResponseSuccess({
+      ? this.apiResponseSuccess<T>({
           message: params.onSuccess.message,
           payload: params.onSuccess.payload,
         })
@@ -36,8 +37,8 @@ export class UtilsService {
         });
   }
 
-  apiResponseSuccess({ message, payload }: { message: string; payload: any }) {
-    return this.apiResponse({
+  apiResponseSuccess<T>({ message, payload }: { message: string; payload: T }) {
+    return this.apiResponse<T>({
       status: 'SUCCESS',
       message,
       payload,
@@ -58,5 +59,12 @@ export class UtilsService {
       message,
       payload,
     });
+  }
+
+  generateRandomString(length = 8): string {
+    return (webcrypto as any)
+      .getRandomValues(new Uint32Array(Math.ceil(length / 6)))
+      .reduce((acc, word) => acc + word.toString(36), '')
+      .slice(0, length);
   }
 }

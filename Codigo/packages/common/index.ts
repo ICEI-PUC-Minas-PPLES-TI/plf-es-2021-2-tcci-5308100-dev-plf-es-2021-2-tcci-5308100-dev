@@ -1,5 +1,9 @@
 import { UserType } from './models/User';
 
+// endpoints
+export * from './endpoints/administrators.endpoint';
+
+// models
 export * from './models/Administrator';
 export * from './models/Challenge';
 export * from './models/ChallengeAccepted';
@@ -16,6 +20,14 @@ export * from './models/SocialMedia';
 export * from './models/SocialMediaParam';
 export * from './models/User';
 
+// validators
+export * from './validators/administrator.validation';
+
+/**
+ * 
+ * global types
+ * 
+ */
 export type ApiResponse<T> = {
   status: 'SUCCESS' | 'FAIL' | 'WARNING';
   message: string;
@@ -34,3 +46,5 @@ export interface AuthenticationPayload {
   token: string;
   user: Token;
 }
+
+export type Indexable<T> = { [K in keyof T]: T[K] };

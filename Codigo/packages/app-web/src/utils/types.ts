@@ -1,18 +1,26 @@
-import { SavedFile, UserType } from '@sec/common';
-import { Control } from 'react-hook-form';
-import { NumberFormatProps } from 'react-number-format';
-import { Moment } from 'moment';
-import { CSSProperties, FocusEventHandler } from 'react';
-import { FilterOptionOption } from 'react-select/dist/declarations/src/filters';
+import { SavedFile, UserType } from "@sec/common";
+import { Control } from "react-hook-form";
+import { NumberFormatProps } from "react-number-format";
+import { Moment } from "moment";
+import { CSSProperties, FocusEventHandler, FunctionComponent } from "react";
+import { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 
-export type Variant = 'primary' | 'secondary' | 'success' | 'danger' | 'warning' | 'info' | 'light' | 'dark';
+export type Variant =
+  | "primary"
+  | "secondary"
+  | "success"
+  | "danger"
+  | "warning"
+  | "info"
+  | "light"
+  | "dark";
 
 export interface RouteSettings {
   path: string;
   allowedUsers: UserType[];
   label: string;
   iconClass: string;
-  component: React.FunctionComponent;
+  component: FunctionComponent;
   show: boolean;
   hasNavMenu: boolean;
   bgClass?: string;
@@ -26,8 +34,20 @@ export interface FormControlled {
   defaultValue: string | number | Date | object | undefined;
 }
 
+export interface CheckBoxControlledProps {
+  label: string | JSX.Element;
+  control: Control<any, object>;
+  name: string;
+  defaultValue: boolean | undefined;
+}
+
 export type InputControlledProps = FormInputControlled &
-  (InputControlledNumber | InputControlledDate | InputControlledText | InputControlledGeneric) & {
+  (
+    | InputControlledNumber
+    | InputControlledDate
+    | InputControlledText
+    | InputControlledGeneric
+  ) & {
     isDisabled?: boolean;
     onBlur?: FocusEventHandler<HTMLInputElement>;
     placeholder?: string;
@@ -35,37 +55,36 @@ export type InputControlledProps = FormInputControlled &
   };
 
 export interface InputControlledNumber {
-  type: 'number';
+  type: "number";
   defaultValue: number | undefined;
 }
 
 export interface InputControlledDate {
-  type: 'date';
-  defaultValue: Moment | string | undefined;
+  type: "date" | "month";
+  defaultValue: Moment | Date | undefined;
 }
 
 export interface InputControlledText {
-  type: 'text' | 'email' | 'password';
+  type: "text" | "email" | "password";
   defaultValue: string | undefined;
 }
 
 export interface InputControlledGeneric {
   type:
-    | 'button'
-    | 'color'
-    | 'file'
-    | 'hidden'
-    | 'image'
-    | 'month'
-    | 'radio'
-    | 'range'
-    | 'reset'
-    | 'search'
-    | 'submit'
-    | 'tel'
-    | 'time'
-    | 'url'
-    | 'week';
+    | "button"
+    | "color"
+    | "file"
+    | "hidden"
+    | "image"
+    | "radio"
+    | "range"
+    | "reset"
+    | "search"
+    | "submit"
+    | "tel"
+    | "time"
+    | "url"
+    | "week";
   defaultValue: string | number | Date | object | undefined;
 }
 
@@ -73,9 +92,12 @@ export interface FormInputControlled extends FormControlled {
   hasError?: boolean;
   isLoading?: boolean;
   isRequired?: boolean;
+  className?: string;
 }
 
-export interface InputMaskControlledProps extends FormInputControlled, NumberFormatProps {
+export interface InputMaskControlledProps
+  extends FormInputControlled,
+    NumberFormatProps {
   isMoneyMask?: boolean;
   isNumberMask?: boolean;
   isDisabled?: boolean;
@@ -83,49 +105,63 @@ export interface InputMaskControlledProps extends FormInputControlled, NumberFor
   name: string;
 }
 
-export interface MaskCEPControlledProps extends FormInputControlled, NumberFormatProps {
+export interface MaskCEPControlledProps
+  extends FormInputControlled,
+    NumberFormatProps {
   defaultValue: string | undefined;
   name: string;
 }
 
-export interface MaskCNPJControlledProps extends FormInputControlled, NumberFormatProps {
+export interface MaskCNPJControlledProps
+  extends FormInputControlled,
+    NumberFormatProps {
   defaultValue: string | undefined;
   name: string;
 }
 
-export interface MaskCPFControlledProps extends FormInputControlled, NumberFormatProps {
+export interface MaskCPFControlledProps
+  extends FormInputControlled,
+    NumberFormatProps {
   defaultValue: string | undefined;
   name: string;
 }
 
-export interface MoneyMaskControlledProps extends FormInputControlled, NumberFormatProps {
+export interface MoneyMaskControlledProps
+  extends FormInputControlled,
+    NumberFormatProps {
   defaultValue: number | undefined;
   name: string;
 }
 
-export interface MaskPhoneControlledProps extends FormInputControlled, NumberFormatProps {
+export interface MaskPhoneControlledProps
+  extends FormInputControlled,
+    NumberFormatProps {
   defaultValue: string | undefined;
   name: string;
 }
 
-export type SelectControlledProps<T extends SelectControlledOption> = FormInputControlled &
-  (SelectControlledSingle<T> | SelectControlledMultiple<T>) & {
-    options: T[];
-    isDisabled?: boolean;
-    onBlur?: FocusEventHandler;
-    formatOptionLabel?: (option: T) => JSX.Element;
-    filterOptions: (option: FilterOptionOption<T>, inputValue: string) => boolean;
-    placeholder?: string;
-  };
+export type SelectControlledProps<T extends SelectControlledOption> =
+  FormInputControlled &
+    (SelectControlledSingle<T> | SelectControlledMultiple<T>) & {
+      options: T[];
+      isDisabled?: boolean;
+      onBlur?: FocusEventHandler;
+      formatOptionLabel?: (option: T) => JSX.Element;
+      filterOptions?: (
+        option: FilterOptionOption<T>,
+        inputValue: string
+      ) => boolean;
+      placeholder?: string;
+    };
 
 export interface SelectControlledSingle<T extends SelectControlledOption> {
   isMulti?: false;
-  defaultValue: T['value'] | undefined;
+  defaultValue: T["value"] | undefined;
 }
 
 export interface SelectControlledMultiple<T extends SelectControlledOption> {
   isMulti: true;
-  defaultValue: T['value'][] | undefined;
+  defaultValue: T["value"][] | undefined;
 }
 
 export interface SelectControlledOption {

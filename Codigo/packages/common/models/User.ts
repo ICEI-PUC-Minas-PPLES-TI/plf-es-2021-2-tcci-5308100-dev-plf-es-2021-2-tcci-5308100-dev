@@ -3,6 +3,7 @@ import { Notification } from './Notification';
 import { Profile } from './Profile';
 
 export enum UserType {
+  SUPER_ADMINISTRATOR = 'SUPER_ADMINISTRATOR',
   ADMINISTRATOR = 'ADMINISTRATOR',
   EXPLORER = 'EXPLORER',
 }

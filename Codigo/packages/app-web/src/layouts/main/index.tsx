@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useContext } from 'react';
 
 // core components
 import MainSidebar from '~/components/sidebars/main/';
 import Header from '~/components/headers/main';
 import { HeaderMenuLink } from '@Components/headers/main/types';
 import { RouteSettings } from '@GlobalTypes';
+import { Helmet } from 'react-helmet';
+import { useLocation } from 'react-router-dom';
+import { AuthContext } from '~/context/AuthContext';
 
 interface MainLayoutProps {
   routes: RouteSettings[];
 }
 
 const MainLayout: React.FunctionComponent<MainLayoutProps> = ({ children, routes }) => {
+  const location = useLocation();
+  const { user } = useContext(AuthContext);
+
+  const getPageTitle = (pathname: string) => {
+    //TODO: Definir frase
+    const defaultPageTitle = 'SEC - Bem vindo a Hardz';
+    const route = routes.find((route) => route.path === pathname);
+
+    return route?.tabHeader || defaultPageTitle;
+  };
+
   const centerMenus: HeaderMenuLink[] = routes
     .filter((route) => route.hasNavMenu)
     .map((route) => ({
@@ -23,11 +37,16 @@ const MainLayout: React.FunctionComponent<MainLayoutProps> = ({ children, routes
 
   return (
     <>
+      <Helmet>
+        <title>{getPageTitle(location.pathname)}</title>
+      </Helmet>
       <Header centerMenus={centerMenus} leftMenus={[]} />
       <div className='container-fluid wrapper pt-2 px-3'>
-        <div className='row'>
-          <MainSidebar routes={routes} />
-          <main className='col-md-9 ms-sm-auto col-lg-9 px-md-4'>{children}</main>
+        <div className='row' style={{ minHeight: 'calc(100vh - 120px)' }}>
+          <MainSidebar routes={routes.filter(route => route.allowedUsers.includes(user.type))} />
+          <main className='ms-sm-auto ps-sm-3 ps-md-0 pb-2' style={{ minHeight: 'calc(100vh - 120px)' }}>
+            {children}
+          </main>
         </div>
         {/* <Footer /> */}
       </div>
