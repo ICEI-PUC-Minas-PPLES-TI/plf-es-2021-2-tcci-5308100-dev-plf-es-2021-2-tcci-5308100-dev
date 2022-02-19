@@ -17,5 +17,4 @@ export type HeaderMenuButton = HeaderMenu & {
 
 export type MainHeaderType = {
   centerMenus: HeaderMenuLink[];
-  leftMenus: HeaderMenuButton[];
 };

@@ -6,6 +6,7 @@
   "private": true,
   "license": "ISC",
   "scripts": {
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('You must use Yarn to install, not NPM')\"",
     "prebuild": "rimraf dist",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
@@ -35,6 +36,7 @@
     "@nestjs/serve-static": "^2.2.2",
     "@nestjs/typeorm": "^8.0.3",
     "@sec/common": "1.0.0",
+    "@shopify/shopify-api": "^2.1.0",
     "bcrypt": "^5.0.1",
     "helmet": "^5.0.2",
     "moment": "^2.29.1",

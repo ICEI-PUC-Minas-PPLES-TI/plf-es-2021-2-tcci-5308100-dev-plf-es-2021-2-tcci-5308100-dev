@@ -9,6 +9,7 @@ import {
   Query,
 } from '@nestjs/common';
 import {
+  AdministratorStatus,
   AuthenticationPayload,
   CreateAdministratorDTO,
   createAdministratorValidator,
@@ -46,6 +47,18 @@ export class AdministratorController {
     const administrator =
       await this.administratorService.findByEmailWithPassword(email);
 
+    if (!administrator) {
+      return this.utilsService.apiResponseFail({
+        message:
+          'E-mail e/ou senha inválidos. Por favor, confira as credenciais e tente novamente.',
+        payload: null,
+      });
+    } else if (administrator.status !== AdministratorStatus.ACTIVE) {
+      return this.utilsService.apiResponseFail({
+        message: 'Usuário inativo.',
+      });
+    }
+
     if (
       administrator &&
       (await this.authenticationService.validateUser(
@@ -69,7 +82,7 @@ export class AdministratorController {
         token: token,
       };
 
-      return this.utilsService.apiResponseSuccess({
+      return this.utilsService.apiResponseSuccess<AuthenticationPayload>({
         message: 'Login realizado com sucesso.',
         payload: payload,
       });

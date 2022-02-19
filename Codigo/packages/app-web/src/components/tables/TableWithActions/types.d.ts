@@ -16,7 +16,7 @@ interface TableColumn<T> {
   field: keyof T;
   formatter?: (field: any) => string;
   className?: string;
-  classNameFttr?: { [key in typeof T]: string };
+  classNameFttr?: (field: any) => string;
 }
 
 interface TableAction<T> {

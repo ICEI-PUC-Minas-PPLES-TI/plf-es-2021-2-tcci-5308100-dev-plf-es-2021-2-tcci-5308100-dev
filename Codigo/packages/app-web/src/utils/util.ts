@@ -93,3 +93,8 @@ export const appendFormData: (formData: FormData, data: Indexable<any>, parentKe
     formData.append(parentKey as string, value);
   }
 };
+
+// TODO: ZIP Error object
+export const zipError = async (error: any) => {
+  return null;
+};

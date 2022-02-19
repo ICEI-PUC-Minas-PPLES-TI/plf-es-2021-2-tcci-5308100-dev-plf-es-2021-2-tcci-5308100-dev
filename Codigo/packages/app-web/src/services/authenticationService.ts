@@ -3,7 +3,7 @@ import { APIError } from '~/error/APIError';
 import { ApiResponse, AuthenticationPayload } from '@sec/common';
 
 export const loginAdministrator = async ({ email, password }: { email: string; password: string }) => {
-  const { data } = await api.post<ApiResponse<AuthenticationPayload>>('/administrator/login', {
+  const { data, headers } = await api.post<ApiResponse<AuthenticationPayload>>('/administrator/login', {
     email,
     password,
   });
@@ -11,12 +11,12 @@ export const loginAdministrator = async ({ email, password }: { email: string; p
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
   } else {
-    throw new APIError(data.message, data);
+    throw new APIError(data.message, data, headers);
   }
 };
 
 export const loginExplorer = async ({ email, password }: { email: string; password: string }) => {
-  const { data } = await api.post<ApiResponse<AuthenticationPayload>>('/explorer/login', {
+  const { data, headers } = await api.post<ApiResponse<AuthenticationPayload>>('/explorer/login', {
     email,
     password,
   });
@@ -24,6 +24,6 @@ export const loginExplorer = async ({ email, password }: { email: string; passwo
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
   } else {
-    throw new APIError(data.message, data);
+    throw new APIError(data.message, data, headers);
   }
 };

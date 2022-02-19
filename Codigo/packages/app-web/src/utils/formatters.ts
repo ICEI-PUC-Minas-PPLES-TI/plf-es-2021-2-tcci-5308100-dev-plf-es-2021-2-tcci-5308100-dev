@@ -1,4 +1,4 @@
-import { AdministratorStatus } from '@sec/common';
+import { AdministratorStatus, ExplorerStatus } from '@sec/common';
 import moment, { Moment } from 'moment';
 
 export const toCurrency = (value: number | bigint) => {
@@ -16,13 +16,13 @@ export const formatDate = (date: Date | Moment | string) => moment(date).format(
 
 export const formatDatetime = (date: Date | Moment | string) => moment(date).format('DD/MM/YYYY HH:mm');
 
-export const administratorStatusBadge = () => {
+export const administratorStatusBadge = (status: AdministratorStatus) => {
   const administratorStatusBadges: { [key in AdministratorStatus]: string } = {
     ACTIVE: 'badge bg-primary',
     INACTIVE: 'badge bg-secondary',
   };
 
-  return administratorStatusBadges;
+  return administratorStatusBadges[status];
 };
 
 export const administratorStatusFttr = (status: AdministratorStatus) => {
@@ -32,4 +32,26 @@ export const administratorStatusFttr = (status: AdministratorStatus) => {
   };
 
   return administratorStatus[status];
+};
+
+export const explorerStatusBadge = (status: ExplorerStatus) => {
+  const explorerStatusBadges: { [key in ExplorerStatus]: string } = {
+    ACTIVE: 'badge bg-primary',
+    INACTIVE: 'badge bg-secondary',
+    BANNED: 'badge bg-danger',
+    UNDER_REVIEW: 'badge bg-success',
+  };
+
+  return explorerStatusBadges[status];
+};
+
+export const explorerStatusFttr = (status: ExplorerStatus) => {
+  const explorerStatus: { [key in ExplorerStatus]: string } = {
+    ACTIVE: 'Ativo',
+    INACTIVE: 'Inativo',
+    BANNED: 'Banido',
+    UNDER_REVIEW: 'Sob revisão',
+  };
+
+  return explorerStatus[status];
 };

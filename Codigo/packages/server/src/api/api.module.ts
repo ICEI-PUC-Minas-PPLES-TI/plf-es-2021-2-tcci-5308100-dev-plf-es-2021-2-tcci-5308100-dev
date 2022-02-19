@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AuthenticationModule } from '~/authentication/authentication.module';
 import { DatabaseModule } from '~/database/database.module';
+import { ShopifyModule } from '~/shopify/shopify.module';
 import { UtilsModule } from '~/utils/utils.module';
 import { AdministratorController } from './administrator/administrator.controller';
 import { AdministratorService } from './administrator/administrator.service';
@@ -32,7 +33,7 @@ import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
 
 @Module({
-  imports: [UtilsModule, DatabaseModule, AuthenticationModule],
+  imports: [UtilsModule, DatabaseModule, AuthenticationModule, ShopifyModule],
   controllers: [
     AdministratorController,
     ChallengeController,

@@ -8,18 +8,18 @@ import MainLayout from '~/layouts/main';
 import LoginLayout from '~/layouts/login';
 
 import PrivateRoutes from './PrivateRoutes';
+import { RouteWithRoleGuard } from './RouteWithRoleGuard';
 
 import Error403 from '~/pages/error403';
 import Error404 from '~/pages/error404';
 import ErrorCatcher from '~/components/error/ErrorCatcher';
 
-// const AdministratorLogin = 'AdministratorLogin';
 import AdministratorLogin from '@Pages/administrator/login';
 import AdministratorAdministrators from '@Pages/administrator/administrators';
 import AdministratorAdministratorsSave from '@Pages/administrator/administrators/save';
+import AdministratorExplorers from '@Pages/administrator/explorers';
 
 import ExplorerLogin from '@Pages/explorer/login';
-import { RouteWithRoleGuard } from './RouteWithRoleGuard';
 
 const urlPrefix = {
   [UserType.SUPER_ADMINISTRATOR]: '/administrador',
@@ -78,7 +78,7 @@ const routesAdministrator: RouteSettings[] = [
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
     label: 'Exploradores',
     iconClass: 'fas fa-user-friends',
-    component: () => <div>Exploradores</div>,
+    component: AdministratorExplorers,
     show: true,
     hasNavMenu: false,
   },
@@ -156,6 +156,15 @@ const Routes: React.FunctionComponent = () => {
         loginPage: '/login',
       })}
 
+      <Route
+        path='/'
+        element={
+          <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+            <a href='/login'>explorador</a>
+            <a href='/administrador/login'>administrador</a>
+          </div>
+        }
+      />
       <Route path='/login' element={<LoginLayout>{<ExplorerLogin />}</LoginLayout>} />
       <Route path='/administrador/login' element={<LoginLayout>{<AdministratorLogin />}</LoginLayout>} />
       <Route path='/nao-autorizado' element={<Error403 fullPage />} />

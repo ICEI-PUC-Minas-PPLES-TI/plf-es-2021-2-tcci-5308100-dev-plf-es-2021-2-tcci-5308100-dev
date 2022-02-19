@@ -7,7 +7,7 @@ import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { useRef } from 'react';
 import ModalFilter, { InitialFilters } from './ModalFilter';
 import { matchSorter } from 'match-sorter';
-import { getAllAdministrators, GetAllAdministratorsFilters } from '@Services/AdministratorService';
+import { getAllAdministrators, GetAllAdministratorsFilters } from '@Services/administratorService';
 import { ToastContext } from '~/context/ToastContext';
 import { defaultErrorHandler } from '~/error/defaultErrorHandler';
 import { administratorStatusBadge, administratorStatusFttr, formatDate } from '@Utils/formatters';
@@ -41,7 +41,7 @@ const Administrators: FunctionComponent = () => {
       } = await getAllAdministrators(filter);
 
       setAdministrators(administrators);
-    } catch (error: any) {
+    } catch (error) {
       defaultErrorHandler(error, showToastDanger);
     } finally {
       setIsLoading(false);
@@ -75,13 +75,13 @@ const Administrators: FunctionComponent = () => {
             { field: 'name', label: 'Nome' },
             { field: 'email', label: 'Email' },
             { field: 'createdAt', label: 'Data de cadastro', alignment: 'center', formatter: formatDate },
-            { field: 'status', label: 'Status', alignment: 'center', classNameFttr: administratorStatusBadge(), formatter: administratorStatusFttr },
+            { field: 'status', label: 'Status', alignment: 'center', classNameFttr: administratorStatusBadge, formatter: administratorStatusFttr },
           ]}
           actions={[
             {
               type: 'ROUTER',
               iconClass: 'far fa-edit',
-              tooltip: 'Alterar',
+              tooltip: 'Editar',
               variant: 'success',
               to: (a) => `/administrador/administradores/salvar/${a.id}`,
             },

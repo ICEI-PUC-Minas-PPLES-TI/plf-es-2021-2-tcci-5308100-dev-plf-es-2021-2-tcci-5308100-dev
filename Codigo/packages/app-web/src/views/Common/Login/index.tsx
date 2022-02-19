@@ -53,7 +53,7 @@ const CommonLoginView: FunctionComponent<CommonLoginViewProps> = ({ onSubmit, ca
       const response = await onSubmit(data);
 
       if (response.success === true) {
-        navigate(urlPrefix[response.type]);
+        navigate(urlPrefix[response.type] + '/');
       } else {
         setMessage(response.message || '');
       }

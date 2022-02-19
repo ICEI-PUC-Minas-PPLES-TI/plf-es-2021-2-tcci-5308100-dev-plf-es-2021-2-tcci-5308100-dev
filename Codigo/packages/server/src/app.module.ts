@@ -5,6 +5,7 @@ import { DatabaseModule } from './database/database.module';
 import { EmailModule } from './email/email.module';
 import { FilesModule } from './files/files.module';
 import { UtilsModule } from './utils/utils.module';
+import { ShopifyModule } from './shopify/shopify.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
 import { join } from 'path';
 import * as winston from 'winston';
@@ -22,6 +23,7 @@ import {
     EmailModule,
     FilesModule,
     UtilsModule,
+    ShopifyModule,
     ServeStaticModule.forRoot({
       rootPath: join(__dirname, '../..', 'public/app-web'),
     }),

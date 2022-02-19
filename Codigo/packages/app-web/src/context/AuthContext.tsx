@@ -1,6 +1,6 @@
 import React, { createContext, useCallback, useState } from 'react';
 import jwtDecode from 'jwt-decode';
-import { loginAdministrator, loginExplorer } from '~/services/AuthenticationService';
+import { loginAdministrator, loginExplorer } from '@Services/authenticationService';
 import { Token, UserType } from '@sec/common';
 import { APIError } from '~/error/APIError';
 

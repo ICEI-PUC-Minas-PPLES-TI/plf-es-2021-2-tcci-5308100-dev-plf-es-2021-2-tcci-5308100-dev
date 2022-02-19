@@ -2,6 +2,7 @@ import { UserType } from './models/User';
 
 // endpoints
 export * from './endpoints/administrators.endpoint';
+export * from './endpoints/explorer.endpoint';
 
 // models
 export * from './models/Administrator';
@@ -22,6 +23,7 @@ export * from './models/User';
 
 // validators
 export * from './validators/administrator.validation';
+export * from './validators/explorer.validation';
 
 /**
  * 

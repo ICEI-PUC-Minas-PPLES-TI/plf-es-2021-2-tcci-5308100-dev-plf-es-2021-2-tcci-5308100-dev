@@ -4,11 +4,11 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import SelectControlled from '@Components/Inputs/SelectControlled';
-import { AdministratorStatus } from '@sec/common';
-import { GetAllAdministratorsFilters as FormInput } from '@Services/administratorService';
+import { ExplorerStatus } from '@sec/common';
+import { GetAllExplorersFilters as FormInput } from '@Services/explorerService';
 
 export type InitialFilters = {
-  status: AdministratorStatus[];
+  status: ExplorerStatus[];
 };
 
 type ModalFilterProps = {
@@ -19,7 +19,7 @@ type ModalFilterProps = {
 
 const schema: yup.SchemaOf<FormInput> = yup.object().shape({
   status: yup
-    .array<AdministratorStatus[]>(yup.mixed<AdministratorStatus>().oneOf(Object.values(AdministratorStatus)).required())
+    .array<ExplorerStatus[]>(yup.mixed<ExplorerStatus>().oneOf(Object.values(ExplorerStatus)).required())
     .required()
     .min(1),
 });
@@ -50,8 +50,10 @@ const ModalFilter: FunctionComponent<ModalFilterProps> = ({ modalRef, onSubmit, 
             name='status'
             label='Status'
             options={[
-              { label: 'Ativo', value: AdministratorStatus.ACTIVE },
-              { label: 'Inativo', value: AdministratorStatus.INACTIVE },
+              { label: 'Ativo', value: ExplorerStatus.ACTIVE },
+              { label: 'Inativo', value: ExplorerStatus.INACTIVE },
+              { label: 'Sob revisão', value: ExplorerStatus.UNDER_REVIEW },
+              { label: 'Banido', value: ExplorerStatus.BANNED },
             ]}
           />
         </div>

@@ -7,6 +7,7 @@ type PageCardActions = {
   variant: Variant;
   label: string;
   type: 'BUTTON' | 'LINK' | 'ROUTER';
+  isDisabled?: boolean;
 };
 
 type PageCardActionsButton = PageCardActions & {
@@ -46,23 +47,38 @@ const PageCard: React.FunctionComponent<PageCardProps> = ({ children, title, act
         }}
       >
         <div>{title}</div>
-        {actions?.map((action, i) =>
-          action.type === 'BUTTON' ? (
-            <button key={'PageCard_Button' + i} className={`rounded-lg btn btn-${action.variant}`} onClick={action.onClick}>
-              {action.label}
-            </button>
-          ) : action.type === 'LINK' ? (
-            <a key={'PageCard_Link' + i} className={`rounded-lg btn btn-${action.variant}`} href={action.href}>
-              {action.label}
-            </a>
-          ) : action.type === 'ROUTER' ? (
-            <Link key={'PageCard_Router' + i} className={`rounded-lg btn btn-${action.variant}`} to={action.to}>
-              {action.label}
-            </Link>
-          ) : (
-            <></>
-          )
-        )}
+        <div>
+          {actions?.map((action, i) =>
+            action.type === 'BUTTON' ? (
+              <button
+                key={'PageCard_Button' + i}
+                className={`ms-2 rounded-lg btn btn-${action.variant}`}
+                onClick={action.onClick}
+                disabled={!!action.isDisabled}
+              >
+                {action.label}
+              </button>
+            ) : action.type === 'LINK' ? (
+              <a
+                key={'PageCard_Link' + i}
+                className={`ms-2 rounded-lg btn btn-${action.variant} ${action.isDisabled ? 'disabled' : ''}`}
+                href={action.href}
+              >
+                {action.label}
+              </a>
+            ) : action.type === 'ROUTER' ? (
+              <Link
+                key={'PageCard_Router' + i}
+                className={`ms-2 rounded-lg btn btn-${action.variant} ${action.isDisabled ? 'disabled' : ''}`}
+                to={action.to}
+              >
+                {action.label}
+              </Link>
+            ) : (
+              <></>
+            )
+          )}
+        </div>
         {showBackButton && (
           <button className={`rounded-lg btn btn-secondary`} onClick={() => navigate(-1)}>
             Voltar

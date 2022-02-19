@@ -52,15 +52,11 @@ export class Explorer extends User implements IExplorer {
   // TODO: terminar método
   @AfterLoad()
   getCountChallengeCompleted() {
-    if (this.acceptedChallenges !== null && this.exclusiveChallenges !== null) {
-      const countChallengeCompleted =
-        this.acceptedChallenges.length + this.exclusiveChallenges.length;
+    const countChallengeCompleted =
+      (this.acceptedChallenges?.length || 0) +
+      (this.exclusiveChallenges?.length || 0);
 
-      this.countChallengeCompleted = countChallengeCompleted;
-      return countChallengeCompleted;
-    } else {
-      this.countChallengeCompleted = null;
-      return null;
-    }
+    this.countChallengeCompleted = countChallengeCompleted;
+    return countChallengeCompleted;
   }
 }

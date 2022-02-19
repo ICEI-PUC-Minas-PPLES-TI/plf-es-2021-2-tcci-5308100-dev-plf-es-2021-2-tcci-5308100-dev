@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { DeepPartial, Repository } from 'typeorm';
+import { DeepPartial, In, Repository } from 'typeorm';
 import { BaseService } from '~/database/BaseService.abstract';
 import { Administrator } from '@Models/Administrator.entity';
 import { ProfileService } from '../profile/profile.service';
@@ -29,7 +29,12 @@ export class AdministratorService extends BaseService<Administrator> {
   ): Promise<Administrator | undefined> {
     try {
       const administrator = await this.administratorRepository.findOneOrFail({
-        where: { email: email },
+        where: {
+          email: email,
+          profile: {
+            type: In([UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR]),
+          },
+        },
         relations: ['profile'],
       });
       administrator.password = (

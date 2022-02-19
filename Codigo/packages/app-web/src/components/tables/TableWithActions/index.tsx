@@ -68,13 +68,13 @@ const TableWithActions: <T extends { id?: number }>(props: TableWithActionsProps
                         <span
                           key={`${field}${i}field_key`}
                           style={{ display: 'block' }}
-                          className={`${classNameFttr ? classNameFttr[fieldData] : ''}`}
+                          className={`${classNameFttr ? classNameFttr(fieldData) : ''}`}
                         >
                           {formatter ? formatter(f) : f}
                         </span>
                       ))
                     ) : (
-                      <span key={`${field}field_key`} className={`${classNameFttr ? classNameFttr[fieldData] : ''}`}>
+                      <span key={`${field}field_key`} className={`${classNameFttr ? classNameFttr(fieldData) : ''}`}>
                         {formatter ? formatter(fieldData) : fieldData}
                       </span>
                     )}
@@ -87,7 +87,11 @@ const TableWithActions: <T extends { id?: number }>(props: TableWithActionsProps
                   {actions.map((action, i) => (
                     <OverlayTrigger key={i + action.iconClass} overlay={<Tooltip id={i + action.iconClass}>{action.tooltip}</Tooltip>}>
                       {action.type === 'BUTTON' ? (
-                        <Button className='btn-link' onClick={(event: React.MouseEvent) => action.action(row, event)} variant={action.variant}>
+                        <Button
+                          className={`btn-link text-${action.variant}`}
+                          onClick={(event: React.MouseEvent) => action.action(row, event)}
+                          variant={'link'}
+                        >
                           <i className={action.iconClass} />
                         </Button>
                       ) : action.type === 'ROUTER' ? (

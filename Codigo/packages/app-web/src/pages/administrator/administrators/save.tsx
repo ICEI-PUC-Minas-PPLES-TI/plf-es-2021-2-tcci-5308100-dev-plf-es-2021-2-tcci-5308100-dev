@@ -10,7 +10,7 @@ import {
   createAdministrator,
   getAdministrator,
   updateAdministrator,
-} from "@Services/AdministratorService";
+} from "@Services/administratorService";
 import { defaultErrorHandler } from "~/error/defaultErrorHandler";
 import { ToastContext } from "~/context/ToastContext";
 import { useLocation, useParams } from "react-router-dom";

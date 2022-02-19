@@ -40,10 +40,10 @@ const MainLayout: React.FunctionComponent<MainLayoutProps> = ({ children, routes
       <Helmet>
         <title>{getPageTitle(location.pathname)}</title>
       </Helmet>
-      <Header centerMenus={centerMenus} leftMenus={[]} />
+      <Header centerMenus={centerMenus} />
       <div className='container-fluid wrapper pt-2 px-3'>
         <div className='row' style={{ minHeight: 'calc(100vh - 120px)' }}>
-          <MainSidebar routes={routes.filter(route => route.allowedUsers.includes(user.type))} />
+          <MainSidebar routes={routes.filter((route) => route.allowedUsers.includes(user.type))} />
           <main className='ms-sm-auto ps-sm-3 ps-md-0 pb-2' style={{ minHeight: 'calc(100vh - 120px)' }}>
             {children}
           </main>
