@@ -58,7 +58,7 @@ const ModalSave: FunctionComponent<ModalSaveProps> = ({ modalRef, onSubmit, expl
   };
 
   return (
-    <Modal ref={modalRef} title='Filtrar administradores' size='md'>
+    <Modal ref={modalRef} title='Salvar explorador' size='md'>
       <form onSubmit={submitter(handleOnSubmit)}>
         <div className='modal-body'>
           <SelectControlled

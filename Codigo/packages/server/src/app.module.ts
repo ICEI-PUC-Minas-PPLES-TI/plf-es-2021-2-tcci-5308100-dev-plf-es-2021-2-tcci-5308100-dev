@@ -39,6 +39,7 @@ import {
           dirname: 'logs',
         }),
         new winston.transports.Console({
+          silent: process.env.NODE_ENV === 'production',
           level: 'debug',
           format: winston.format.combine(
             winston.format.timestamp(),

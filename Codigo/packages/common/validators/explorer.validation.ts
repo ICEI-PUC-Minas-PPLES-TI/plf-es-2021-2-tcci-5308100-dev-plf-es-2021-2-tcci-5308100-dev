@@ -8,14 +8,12 @@ export type CreateExplorerDTO = BaseExplorerDTO;
 
 export type UpdateExplorerDTO = BaseExplorerDTO & { id: number; status: ExplorerStatus };
 
-const validatorBase = {};
+const validatorBase: yup.SchemaOf<BaseExplorerDTO> = yup.object().shape({});
 
 export const createExplorerValidator: (body: any) => Promise<ValidatorResult<CreateExplorerDTO>> = async (body) => {
   const dto = assigner<CreateExplorerDTO>(body, {});
 
-  const validator: yup.SchemaOf<CreateExplorerDTO> = yup.object().shape({
-    ...validatorBase,
-  });
+  const validator: yup.SchemaOf<CreateExplorerDTO> = validatorBase.concat(yup.object().shape({}));
 
   return await validateHandler(validator, dto);
 };
@@ -23,11 +21,12 @@ export const createExplorerValidator: (body: any) => Promise<ValidatorResult<Cre
 export const updateExplorerValidator: (body: any) => Promise<ValidatorResult<UpdateExplorerDTO>> = async (body) => {
   const dto = assigner<UpdateExplorerDTO>(body, { id: null, status: null });
 
-  const validator: yup.SchemaOf<UpdateExplorerDTO> = yup.object().shape({
-    id: yup.number().required(),
-    status: yup.mixed<ExplorerStatus>().oneOf(Object.values(ExplorerStatus)),
-    ...validatorBase,
-  });
+  const validator: yup.SchemaOf<UpdateExplorerDTO> = validatorBase.concat(
+    yup.object().shape({
+      id: yup.number().required(),
+      status: yup.mixed<ExplorerStatus>().oneOf(Object.values(ExplorerStatus)),
+    })
+  );
 
   return await validateHandler(validator, dto);
 };

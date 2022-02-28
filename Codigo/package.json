@@ -17,7 +17,8 @@
     "dev:server": "yarn workspace @sec/server dev",
     "dev:app-web": "yarn workspace @sec/app-web dev",
     "start:server": "yarn workspace @sec/server start",
-    "start:app-web": "yarn workspace @sec/app-web start"
+    "start:app-web": "yarn workspace @sec/app-web start",
+    "prod": "yarn workspace @sec/server prod"
   },
   "dependencies": {
     "yup": "^0.32.11"

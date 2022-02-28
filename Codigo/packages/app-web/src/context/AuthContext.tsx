@@ -3,6 +3,7 @@ import jwtDecode from 'jwt-decode';
 import { loginAdministrator, loginExplorer } from '@Services/authenticationService';
 import { Token, UserType } from '@sec/common';
 import { APIError } from '~/error/APIError';
+import moment from 'moment';
 
 interface SignInCredentials {
   email: string;
@@ -109,7 +110,14 @@ const AuthProvider: React.FunctionComponent = ({ children }) => {
   const isAuthenticated = useCallback(() => {
     try {
       const token = localStorage.getItem('@sec:token');
-      return token === null ? false : !!jwtDecode<UserContext>(token);
+      if (token === null) {
+        return false;
+      } else {
+        const tokenDecoded = jwtDecode<Token & { iat: number; exp: number }>(token);
+        const timestamp = moment().valueOf();
+
+        return !!tokenDecoded && tokenDecoded.exp * 1000 >= timestamp ? true : false;
+      }
     } catch (error) {
       return false;
     }

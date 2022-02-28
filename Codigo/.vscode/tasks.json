@@ -1,0 +1,39 @@
+{
+  // See https://go.microsoft.com/fwlink/?LinkId=733558
+  // for the documentation about the tasks.json format
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Dev Common",
+      "type": "shell",
+      "command": "yarn dev:common",
+      "presentation": {
+        "group": "development"
+      }
+    },
+    {
+      "label": "Dev Server",
+      "type": "shell",
+      "command": "yarn dev:server",
+      "presentation": {
+        "group": "development"
+      }
+    },
+    {
+      "label": "Dev App-Web",
+      "type": "shell",
+      "command": "yarn dev:app-web",
+      "presentation": {
+        "group": "development"
+      }
+    },
+    {
+      "label": "Development system",
+      "dependsOn": ["Dev Common", "Dev Server", "Dev App-Web"],
+      "group": {
+        "kind": "build",
+        "isDefault": true
+      }
+    }
+  ]
+}

@@ -1,4 +1,6 @@
-import { SchemaOf } from "yup";
+import { SchemaOf, BaseSchema } from 'yup';
+
+export type ValidatorBaseSchema<T> = { [key in keyof T]: BaseSchema };
 
 export type ValidationSuccess<T> = {
   success: true;
@@ -14,10 +16,7 @@ export type ValidationFail = {
 
 export type ValidatorResult<T> = ValidationSuccess<T> | ValidationFail;
 
-export const assigner = <T>(
-  source: any,
-  fields: { [key in keyof T]: null }
-): T => {
+export const assigner = <T>(source: any, fields: { [key in keyof T]: null }): T => {
   const aux = {};
 
   Object.keys(fields).forEach((field) => {
@@ -27,10 +26,7 @@ export const assigner = <T>(
   return aux as T;
 };
 
-export const validateHandler = async <T>(
-  validator: any,
-  dto: T
-): Promise<ValidatorResult<T>> => {
+export const validateHandler = async <T>(validator: any, dto: T): Promise<ValidatorResult<T>> => {
   try {
     await validator.validate(dto);
     return {
