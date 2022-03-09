@@ -64,7 +64,8 @@ link.no-border-focus:focus {
 
 div.has-error>input,
 div.has-error>select,
-div.has-error>textarea
+div.has-error>textarea,
+div.has-error
  {border-color: red;}
 
 div.has-error>input:focus,
@@ -74,8 +75,9 @@ div.has-error>textarea:focus
 
 div.has-success>input,
 div.has-success>select,
-div.has-success>textarea
- {border-color: green;}
+div.has-success>textarea,
+div.has-success
+{border-color: green;}
 
 div.has-success>input,
 div.has-success>select,

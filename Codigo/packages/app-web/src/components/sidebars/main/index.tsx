@@ -1,4 +1,4 @@
-import { RouteSettings } from '@GlobalTypes';
+import { RouteSettings, RouteSettingsShowed } from '~/routes/types';
 import React, { FunctionComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -23,14 +23,17 @@ const MainSidebar: FunctionComponent<MainSidebarType> = ({ routes }) => {
         <ul className='nav flex-column'>
           {routes
             .filter((route) => route.show)
-            .map((route) => (
-              <li key={`menu_entry_${route.path}`} className='nav-item'>
-                <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to={route.path}>
-                  <i className={`btn-round-md bg-gradient me-3 ${route.iconClass} ${route.bgClass}`} />
-                  {route.label}
-                </NavLink>
-              </li>
-            ))}
+            .map(
+              (route) =>
+                route.show && (
+                  <li key={`menu_entry_${route.path}`} className='nav-item'>
+                    <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to={route.path}>
+                      <i className={`btn-round-md bg-gradient me-3 ${route.iconClass} ${route.bgClass}`} />
+                      {route.label}
+                    </NavLink>
+                  </li>
+                )
+            )}
         </ul>
       </div>
     </nav>

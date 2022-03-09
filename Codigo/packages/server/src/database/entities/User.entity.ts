@@ -34,4 +34,7 @@ export class User extends Model implements IUser {
   //Bug; Dependência circular encontrada.
   // @OneToMany(() => Comment, (comment) => comment.user)
   // comments: Comment[];
+
+  //TODO:
+  // async onUpdatePassword() {}
 }

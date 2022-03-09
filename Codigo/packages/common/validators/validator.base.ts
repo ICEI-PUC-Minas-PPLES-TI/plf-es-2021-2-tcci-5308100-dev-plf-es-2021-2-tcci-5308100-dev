@@ -1,3 +1,8 @@
+/**
+ * Ao receber o id de um dado relacionado, não usar o nome literal da relação. Adicionar "Id" no final.
+ *    Ex.: Ao invés de recompense, usar recompenseId.
+ */
+
 import { SchemaOf, BaseSchema } from 'yup';
 
 export type ValidatorBaseSchema<T> = { [key in keyof T]: BaseSchema };
@@ -16,7 +21,7 @@ export type ValidationFail = {
 
 export type ValidatorResult<T> = ValidationSuccess<T> | ValidationFail;
 
-export const assigner = <T>(source: any, fields: { [key in keyof T]: null }): T => {
+export const assigner = <T>(source: any, fields: { [key in keyof T]-?: null }): T => {
   const aux = {};
 
   Object.keys(fields).forEach((field) => {

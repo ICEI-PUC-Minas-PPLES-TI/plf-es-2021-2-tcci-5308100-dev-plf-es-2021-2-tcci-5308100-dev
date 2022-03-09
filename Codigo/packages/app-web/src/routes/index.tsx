@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes as ReactRoutes, Route } from 'react-router-dom';
 
-import { RouteSettings } from '@GlobalTypes';
+import { RouteSettings } from './types';
 import { UserType } from '@sec/common';
 
 import MainLayout from '~/layouts/main';
@@ -18,6 +18,8 @@ import AdministratorLogin from '@Pages/administrator/login';
 import AdministratorAdministrators from '@Pages/administrator/administrators';
 import AdministratorAdministratorsSave from '@Pages/administrator/administrators/save';
 import AdministratorExplorers from '@Pages/administrator/explorers';
+import AdministratorChallenges from '@Pages/administrator/challenges';
+import AdministratorChallengesSave from '@Pages/administrator/challenges/save';
 
 import ExplorerLogin from '@Pages/explorer/login';
 
@@ -42,27 +44,21 @@ const routesAdministrator: RouteSettings[] = [
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
     label: 'Desafios',
     iconClass: 'fas fa-hand-sparkles',
-    component: () => <div>Desafios</div>,
+    component: AdministratorChallenges,
     show: true,
     hasNavMenu: false,
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios/salvar',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
-    label: 'Desafios',
-    iconClass: 'fas fa-hand-sparkles',
-    component: () => <div>Desafios</div>,
+    component: AdministratorChallengesSave,
     show: false,
-    hasNavMenu: false,
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios/salvar/:id',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
-    label: 'Desafios',
-    iconClass: 'fas fa-hand-sparkles',
-    component: () => <div>Desafios</div>,
+    component: AdministratorChallengesSave,
     show: false,
-    hasNavMenu: false,
   },
   {
     path: urlPrefix[UserType.SUPER_ADMINISTRATOR] + '/administradores',
@@ -76,20 +72,14 @@ const routesAdministrator: RouteSettings[] = [
   {
     path: urlPrefix[UserType.SUPER_ADMINISTRATOR] + '/administradores/salvar',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR],
-    label: 'Administradores',
-    iconClass: 'fas fa-user-tie',
     component: AdministratorAdministratorsSave,
     show: false,
-    hasNavMenu: false,
   },
   {
     path: urlPrefix[UserType.SUPER_ADMINISTRATOR] + '/administradores/salvar/:id',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR],
-    label: 'Administradores',
-    iconClass: 'fas fa-user-tie',
     component: AdministratorAdministratorsSave,
     show: false,
-    hasNavMenu: false,
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/exploradores',
@@ -105,27 +95,21 @@ const routesAdministrator: RouteSettings[] = [
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
     label: 'Recompensas',
     iconClass: 'fas fa-gift',
-    component: AdministratorExplorers,
+    component: () => <div>Recompensas</div>,
     show: true,
     hasNavMenu: false,
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/recompensas/salvar',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
-    label: 'Recompensas',
-    iconClass: 'fas fa-gift',
-    component: AdministratorExplorers,
+    component: () => <div>Recompensas</div>,
     show: false,
-    hasNavMenu: false,
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/recompensas/salvar/:id',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
-    label: 'Recompensas',
-    iconClass: 'fas fa-gift',
-    component: AdministratorExplorers,
+    component: () => <div>Recompensas</div>,
     show: false,
-    hasNavMenu: false,
   },
 ];
 

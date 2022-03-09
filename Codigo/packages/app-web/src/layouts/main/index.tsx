@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import MainSidebar from '~/components/sidebars/main/';
 import Header from '~/components/headers/main';
 import { HeaderMenuLink } from '@Components/headers/main/types';
-import { RouteSettings } from '@GlobalTypes';
+import { RouteSettings, RouteSettingsShowed } from '~/routes/types';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '~/context/AuthContext';
@@ -19,14 +19,14 @@ const MainLayout: React.FunctionComponent<MainLayoutProps> = ({ children, routes
 
   const getPageTitle = (pathname: string) => {
     //TODO: Definir frase
-    const defaultPageTitle = 'SEC - Bem vindo a Hardz';
+    const defaultPageTitle = 'SEC - Bem vindo ao SEC';
     const route = routes.find((route) => route.path === pathname);
 
     return route?.tabHeader || defaultPageTitle;
   };
 
   const centerMenus: HeaderMenuLink[] = routes
-    .filter((route) => route.hasNavMenu)
+    .filter((route): route is RouteSettingsShowed => route.show && route.hasNavMenu)
     .map((route) => ({
       type: 'LINK',
       iconClass: route.iconClass,

@@ -47,8 +47,11 @@ export abstract class BaseService<T> {
 
   public async createAndSave(data: DeepPartial<T>): Promise<T | undefined> {
     try {
-      return await this.entity.save(await this.create(data));
+      return await this.entity.save(
+        (await this.create(data)) as DeepPartial<T>,
+      );
     } catch (error) {
+      if (process.env.NODE_ENV === 'DEVELOPMENT') console.dir(error);
       return undefined;
     }
   }
