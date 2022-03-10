@@ -12,18 +12,26 @@ export class UserSeed implements ISeed {
   ) {}
 
   async seed() {
-    const password = await bcrypt.hash('superAdmin', 10);
-
     const superAdmin = this.administratorRepository.create({
       nickname: 'sudo -s',
       email: 'sudo@email.com',
       name: 'Super administrador',
       profile: 1 as any,
-      password,
+      password: await bcrypt.hash('superAdmin', 10),
       isSuper: true,
       status: AdministratorStatus.ACTIVE,
     });
 
-    await this.administratorRepository.save(superAdmin);
+    const admin = this.administratorRepository.create({
+      nickname: 'admin',
+      email: 'admin@email.com',
+      name: 'Administrador',
+      profile: 2 as any,
+      password: await bcrypt.hash('admin', 10),
+      isSuper: false,
+      status: AdministratorStatus.ACTIVE,
+    });
+
+    await this.administratorRepository.save([superAdmin, admin]);
   }
 }
