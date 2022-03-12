@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { Fragment, useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { MainHeaderType } from './types';
 import SLogo from '~/assets/img/s-logo.png';
@@ -44,18 +44,18 @@ const MainHeader: React.FunctionComponent<MainHeaderType> = ({ centerMenus }) =>
         </button>
         <ul className='dropdown-menu dropdown-menu-end'>
           {notifications.map((notification, i) => (
-            <>
+            <Fragment key={`header_notification_${notification}`}>
               {i !== 0 && (
                 <li>
                   <hr className='dropdown-divider' />
                 </li>
               )}
-              <li key={`header_notification_${notification}`}>
+              <li>
                 <a className='dropdown-item' href='#'>
                   {notification}
                 </a>
               </li>
-            </>
+            </Fragment>
           ))}
         </ul>
       </div>

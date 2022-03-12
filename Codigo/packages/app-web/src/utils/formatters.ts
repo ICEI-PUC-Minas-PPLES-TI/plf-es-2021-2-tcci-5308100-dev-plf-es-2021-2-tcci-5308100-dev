@@ -1,4 +1,4 @@
-import { AdministratorStatus, ChallengeStatus, ExplorerStatus } from '@sec/common';
+import { AdministratorStatus, ExplorerStatus } from '@sec/common';
 import moment, { Moment } from 'moment';
 
 export const toCurrency = (value: number | bigint) => {
@@ -54,24 +54,4 @@ export const explorerStatusFttr = (status: ExplorerStatus) => {
   };
 
   return explorerStatus[status];
-};
-
-export const challengeStatusBadge = (status: ChallengeStatus) => {
-  const challengeStatusBadges: { [key in ChallengeStatus]: string } = {
-    OPEN: 'badge bg-success',
-    DRAFT: 'badge bg-primary',
-    CLOSED: 'badge bg-secondary',
-  };
-
-  return challengeStatusBadges[status];
-};
-
-export const challengeStatusFttr = (status: ChallengeStatus) => {
-  const challengeStatus: { [key in ChallengeStatus]: string } = {
-    OPEN: 'Aberto',
-    DRAFT: 'Rascunho',
-    CLOSED: 'Encerrado',
-  };
-
-  return challengeStatus[status];
 };

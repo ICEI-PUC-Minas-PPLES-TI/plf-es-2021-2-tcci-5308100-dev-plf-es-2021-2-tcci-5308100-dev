@@ -16,8 +16,13 @@ import { APIError } from '~/error/APIError';
 
 export type GetAllExplorersFilters = GetAllExplorersParams;
 
-export const getAllExplorers = async (filters: GetAllExplorersFilters | null) => {
-  const { data, headers } = await api.get<ApiResponse<GetAllExplorersPayload>>('/explorer', { params: filters });
+export const getAllExplorers = async (
+  filters: GetAllExplorersFilters | null
+) => {
+  const { data, headers } = await api.get<ApiResponse<GetAllExplorersPayload>>(
+    '/explorer',
+    { params: filters }
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -27,7 +32,9 @@ export const getAllExplorers = async (filters: GetAllExplorersFilters | null) =>
 };
 
 export const getExplorer = async (id: number) => {
-  const { data, headers } = await api.get<ApiResponse<GetExplorerPayload>>(`/explorer/${id}`);
+  const { data, headers } = await api.get<ApiResponse<GetExplorerPayload>>(
+    `/explorer/${id}`
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -37,7 +44,10 @@ export const getExplorer = async (id: number) => {
 };
 
 export const createExplorer = async (explorer: CreateExplorerDTO) => {
-  const { data, headers } = await api.post<ApiResponse<GetAllExplorersPayload>>('/explorer', explorer);
+  const { data, headers } = await api.post<ApiResponse<GetAllExplorersPayload>>(
+    '/explorer',
+    explorer
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -47,7 +57,10 @@ export const createExplorer = async (explorer: CreateExplorerDTO) => {
 };
 
 export const updateExplorer = async (explorer: UpdateExplorerDTO) => {
-  const { data, headers } = await api.put<ApiResponse<GetAllExplorersPayload>>('/explorer', explorer);
+  const { data, headers } = await api.put<ApiResponse<GetAllExplorersPayload>>(
+    '/explorer',
+    explorer
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -57,7 +70,10 @@ export const updateExplorer = async (explorer: UpdateExplorerDTO) => {
 };
 
 export const activeExplorers = async (explorers: ActiveExplorersParams) => {
-  const { data, headers } = await api.put<ApiResponse<ActiveExplorersPayload>>('/explorer/active-explorers', explorers);
+  const { data, headers } = await api.put<ApiResponse<ActiveExplorersPayload>>(
+    '/explorer/active-explorers',
+    explorers
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -67,7 +83,10 @@ export const activeExplorers = async (explorers: ActiveExplorersParams) => {
 };
 
 export const banExplorers = async (explorers: BanExplorersParams) => {
-  const { data, headers } = await api.put<ApiResponse<BanExplorersPayload>>('/explorer/ban-explorers', explorers);
+  const { data, headers } = await api.put<ApiResponse<BanExplorersPayload>>(
+    '/explorer/ban-explorers',
+    explorers
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

@@ -29,12 +29,13 @@ interface PageCardProps {
   title: string | JSX.Element;
   showBackButton?: boolean;
   actions?: (PageCardActionsButton | PageCardActionsLink | PageCardActionsRouterLink)[];
+  paddingBottomExtra?: boolean;
 }
-const PageCard: React.FunctionComponent<PageCardProps> = ({ children, title, actions, showBackButton = false }) => {
+const PageCard: React.FunctionComponent<PageCardProps> = ({ children, title, actions, showBackButton = false, paddingBottomExtra }) => {
   const navigate = useNavigate();
 
   return (
-    <div className='card rounded-md h-100'>
+    <div className='card rounded-md h-100' style={{ paddingBottom: '75px' }}>
       <div
         className='card-header flex-center'
         style={{

@@ -1,4 +1,4 @@
-import { RouteSettings, RouteSettingsShowed } from '@GlobalTypes';
+import { RouteSettings, RouteSettingsShowed } from '~/routes/types';
 import React, { FunctionComponent } from 'react';
 import { NavLink } from 'react-router-dom';
 
