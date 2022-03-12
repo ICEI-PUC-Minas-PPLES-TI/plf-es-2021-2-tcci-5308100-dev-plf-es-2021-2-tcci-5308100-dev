@@ -10,14 +10,14 @@ export enum ExplorerStatus {
 }
 
 export interface Explorer extends User {
-  token: string;
-  biography: string;
-  favoriteProduct: string;
-  instagram: string;
-  tikTok: string;
-  twitter: string;
-  facebook: string;
-  linkedIn: string;
+  token?: string;
+  biography?: string;
+  favoriteProduct?: string;
+  instagram?: string;
+  tikTok?: string;
+  twitter?: string;
+  facebook?: string;
+  linkedIn?: string;
   status: ExplorerStatus;
   acceptedChallenges: ChallengeAccepted[];
   exclusiveChallenges: Challenge[];

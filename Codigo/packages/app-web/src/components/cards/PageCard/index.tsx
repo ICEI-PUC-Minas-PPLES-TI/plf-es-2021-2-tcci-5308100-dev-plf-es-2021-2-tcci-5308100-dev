@@ -25,67 +25,93 @@ type PageCardActionsRouterLink = PageCardActions & {
   to: string;
 };
 
-interface PageCardProps {
+type PageCardDefaultProps = {
   title: string | JSX.Element;
   showBackButton?: boolean;
+  backButtonURL?: string;
   actions?: (PageCardActionsButton | PageCardActionsLink | PageCardActionsRouterLink)[];
-  paddingBottomExtra?: boolean;
-}
-const PageCard: React.FunctionComponent<PageCardProps> = ({ children, title, actions, showBackButton = false, paddingBottomExtra }) => {
+  simpleVariant?: false;
+};
+type PageCardSimpleProps = {
+  simpleVariant: true;
+  hidePaddingTopExtra?: boolean;
+};
+
+type PageCardProps = (PageCardDefaultProps | PageCardSimpleProps) & {
+  hidePaddingBottomExtra?: boolean;
+  simpleVariant?: boolean;
+};
+
+const PageCard: React.FunctionComponent<PageCardProps> = ({ hidePaddingBottomExtra, children, ...props }) => {
   const navigate = useNavigate();
 
   return (
-    <div className='card rounded-md h-100' style={{ paddingBottom: '75px' }}>
-      <div
-        className='card-header flex-center'
-        style={{
-          borderRadius: '15px 15px 0px 0px',
-          backgroundColor: 'gray',
-          color: 'white',
-          fontWeight: '500',
-          justifyContent: 'space-between',
-          minHeight: '55px',
-        }}
-      >
-        <div>{title}</div>
-        <div>
-          {actions?.map((action, i) =>
-            action.type === 'BUTTON' ? (
+    <div
+      className='card rounded-md h-100'
+      style={{
+        paddingBottom: hidePaddingBottomExtra ? undefined : '75px',
+        paddingTop: props.simpleVariant && !props.hidePaddingTopExtra ? '30px' : undefined,
+      }}
+    >
+      {props.simpleVariant ? (
+        <></>
+      ) : (
+        <>
+          <div
+            className='card-header flex-center'
+            style={{
+              borderRadius: '15px 15px 0px 0px',
+              backgroundColor: 'gray',
+              color: 'white',
+              fontWeight: '500',
+              justifyContent: 'space-between',
+              minHeight: '55px',
+            }}
+          >
+            <div>{props.title}</div>
+            <div>
+              {props.actions?.map((action, i) =>
+                action.type === 'BUTTON' ? (
+                  <button
+                    key={'PageCard_Button' + i}
+                    className={`ms-2 rounded-lg btn btn-${action.variant}`}
+                    onClick={action.onClick}
+                    disabled={!!action.isDisabled}
+                  >
+                    {action.label}
+                  </button>
+                ) : action.type === 'LINK' ? (
+                  <a
+                    key={'PageCard_Link' + i}
+                    className={`ms-2 rounded-lg btn btn-${action.variant} ${action.isDisabled ? 'disabled' : ''}`}
+                    href={action.href}
+                  >
+                    {action.label}
+                  </a>
+                ) : action.type === 'ROUTER' ? (
+                  <Link
+                    key={'PageCard_Router' + i}
+                    className={`ms-2 rounded-lg btn btn-${action.variant} ${action.isDisabled ? 'disabled' : ''}`}
+                    to={action.to}
+                  >
+                    {action.label}
+                  </Link>
+                ) : (
+                  <></>
+                )
+              )}
+            </div>
+            {props.showBackButton && (
               <button
-                key={'PageCard_Button' + i}
-                className={`ms-2 rounded-lg btn btn-${action.variant}`}
-                onClick={action.onClick}
-                disabled={!!action.isDisabled}
+                className={`rounded-lg btn btn-secondary`}
+                onClick={() => (props.backButtonURL ? navigate(props.backButtonURL) : navigate(-1))}
               >
-                {action.label}
+                Voltar
               </button>
-            ) : action.type === 'LINK' ? (
-              <a
-                key={'PageCard_Link' + i}
-                className={`ms-2 rounded-lg btn btn-${action.variant} ${action.isDisabled ? 'disabled' : ''}`}
-                href={action.href}
-              >
-                {action.label}
-              </a>
-            ) : action.type === 'ROUTER' ? (
-              <Link
-                key={'PageCard_Router' + i}
-                className={`ms-2 rounded-lg btn btn-${action.variant} ${action.isDisabled ? 'disabled' : ''}`}
-                to={action.to}
-              >
-                {action.label}
-              </Link>
-            ) : (
-              <></>
-            )
-          )}
-        </div>
-        {showBackButton && (
-          <button className={`rounded-lg btn btn-secondary`} onClick={() => navigate(-1)}>
-            Voltar
-          </button>
-        )}
-      </div>
+            )}
+          </div>
+        </>
+      )}
 
       <div className='card-body'>{children}</div>
     </div>

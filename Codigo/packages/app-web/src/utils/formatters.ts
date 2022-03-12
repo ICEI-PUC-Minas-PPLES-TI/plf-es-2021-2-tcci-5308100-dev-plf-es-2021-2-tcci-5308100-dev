@@ -1,4 +1,4 @@
-import { AdministratorStatus, ExplorerStatus } from '@sec/common';
+import { AdministratorStatus, ChallengeStatus, ExplorerStatus, RecompenseStatus, RecompenseType } from '@sec/common';
 import moment, { Moment } from 'moment';
 
 export const toCurrency = (value: number | bigint) => {
@@ -8,7 +8,8 @@ export const toCurrency = (value: number | bigint) => {
   }).format(value);
 };
 
-export const formatPhone = (phone: string) => (phone ? phone.replace(/^(\d\d)(\d)(\d{4})(\d{4}).*/, '($1) $2 $3-$4') : phone);
+export const formatPhone = (phone: string) =>
+  phone ? phone.replace(/^(\d\d)(\d)(\d{4})(\d{4}).*/, '($1) $2 $3-$4') : phone;
 
 export const formatCPF = (cpf: string) => (cpf ? cpf.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/g, '$1.$2.$3-$4') : cpf);
 
@@ -54,4 +55,60 @@ export const explorerStatusFttr = (status: ExplorerStatus) => {
   };
 
   return explorerStatus[status];
+};
+
+export const challengeStatusBadge = (status: ChallengeStatus) => {
+  const challengeStatusBadges: { [key in ChallengeStatus]: string } = {
+    OPEN: 'badge bg-success',
+    DRAFT: 'badge bg-primary',
+    CLOSED: 'badge bg-secondary',
+  };
+
+  return challengeStatusBadges[status];
+};
+
+export const challengeStatusFttr = (status: ChallengeStatus) => {
+  const challengeStatus: { [key in ChallengeStatus]: string } = {
+    OPEN: 'Aberto',
+    DRAFT: 'Rascunho',
+    CLOSED: 'Encerrado',
+  };
+
+  return challengeStatus[status];
+};
+
+export const recompenseStatusBadge = (status: RecompenseStatus) => {
+  const recompenseStatusBadges: { [key in RecompenseStatus]: string } = {
+    ACTIVE: 'badge bg-primary',
+    INACTIVE: 'badge bg-secondary',
+  };
+
+  return recompenseStatusBadges[status];
+};
+
+export const recompenseStatusFttr = (status: RecompenseStatus) => {
+  const recompenseStatus: { [key in RecompenseStatus]: string } = {
+    ACTIVE: 'Ativo',
+    INACTIVE: 'Inativo',
+  };
+
+  return recompenseStatus[status];
+};
+
+export const recompenseTypeBadge = (type: RecompenseType) => {
+  const recompenseTypeBadges: { [key in RecompenseType]: string } = {
+    GENERAL: 'badge bg-primary',
+    DISCOUNT_COUPON: 'badge bg-info',
+  };
+
+  return recompenseTypeBadges[type];
+};
+
+export const recompenseTypeFttr = (status: RecompenseType) => {
+  const recompenseType: { [key in RecompenseType]: string } = {
+    GENERAL: 'Geral',
+    DISCOUNT_COUPON: 'Cupom de desconto',
+  };
+
+  return recompenseType[status];
 };

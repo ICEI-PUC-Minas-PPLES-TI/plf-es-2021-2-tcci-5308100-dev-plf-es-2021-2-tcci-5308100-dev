@@ -13,8 +13,7 @@ export const defaultErrorHandler = (
     messageReporter({ message: error.response?.data.message });
   } else {
     messageReporter({
-      message:
-        'Ocorreu um erro inesperado. Por favor, recarregue a página e tente novamente.',
+      message: 'Ocorreu um erro inesperado. Por favor, recarregue a página e tente novamente.',
     });
   }
 };

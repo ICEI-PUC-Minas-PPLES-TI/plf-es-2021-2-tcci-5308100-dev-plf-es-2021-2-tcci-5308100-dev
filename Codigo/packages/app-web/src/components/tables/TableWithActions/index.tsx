@@ -85,7 +85,10 @@ const TableWithActions: <T extends { id?: number }>(props: TableWithActionsProps
               {actions && (
                 <td className='td-actions text-center'>
                   {actions.map((action, i) => (
-                    <OverlayTrigger key={i + action.iconClass} overlay={<Tooltip id={i + action.iconClass}>{action.tooltip}</Tooltip>}>
+                    <OverlayTrigger
+                      key={i + action.iconClass}
+                      overlay={<Tooltip id={i + action.iconClass}>{action.tooltip}</Tooltip>}
+                    >
                       {action.type === 'BUTTON' ? (
                         <Button
                           className={`btn-link text-${action.variant}`}

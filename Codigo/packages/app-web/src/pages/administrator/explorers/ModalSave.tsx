@@ -80,7 +80,10 @@ const ModalSave: FunctionComponent<ModalSaveProps> = ({ modalRef, onSubmit, expl
             { label: 'Apelido', value: explorer?.nickname },
             { label: 'Email', value: explorer?.email },
             { label: 'Nome', value: explorer?.name },
-            { label: 'Data de cadastro', value: explorer ? moment(explorer.createdAt).format('DD/MM/YYYY - HH:mm') : '-' },
+            {
+              label: 'Data de cadastro',
+              value: explorer ? moment(explorer.createdAt).format('DD/MM/YYYY - HH:mm') : '-',
+            },
             { label: 'Desafios conquistados', value: explorer?.countChallengeCompleted },
             { label: 'Biografia', value: explorer?.biography },
             { label: 'Produto favorito', value: explorer?.favoriteProduct },

@@ -2,24 +2,24 @@ import PageCard from '@Components/cards/PageCard';
 import SearchInput from '@Components/Inputs/SearchInput';
 import { ModalMethods } from '@Components/modals/Modal';
 import TableWithActions from '@Components/tables/TableWithActions';
-import { Administrator, AdministratorStatus } from '@sec/common';
+import { Challenge, ChallengeStatus } from '@sec/common';
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { useRef } from 'react';
 import ModalFilter, { InitialFilters } from './ModalFilter';
 import { matchSorter } from 'match-sorter';
-import { getAllAdministrators, GetAllAdministratorsFilters } from '@Services/administratorService';
+import { getAllChallenges, GetAllChallengesFilters } from '@Services/challengeService';
 import { ToastContext } from '~/context/ToastContext';
 import { defaultErrorHandler } from '~/error/defaultErrorHandler';
-import { administratorStatusBadge, administratorStatusFttr, formatDate } from '@Utils/formatters';
+import { challengeStatusBadge, challengeStatusFttr, formatDate } from '@Utils/formatters';
 
-const Administrators: FunctionComponent = () => {
+const Challenges: FunctionComponent = () => {
   const { showToastDanger } = useContext(ToastContext);
   const initialFilters: InitialFilters = {
-    status: [AdministratorStatus.ACTIVE, AdministratorStatus.INACTIVE],
+    status: [ChallengeStatus.OPEN, ChallengeStatus.DRAFT],
   };
 
-  const [administrators, setAdministrators] = useState<Administrator[]>([]);
-  const [administratorsFiltered, setAdministratorsFiltered] = useState<Administrator[]>([]);
+  const [challenges, setChallenges] = useState<Challenge[]>([]);
+  const [challengesFiltered, setChallengesFiltered] = useState<Challenge[]>([]);
   const [searchBox, setSearchBox] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,17 +30,17 @@ const Administrators: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    setAdministratorsFiltered(matchSorter(administrators, searchBox, { keys: ['nickname', 'name', 'email'] }));
-  }, [searchBox, administrators]);
+    setChallengesFiltered(matchSorter(challenges, searchBox, { keys: ['title', 'recompenseName'] }));
+  }, [searchBox, challenges]);
 
-  const fetchData = async (filter: GetAllAdministratorsFilters | null = null) => {
+  const fetchData = async (filter: GetAllChallengesFilters | null = null) => {
     try {
       setIsLoading(true);
       const {
-        payload: { administrators },
-      } = await getAllAdministrators(filter);
+        payload: { challenges },
+      } = await getAllChallenges(filter);
 
-      setAdministrators(administrators);
+      setChallenges(challenges);
     } catch (error) {
       defaultErrorHandler(error, showToastDanger);
     } finally {
@@ -50,13 +50,13 @@ const Administrators: FunctionComponent = () => {
   return (
     <>
       <PageCard
-        title='Gerenciar administradores'
+        title='Gerenciar desafios'
         actions={[
           {
             type: 'ROUTER',
             variant: 'success',
-            to: '/administrador/administradores/salvar',
-            label: 'Cadastrar administrador',
+            to: '/administrador/desafios/salvar',
+            label: 'Cadastrar desafio',
           },
         ]}
       >
@@ -68,19 +68,19 @@ const Administrators: FunctionComponent = () => {
         </div>
         <TableWithActions
           isLoading={isLoading}
-          emptyTableMessage='Nenhum administrador cadastrado.'
+          emptyTableMessage='Nenhum desafio cadastrado.'
           columns={[
-            { field: 'id', label: 'ID', alignment: 'center' },
-            { field: 'nickname', label: 'Apelido' },
-            { field: 'name', label: 'Nome' },
-            { field: 'email', label: 'Email' },
-            { field: 'createdAt', label: 'Data de cadastro', alignment: 'center', formatter: formatDate },
+            { field: 'id', label: 'ID', alignment: 'center', width: '50px' },
+            { field: 'title', label: 'Desafio' },
+            { field: 'recompenseName', label: 'Recompensa' },
+            { field: 'countAcceptedChallenges', label: 'Participações', alignment: 'center', width: '120px' },
             {
               field: 'status',
               label: 'Status',
+              width: '90px',
               alignment: 'center',
-              classNameFttr: administratorStatusBadge,
-              formatter: administratorStatusFttr,
+              classNameFttr: challengeStatusBadge,
+              formatter: challengeStatusFttr,
             },
           ]}
           actions={[
@@ -89,10 +89,14 @@ const Administrators: FunctionComponent = () => {
               iconClass: 'far fa-edit',
               tooltip: 'Editar',
               variant: 'success',
-              to: (a) => `/administrador/administradores/salvar/${a.id}`,
+              to: (a) => `/administrador/desafios/salvar/${a.id}`,
             },
           ]}
-          data={administratorsFiltered}
+          data={challengesFiltered.map((c) => ({
+            ...c,
+            countAcceptedChallenges: c.acceptedChallenges.length,
+            recompenseName: c.recompense.name,
+          }))}
         />
       </PageCard>
       <ModalFilter modalRef={modalFilter} defaultValues={initialFilters} onSubmit={fetchData} />
@@ -100,4 +104,4 @@ const Administrators: FunctionComponent = () => {
   );
 };
 
-export default Administrators;
+export default Challenges;

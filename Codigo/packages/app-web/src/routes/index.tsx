@@ -21,7 +21,11 @@ import AdministratorExplorers from '@Pages/administrator/explorers';
 import AdministratorChallenges from '@Pages/administrator/challenges';
 import AdministratorChallengesSave from '@Pages/administrator/challenges/save';
 
+import AdministratorRecompenses from '@Pages/administrator/recompenses';
+import AdministratorRecompensesSave from '@Pages/administrator/recompenses/save';
+
 import ExplorerLogin from '@Pages/explorer/login';
+import ExplorerChallenge from '@Pages/explorer/challenges/save';
 
 const urlPrefix = {
   [UserType.SUPER_ADMINISTRATOR]: '/administrador',
@@ -95,20 +99,20 @@ const routesAdministrator: RouteSettings[] = [
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
     label: 'Recompensas',
     iconClass: 'fas fa-gift',
-    component: () => <div>Recompensas</div>,
+    component: AdministratorRecompenses,
     show: true,
     hasNavMenu: false,
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/recompensas/salvar',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
-    component: () => <div>Recompensas</div>,
+    component: AdministratorRecompensesSave,
     show: false,
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/recompensas/salvar/:id',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
-    component: () => <div>Recompensas</div>,
+    component: AdministratorRecompensesSave,
     show: false,
   },
 ];
@@ -120,6 +124,15 @@ const routesExplorer: RouteSettings[] = [
     label: 'Home',
     iconClass: 'fas fa-home',
     component: () => <div>teste</div>,
+    show: true,
+    hasNavMenu: true,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/desafios/:id',
+    allowedUsers: [UserType.EXPLORER],
+    label: 'Desafios',
+    iconClass: 'fas fa-home',
+    component: ExplorerChallenge,
     show: true,
     hasNavMenu: true,
   },
@@ -139,7 +152,9 @@ const Routes: React.FunctionComponent = () => {
     urlPrefix: string;
     loginPage: string;
   }) => {
-    const allowedRoutes: RouteSettings[] = routes.filter((route) => allowedUsers.some((r) => route.allowedUsers.includes(r)));
+    const allowedRoutes: RouteSettings[] = routes.filter((route) =>
+      allowedUsers.some((r) => route.allowedUsers.includes(r))
+    );
 
     return (
       <Route
@@ -154,7 +169,9 @@ const Routes: React.FunctionComponent = () => {
                     path={route.path.replace(urlPrefix, '')}
                     element={
                       <ErrorCatcher>
-                        <RouteWithRoleGuard allowedUsers={route.allowedUsers}>{React.createElement(route.component)}</RouteWithRoleGuard>
+                        <RouteWithRoleGuard allowedUsers={route.allowedUsers}>
+                          {React.createElement(route.component)}
+                        </RouteWithRoleGuard>
                       </ErrorCatcher>
                     }
                   />
@@ -188,7 +205,16 @@ const Routes: React.FunctionComponent = () => {
       <Route
         path='/'
         element={
-          <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+          <div
+            style={{
+              width: '100vw',
+              height: '100vh',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+            }}
+          >
             <a href='/login'>explorador</a>
             <a href='/administrador/login'>administrador</a>
           </div>

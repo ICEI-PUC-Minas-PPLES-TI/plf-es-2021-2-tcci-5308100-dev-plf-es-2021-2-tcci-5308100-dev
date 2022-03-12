@@ -123,7 +123,11 @@ const AuthProvider: React.FunctionComponent = ({ children }) => {
     }
   }, []);
 
-  return <AuthContext.Provider value={{ user: data.user, signIn, signOut, isAuthenticated }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ user: data.user, signIn, signOut, isAuthenticated }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 export { AuthContext, AuthProvider };

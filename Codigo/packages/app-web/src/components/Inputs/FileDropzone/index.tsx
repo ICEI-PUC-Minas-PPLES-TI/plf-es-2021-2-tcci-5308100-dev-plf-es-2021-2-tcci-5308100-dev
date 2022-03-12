@@ -5,7 +5,14 @@ import { Col, Row } from 'react-bootstrap';
 import Dropzone from 'react-dropzone';
 import { transformNewFile } from '@Utils/util';
 
-const FileDropzone: React.FunctionComponent<FileDropzoneProps> = ({ maxHeight, onRemoveFile, mimeTypes, label, hasError, ...props }) => {
+const FileDropzone: React.FunctionComponent<FileDropzoneProps> = ({
+  maxHeight,
+  onRemoveFile,
+  mimeTypes,
+  label,
+  hasError,
+  ...props
+}) => {
   useEffect(() => {
     return () => {
       if (props.singleFile) URL.revokeObjectURL(props.file?.path || '');
@@ -29,7 +36,9 @@ const FileDropzone: React.FunctionComponent<FileDropzoneProps> = ({ maxHeight, o
             accept={mimeTypes}
             multiple={!props.singleFile}
             onDropAccepted={(files) =>
-              props.singleFile ? props.onAcceptFile(transformNewFile(files[0])) : props.onAcceptFile(files.map((file) => transformNewFile(file)))
+              props.singleFile
+                ? props.onAcceptFile(transformNewFile(files[0]))
+                : props.onAcceptFile(files.map((file) => transformNewFile(file)))
             }
           >
             {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
@@ -45,7 +54,12 @@ const FileDropzone: React.FunctionComponent<FileDropzoneProps> = ({ maxHeight, o
                   </>
                 ) : (
                   (props.singleFile ? [props.file as FileMixed] : props.files).map((file) => (
-                    <div key={file.path} className='drop-container-image-box' title={file.name} onClick={() => onRemoveFile(file)}>
+                    <div
+                      key={file.path}
+                      className='drop-container-image-box'
+                      title={file.name}
+                      onClick={() => onRemoveFile(file)}
+                    >
                       <img src={file.path} style={{ maxHeight: maxHeight }} />
                       <i className='fas fa-times' />
                     </div>

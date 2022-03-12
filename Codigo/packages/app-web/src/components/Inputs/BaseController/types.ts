@@ -3,7 +3,7 @@ import { NumberFormatProps } from 'react-number-format';
 import { Moment } from 'moment';
 import { CSSProperties, FocusEventHandler } from 'react';
 import { FilterOptionOption } from 'react-select/dist/declarations/src/filters';
-import { Modify } from '@GlobalTypes';
+import { Modify } from '@sec/common';
 
 export interface FormControlled<T> {
   label?: string | JSX.Element;
@@ -16,18 +16,12 @@ export interface BaseControllerProps<T> extends FormInputControlled<T> {
   render: (props: { onChange: any; value: any; ref: any }) => JSX.Element;
 }
 
-export interface CheckBoxControlledProps<T>
-  extends Modify<FormControlled<T>, { defaultValue: boolean | undefined }> {
+export interface CheckBoxControlledProps<T> extends Modify<FormControlled<T>, { defaultValue: boolean | undefined }> {
   removeTopSpace?: boolean;
 }
 
 export type InputControlledProps<T> = FormInputControlled<T> &
-  (
-    | InputControlledNumber
-    | InputControlledDate
-    | InputControlledText
-    | InputControlledGeneric
-  ) & {
+  (InputControlledNumber | InputControlledDate | InputControlledText | InputControlledGeneric) & {
     isDisabled?: boolean;
     onBlur?: FocusEventHandler<HTMLInputElement>;
     placeholder?: string;
@@ -116,10 +110,7 @@ export interface MaskPhoneControlledProps<T>
   defaultValue: string | undefined;
 }
 
-export type SelectControlledProps<
-  T extends SelectControlledOption,
-  U
-> = FormInputControlled<U> &
+export type SelectControlledProps<T extends SelectControlledOption, U> = FormInputControlled<U> &
   (SelectControlledSingle<T> | SelectControlledMultiple<T>) & {
     options: T[];
     isDisabled?: boolean;
@@ -156,6 +147,7 @@ export interface TextAreaControlledProps<T> extends FormInputControlled<T> {
   height: string;
   isDisabled?: boolean;
   defaultValue: string | undefined;
+  maxLength?: number;
 }
 
 export interface DateTimeControlledProps<T> extends FormInputControlled<T> {

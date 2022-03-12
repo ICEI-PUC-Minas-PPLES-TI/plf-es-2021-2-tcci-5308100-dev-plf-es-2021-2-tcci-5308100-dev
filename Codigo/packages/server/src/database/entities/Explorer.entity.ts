@@ -12,28 +12,28 @@ export class Explorer extends User implements IExplorer {
   }
 
   @Column({ nullable: true })
-  token: string;
+  token?: string;
 
   @Column({ nullable: true })
-  biography: string;
+  biography?: string;
 
   @Column({ nullable: true })
-  favoriteProduct: string;
+  favoriteProduct?: string;
 
   @Column({ nullable: true })
-  instagram: string;
+  instagram?: string;
 
   @Column({ nullable: true })
-  tikTok: string;
+  tikTok?: string;
 
   @Column({ nullable: true })
-  twitter: string;
+  twitter?: string;
 
   @Column({ nullable: true })
-  facebook: string;
+  facebook?: string;
 
   @Column({ nullable: true })
-  linkedIn: string;
+  linkedIn?: string;
 
   @Column({ enum: ExplorerStatus })
   status: ExplorerStatus;

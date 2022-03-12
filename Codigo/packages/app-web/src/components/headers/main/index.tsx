@@ -101,7 +101,10 @@ const MainHeader: React.FunctionComponent<MainHeaderType> = ({ centerMenus }) =>
         aria-expanded='false'
       />
 
-      <div id='nav-input-search' className='float-left mx-3 nav-input-search on-small expanded d-md-none position-absolute collapse'>
+      <div
+        id='nav-input-search'
+        className='float-left mx-3 nav-input-search on-small expanded d-md-none position-absolute collapse'
+      >
         <i className='fas fa-search start' />
         <input
           className='form-control bg-grey border-0 py-2 ps-5 pe-4 rounded-lg no-border-focus'
@@ -109,7 +112,12 @@ const MainHeader: React.FunctionComponent<MainHeaderType> = ({ centerMenus }) =>
           placeholder='Pesquisar'
           aria-label='Pesquisar'
         />
-        <i className='fas fa-times end' data-bs-toggle='collapse' data-bs-target='#nav-input-search' aria-expanded='false' />
+        <i
+          className='fas fa-times end'
+          data-bs-toggle='collapse'
+          data-bs-target='#nav-input-search'
+          aria-expanded='false'
+        />
       </div>
     </header>
   );

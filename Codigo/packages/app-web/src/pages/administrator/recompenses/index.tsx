@@ -2,24 +2,31 @@ import PageCard from '@Components/cards/PageCard';
 import SearchInput from '@Components/Inputs/SearchInput';
 import { ModalMethods } from '@Components/modals/Modal';
 import TableWithActions from '@Components/tables/TableWithActions';
-import { Administrator, AdministratorStatus } from '@sec/common';
+import { Recompense, RecompenseStatus, RecompenseType } from '@sec/common';
 import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { useRef } from 'react';
 import ModalFilter, { InitialFilters } from './ModalFilter';
 import { matchSorter } from 'match-sorter';
-import { getAllAdministrators, GetAllAdministratorsFilters } from '@Services/administratorService';
+import { getAllRecompenses, GetAllRecompensesFilters } from '@Services/recompenseService';
 import { ToastContext } from '~/context/ToastContext';
 import { defaultErrorHandler } from '~/error/defaultErrorHandler';
-import { administratorStatusBadge, administratorStatusFttr, formatDate } from '@Utils/formatters';
+import {
+  recompenseStatusBadge,
+  recompenseStatusFttr,
+  recompenseTypeFttr,
+  recompenseTypeBadge,
+  formatDate,
+} from '@Utils/formatters';
 
-const Administrators: FunctionComponent = () => {
+const Recompenses: FunctionComponent = () => {
   const { showToastDanger } = useContext(ToastContext);
   const initialFilters: InitialFilters = {
-    status: [AdministratorStatus.ACTIVE, AdministratorStatus.INACTIVE],
+    type: [RecompenseType.GENERAL, RecompenseType.DISCOUNT_COUPON],
+    status: [RecompenseStatus.ACTIVE],
   };
 
-  const [administrators, setAdministrators] = useState<Administrator[]>([]);
-  const [administratorsFiltered, setAdministratorsFiltered] = useState<Administrator[]>([]);
+  const [recompenses, setRecompenses] = useState<Recompense[]>([]);
+  const [recompensesFiltered, setRecompensesFiltered] = useState<Recompense[]>([]);
   const [searchBox, setSearchBox] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -30,17 +37,17 @@ const Administrators: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    setAdministratorsFiltered(matchSorter(administrators, searchBox, { keys: ['nickname', 'name', 'email'] }));
-  }, [searchBox, administrators]);
+    setRecompensesFiltered(matchSorter(recompenses, searchBox, { keys: ['name'] }));
+  }, [searchBox, recompenses]);
 
-  const fetchData = async (filter: GetAllAdministratorsFilters | null = null) => {
+  const fetchData = async (filter: GetAllRecompensesFilters | null = null) => {
     try {
       setIsLoading(true);
       const {
-        payload: { administrators },
-      } = await getAllAdministrators(filter);
+        payload: { recompenses },
+      } = await getAllRecompenses(filter);
 
-      setAdministrators(administrators);
+      setRecompenses(recompenses);
     } catch (error) {
       defaultErrorHandler(error, showToastDanger);
     } finally {
@@ -50,13 +57,13 @@ const Administrators: FunctionComponent = () => {
   return (
     <>
       <PageCard
-        title='Gerenciar administradores'
+        title='Gerenciar recompensas'
         actions={[
           {
             type: 'ROUTER',
             variant: 'success',
-            to: '/administrador/administradores/salvar',
-            label: 'Cadastrar administrador',
+            to: '/administrador/recompensas/salvar',
+            label: 'Cadastrar recompensa',
           },
         ]}
       >
@@ -68,19 +75,32 @@ const Administrators: FunctionComponent = () => {
         </div>
         <TableWithActions
           isLoading={isLoading}
-          emptyTableMessage='Nenhum administrador cadastrado.'
+          emptyTableMessage='Nenhum recompensa cadastrada.'
           columns={[
-            { field: 'id', label: 'ID', alignment: 'center' },
-            { field: 'nickname', label: 'Apelido' },
-            { field: 'name', label: 'Nome' },
-            { field: 'email', label: 'Email' },
-            { field: 'createdAt', label: 'Data de cadastro', alignment: 'center', formatter: formatDate },
+            { field: 'id', label: 'ID', alignment: 'center', width: '50px' },
+            { field: 'name', label: 'Recompensa' },
+            {
+              field: 'createdAt',
+              label: 'Data de cadastro',
+              alignment: 'center',
+              width: '150px',
+              formatter: formatDate,
+            },
+            {
+              field: 'type',
+              label: 'Tipo',
+              width: '140px',
+              alignment: 'center',
+              classNameFttr: recompenseTypeBadge,
+              formatter: recompenseTypeFttr,
+            },
             {
               field: 'status',
               label: 'Status',
+              width: '90px',
               alignment: 'center',
-              classNameFttr: administratorStatusBadge,
-              formatter: administratorStatusFttr,
+              classNameFttr: recompenseStatusBadge,
+              formatter: recompenseStatusFttr,
             },
           ]}
           actions={[
@@ -89,10 +109,10 @@ const Administrators: FunctionComponent = () => {
               iconClass: 'far fa-edit',
               tooltip: 'Editar',
               variant: 'success',
-              to: (a) => `/administrador/administradores/salvar/${a.id}`,
+              to: (a) => `/administrador/recompensas/salvar/${a.id}`,
             },
           ]}
-          data={administratorsFiltered}
+          data={recompensesFiltered}
         />
       </PageCard>
       <ModalFilter modalRef={modalFilter} defaultValues={initialFilters} onSubmit={fetchData} />
@@ -100,4 +120,4 @@ const Administrators: FunctionComponent = () => {
   );
 };
 
-export default Administrators;
+export default Recompenses;

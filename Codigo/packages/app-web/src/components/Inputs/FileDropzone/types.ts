@@ -1,5 +1,4 @@
-import { ExcludeTypes } from '@GlobalTypes';
-import { SavedFile } from '@sec/common';
+import { ExcludeTypes, SavedFile } from '@sec/common';
 import { CSSProperties } from 'react';
 
 export interface FileCustomInterface {
@@ -11,18 +10,13 @@ export interface FileCustomInterface {
 export type NewFile = { file: File; isNew: true } & FileCustomInterface;
 
 export type SavedFileAux = { isNew: false } & SavedFile & FileCustomInterface;
-export type SavedFileAuxSchema = { isNew: false } & ExcludeTypes<
-  SavedFile,
-  ['getPath', 'getUrlPath']
-> &
+export type SavedFileAuxSchema = { isNew: false } & ExcludeTypes<SavedFile, ['getPath', 'getUrlPath']> &
   FileCustomInterface;
 
 export type FileMixed = NewFile | SavedFileAux;
 export type FileMixedSchema = NewFile | SavedFileAuxSchema;
 
-export type FileCustom<T extends boolean> = T extends true
-  ? NewFile
-  : FileMixed;
+export type FileCustom<T extends boolean> = T extends true ? NewFile : FileMixed;
 
 export type FileDropzoneSingle = {
   singleFile: true;

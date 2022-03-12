@@ -109,7 +109,8 @@ const ToastProvider: React.FunctionComponent = ({ children }) => {
         showToastInfo: (props) => createToast({ title: 'Atenção!', ...props, type: ToastVariant.INFO }),
         showToastSuccess: (props) => createToast({ title: 'Atenção!', ...props, type: ToastVariant.SUCCESS }),
         showToastWarning: (props) => createToast({ title: 'Atenção!', ...props, type: ToastVariant.WARNING }),
-        showToastDanger: (props) => createToast({ title: 'Atenção!', icon: 'far fa-bell', ...props, type: ToastVariant.DANGER }),
+        showToastDanger: (props) =>
+          createToast({ title: 'Atenção!', icon: 'far fa-bell', ...props, type: ToastVariant.DANGER }),
         showToast: (props) => createToast(props),
       }}
     >

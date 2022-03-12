@@ -30,7 +30,13 @@ const SelectControlled: <T extends SelectControlledOption, U>(props: SelectContr
           isClearable={isClearable}
           className={`react-select-container ${isDoubleLine ? 'double-line' : ''}`}
           classNamePrefix='react-select'
-          value={isMulti ? (value ? options.filter((o) => value.includes(o.value)) : []) : options.find((o) => o.value === value) || null}
+          value={
+            isMulti
+              ? value
+                ? options.filter((o) => value.includes(o.value))
+                : []
+              : options.find((o) => o.value === value) || null
+          }
           isDisabled={isDisabled}
           placeholder={placeholder || ''}
           onChange={(e: SelectControlledOption | MultiValue<SelectControlledOption> | null) => {

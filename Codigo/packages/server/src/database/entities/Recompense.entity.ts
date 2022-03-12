@@ -20,7 +20,7 @@ export class Recompense extends Model implements IRecompense {
   type: RecompenseType;
 
   @Column({ nullable: true })
-  code: string;
+  code?: string;
 
   @Column({ enum: RecompenseStatus })
   status: RecompenseStatus;

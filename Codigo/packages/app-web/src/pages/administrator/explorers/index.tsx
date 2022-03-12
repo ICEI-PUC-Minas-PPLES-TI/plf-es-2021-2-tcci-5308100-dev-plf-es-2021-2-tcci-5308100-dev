@@ -167,7 +167,13 @@ const Explorers: FunctionComponent = () => {
             { field: 'email', label: 'Email' },
             { field: 'createdAt', label: 'Data de cadastro', alignment: 'center', formatter: formatDate },
             { field: 'countChallengeCompleted', label: 'Desafios conquistados', alignment: 'center' },
-            { field: 'status', label: 'Status', alignment: 'center', classNameFttr: explorerStatusBadge, formatter: explorerStatusFttr },
+            {
+              field: 'status',
+              label: 'Status',
+              alignment: 'center',
+              classNameFttr: explorerStatusBadge,
+              formatter: explorerStatusFttr,
+            },
           ]}
           actions={[
             {

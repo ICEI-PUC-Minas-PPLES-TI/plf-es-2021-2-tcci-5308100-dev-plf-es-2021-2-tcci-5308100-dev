@@ -15,7 +15,7 @@ export interface Recompense extends Model {
   name: string;
   instructions: string;
   type: RecompenseType;
-  code: string;
+  code?: string;
   status: RecompenseStatus;
   challenges: Challenge[];
 }

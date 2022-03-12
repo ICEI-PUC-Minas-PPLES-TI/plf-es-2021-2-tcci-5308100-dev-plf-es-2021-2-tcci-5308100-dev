@@ -1,7 +1,12 @@
 import React, { CSSProperties } from 'react';
 import './styles.css';
 
-const SpinLoading: React.FunctionComponent<SpinLoadingProps> = ({ size = '30px', radius = '5px', justifyContent = 'center', alignItems = 'center' }) => {
+const SpinLoading: React.FunctionComponent<SpinLoadingProps> = ({
+  size = '30px',
+  radius = '5px',
+  justifyContent = 'center',
+  alignItems = 'center',
+}) => {
   const style: CSSProperties = {
     width: size,
     height: size,
@@ -19,7 +24,7 @@ const SpinLoading: React.FunctionComponent<SpinLoadingProps> = ({ size = '30px',
         alignItems: alignItems,
       }}
     >
-      <div style={style} className="loader" />
+      <div style={style} className='loader' />
     </div>
   );
 };

@@ -10,7 +10,10 @@ export type RouteWithRoleGuard = {
   children: JSX.Element;
 };
 
-export const RouteWithRoleGuard: (props: RouteWithRoleGuard) => React.ReactElement | null = ({ allowedUsers, children }) => {
+export const RouteWithRoleGuard: (props: RouteWithRoleGuard) => React.ReactElement | null = ({
+  allowedUsers,
+  children,
+}) => {
   const { user } = useContext(AuthContext);
 
   if (allowedUsers.includes(user.type)) {

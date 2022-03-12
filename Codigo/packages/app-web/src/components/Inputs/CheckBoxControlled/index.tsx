@@ -4,7 +4,13 @@ import { Form } from 'react-bootstrap';
 import { CheckBoxControlledProps } from '~/components/Inputs/BaseController/types';
 const { Group, Check } = Form;
 
-const CheckBoxControlled: <T>(props: CheckBoxControlledProps<T>) => JSX.Element = ({ label, name, control, defaultValue, removeTopSpace }) => {
+const CheckBoxControlled: <T>(props: CheckBoxControlledProps<T>) => JSX.Element = ({
+  label,
+  name,
+  control,
+  defaultValue,
+  removeTopSpace,
+}) => {
   return (
     <div className='input-group has-label' style={{ margin: removeTopSpace ? '-16px 0px 16px' : undefined }}>
       <Controller
@@ -14,7 +20,12 @@ const CheckBoxControlled: <T>(props: CheckBoxControlledProps<T>) => JSX.Element 
         render={({ field: { onChange, value } }) => (
           <div className='form-check'>
             <label className='form-check-label'>
-              <input className='form-check-input' type='checkbox' checked={value as boolean} onChange={(e: any) => onChange(e.target.checked)} />
+              <input
+                className='form-check-input'
+                type='checkbox'
+                checked={value as boolean}
+                onChange={(e: any) => onChange(e.target.checked)}
+              />
               {label}
             </label>
           </div>

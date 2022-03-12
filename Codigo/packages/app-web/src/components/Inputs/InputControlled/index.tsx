@@ -8,7 +8,14 @@ const { Group, Control } = Form;
 
 // <T>(props: InputControlledProps<T>) => JSX.Element
 // React.FunctionComponent<InputControlledProps>
-const InputControlled: <T>(props: InputControlledProps<T>) => JSX.Element = ({ type, isDisabled, onBlur, inputStyle, placeholder, ...rest }) => {
+const InputControlled: <T>(props: InputControlledProps<T>) => JSX.Element = ({
+  type,
+  isDisabled,
+  onBlur,
+  inputStyle,
+  placeholder,
+  ...rest
+}) => {
   return (
     <BaseController
       {...rest}
