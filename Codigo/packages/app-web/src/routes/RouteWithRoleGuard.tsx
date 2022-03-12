@@ -1,4 +1,4 @@
-import { RouteSettings } from './types';
+import { RouteSettings } from '@GlobalTypes';
 import Error403 from '@Pages/error403';
 import { UserType } from '@sec/common';
 import { useContext } from 'react';

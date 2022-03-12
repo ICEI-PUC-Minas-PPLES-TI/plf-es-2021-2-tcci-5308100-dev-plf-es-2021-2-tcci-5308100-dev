@@ -1,19 +1,12 @@
 import { Variant } from '@GlobalTypes';
 import { Property } from 'csstype';
 import { Indexable } from '@sec/common';
-import { NewFile } from '@Components/Inputs/FileDropzone/types';
 
-export const nestedPropByIndex = (
-  object: { [index: string]: any },
-  index: string
-) => index.split('.').reduce((p, prop) => p[prop], object);
+export const nestedPropByIndex = (object: { [index: string]: any }, index: string) => index.split('.').reduce((p, prop) => p[prop], object);
 
-export const hasError = (data: any | Error): data is Error =>
-  Object.prototype.toString.call(data) === '[object Error]';
+export const hasError = (data: any | Error): data is Error => Object.prototype.toString.call(data) === '[object Error]';
 
-export const getVariantColor = (
-  variant: Variant | undefined
-): Property.Color => {
+export const getVariantColor = (variant: Variant | undefined): Property.Color => {
   switch (variant) {
     case 'primary':
       return '#447DF7';
@@ -58,10 +51,7 @@ export const copyToClipboard = async (textToCopy: string) => {
   }
 };
 
-export const range: (start: number, end?: number) => number[] = (
-  start,
-  end?
-) => {
+export const range: (start: number, end?: number) => number[] = (start, end?) => {
   const arrayRange = [];
   let index = end ? start : 0;
   const range = end || start;
@@ -85,11 +75,7 @@ export const buildFormData: (data: Indexable<any>) => FormData = (data) => {
   return formData;
 };
 
-export const appendFormData: (
-  formData: FormData,
-  data: Indexable<any>,
-  parentKey?: string
-) => void = (formData, data, parentKey?) => {
+export const appendFormData: (formData: FormData, data: Indexable<any>, parentKey?: string) => void = (formData, data, parentKey?) => {
   if (
     data &&
     typeof data === 'object' &&
@@ -99,11 +85,7 @@ export const appendFormData: (
     !(Array.isArray(data) && !data.length)
   ) {
     Object.keys(data).forEach((key) => {
-      appendFormData(
-        formData,
-        data[key],
-        parentKey ? `${parentKey}[${key}]` : key
-      );
+      appendFormData(formData, data[key], parentKey ? `${parentKey}[${key}]` : key);
     });
   } else {
     const value: any = data == null ? '' : data;
@@ -116,10 +98,3 @@ export const appendFormData: (
 export const zipError = async (error: any) => {
   return null;
 };
-
-export const transformNewFile = (file: unknown & File): NewFile => ({
-  path: URL.createObjectURL(file),
-  isNew: true,
-  name: file.name,
-  file: file,
-});

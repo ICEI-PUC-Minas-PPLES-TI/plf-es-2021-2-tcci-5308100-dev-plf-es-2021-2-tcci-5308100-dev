@@ -4,7 +4,7 @@ import React, { useContext } from 'react';
 import MainSidebar from '~/components/sidebars/main/';
 import Header from '~/components/headers/main';
 import { HeaderMenuLink } from '@Components/headers/main/types';
-import { RouteSettings, RouteSettingsShowed } from '~/routes/types';
+import { RouteSettings, RouteSettingsShowed } from '@GlobalTypes';
 import { Helmet } from 'react-helmet';
 import { useLocation } from 'react-router-dom';
 import { AuthContext } from '~/context/AuthContext';

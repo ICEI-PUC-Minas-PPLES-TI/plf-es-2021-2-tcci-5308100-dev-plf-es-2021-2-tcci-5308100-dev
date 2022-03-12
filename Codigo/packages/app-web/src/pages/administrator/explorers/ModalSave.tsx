@@ -1,5 +1,5 @@
-import { RefObject, FunctionComponent, useEffect, useState, useContext, Fragment } from 'react';
 import { ModalWithMethods as Modal, ModalMethods } from '@Components/modals/Modal';
+import { RefObject, FunctionComponent, useEffect, useState, useContext } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
@@ -89,11 +89,11 @@ const ModalSave: FunctionComponent<ModalSaveProps> = ({ modalRef, onSubmit, expl
             { label: 'Twitter', value: explorer?.twitter },
             { label: 'Facebook', value: explorer?.facebook },
             { label: 'LinkedIn', value: explorer?.linkedIn },
-          ].map(({ label, value }, i) => (
-            <Fragment key={label + i.toString()}>
-              <dt>{label}</dt>
-              <dd>{value || '-'}</dd>
-            </Fragment>
+          ].map((item) => (
+            <>
+              <dt>{item.label}</dt>
+              <dd>{item.value || '-'}</dd>
+            </>
           ))}
         </div>
         <div className='modal-footer'>

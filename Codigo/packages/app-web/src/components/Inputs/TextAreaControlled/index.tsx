@@ -1,18 +1,36 @@
-import { TextAreaControlledProps } from '~/components/Inputs/BaseController/types';
+import { TextAreaControlledProps } from '@GlobalTypes';
 import React from 'react';
 import { Form } from 'react-bootstrap';
 import { Controller } from 'react-hook-form';
-import BaseController from '../BaseController';
 const { Group, Control } = Form;
 
-const TextAreaControlled: <T>(props: TextAreaControlledProps<T>) => JSX.Element = ({ height, isDisabled, ...rest }) => {
+const TextAreaControlled: React.FunctionComponent<TextAreaControlledProps> = ({
+  hasError,
+  label,
+  isRequired,
+  name,
+  control,
+  defaultValue,
+  isLoading,
+  height,
+  disabled,
+  ...rest
+}) => {
   return (
-    <BaseController
-      {...rest}
-      render={({ ref, value, onChange }) => (
-        <Control ref={ref} as='textarea' disabled={isDisabled} style={{ height }} value={value} onChange={onChange} />
-      )}
-    />
+    <Group className={'has-label ' + (hasError === undefined ? '' : hasError ? 'has-error' : 'has-success')}>
+      <label>
+        {label}
+        {isRequired && <span className='star'>*</span>}
+      </label>
+      <Controller
+        name={name}
+        control={control}
+        defaultValue={defaultValue}
+        render={({ field: { onChange, value } }) => (
+          <Control {...rest} as='textarea' disabled={disabled} style={{ height }} value={value} onChange={onChange} />
+        )}
+      />
+    </Group>
   );
 };
 

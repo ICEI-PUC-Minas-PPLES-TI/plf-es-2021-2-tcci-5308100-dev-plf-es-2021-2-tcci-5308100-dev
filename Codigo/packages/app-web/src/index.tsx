@@ -9,7 +9,7 @@ import 'bootstrap/dist/js/bootstrap.bundle'
 import '@fortawesome/fontawesome-free/css/all.min.css'
 // import '@fortawesome/fontawesome-free/js/all.min'
 
-import '~/assets/css/styles.css'
+import '~/assets/css/style.css'
 import '~/assets/css/sidebar.css'
 import '~/assets/css/header.css'
 import '~/assets/css/toast.css'
