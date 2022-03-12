@@ -11,8 +11,12 @@ import { APIError } from '~/error/APIError';
 
 export type GetAllAdministratorsFilters = GetAllAdministratorsParams;
 
-export const getAllAdministrators = async (filters: GetAllAdministratorsFilters | null) => {
-  const { data, headers } = await api.get<ApiResponse<GetAllAdministratorsPayload>>('/administrator', { params: filters });
+export const getAllAdministrators = async (
+  filters: GetAllAdministratorsFilters | null
+) => {
+  const { data, headers } = await api.get<
+    ApiResponse<GetAllAdministratorsPayload>
+  >('/administrator', { params: filters });
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -22,7 +26,9 @@ export const getAllAdministrators = async (filters: GetAllAdministratorsFilters 
 };
 
 export const getAdministrator = async (id: number) => {
-  const { data, headers } = await api.get<ApiResponse<GetAdministratorPayload>>(`/administrator/${id}`);
+  const { data, headers } = await api.get<ApiResponse<GetAdministratorPayload>>(
+    `/administrator/${id}`
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -31,8 +37,12 @@ export const getAdministrator = async (id: number) => {
   }
 };
 
-export const createAdministrator = async (administrator: CreateAdministratorDTO) => {
-  const { data, headers } = await api.post<ApiResponse<GetAdministratorPayload>>('/administrator', administrator);
+export const createAdministrator = async (
+  administrator: CreateAdministratorDTO
+) => {
+  const { data, headers } = await api.post<
+    ApiResponse<GetAdministratorPayload>
+  >('/administrator', administrator);
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -41,8 +51,13 @@ export const createAdministrator = async (administrator: CreateAdministratorDTO)
   }
 };
 
-export const updateAdministrator = async (administrator: UpdateAdministratorDTO) => {
-  const { data, headers } = await api.put<ApiResponse<GetAdministratorPayload>>('/administrator', administrator);
+export const updateAdministrator = async (
+  administrator: UpdateAdministratorDTO
+) => {
+  const { data, headers } = await api.put<ApiResponse<GetAdministratorPayload>>(
+    '/administrator',
+    administrator
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
