@@ -14,7 +14,7 @@ export class UtilsService {
     return this.apiResponse<null>({
       status: 'FAIL',
       message: 'O formulário possui dados inválidos.',
-      ...(process.env.NODE_ENV === 'DEVELOPMENT'
+      ...(process.env.NODE_ENV === 'development'
         ? { error: error }
         : undefined),
       payload: null,

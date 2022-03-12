@@ -45,9 +45,7 @@
     "dev": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "craco eject",
-    "format": "../../node_modules/prettier/bin-prettier.js --write --config .prettierrc.json \"src/**/*.ts\"",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+    "eject": "craco eject"
   },
   "eslintConfig": {
     "extends": [
