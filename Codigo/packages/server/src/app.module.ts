@@ -7,7 +7,7 @@ import { FilesModule } from './files/files.module';
 import { UtilsModule } from './utils/utils.module';
 import { ShopifyModule } from './shopify/shopify.module';
 import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+import { join, resolve } from 'path';
 import * as winston from 'winston';
 import 'winston-daily-rotate-file';
 import {
@@ -25,7 +25,7 @@ import {
     UtilsModule,
     ShopifyModule,
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../..', 'public/app-web'),
+      rootPath: join(resolve(), 'public/app-web'),
     }),
     WinstonModule.forRoot({
       transports: [

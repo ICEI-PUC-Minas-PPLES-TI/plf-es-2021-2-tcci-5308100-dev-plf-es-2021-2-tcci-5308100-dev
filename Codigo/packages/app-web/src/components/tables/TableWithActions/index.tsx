@@ -68,7 +68,7 @@ const TableWithActions: <T extends { id?: number }>(props: TableWithActionsProps
                         <span
                           key={`${field}${i}field_key`}
                           style={{ display: 'block' }}
-                          className={`${classNameFttr ? classNameFttr(fieldData) : ''}`}
+                          className={`${classNameFttr ? classNameFttr(f) : ''}`}
                         >
                           {formatter ? formatter(f) : f}
                         </span>

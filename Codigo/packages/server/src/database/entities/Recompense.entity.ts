@@ -13,13 +13,13 @@ export class Recompense extends Model implements IRecompense {
   @Column()
   name: string;
 
-  @Column({ length: 2000 })
+  @Column({ length: 2000, select: false })
   instructions: string;
 
   @Column({ enum: RecompenseType })
   type: RecompenseType;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, select: false })
   code?: string;
 
   @Column({ enum: RecompenseStatus })

@@ -5,7 +5,7 @@ import { Explorer } from './Explorer';
 import { Model } from './Model';
 
 export enum ChallengeAcceptedStatus {
-  PARTICIPATING = 'PARTICIPATING',
+  // PARTICIPATING = 'PARTICIPATING',
   UNDER_REVIEW = 'UNDER_REVIEW',
   PENDING = 'PENDING',
   COMPLETE = 'COMPLETE',

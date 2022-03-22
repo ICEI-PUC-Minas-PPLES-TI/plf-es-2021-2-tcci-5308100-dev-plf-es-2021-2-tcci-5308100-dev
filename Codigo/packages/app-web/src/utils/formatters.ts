@@ -112,3 +112,13 @@ export const recompenseTypeFttr = (status: RecompenseType) => {
 
   return recompenseType[status];
 };
+
+export const challengeAcceptedStatusFttr = (status: ChallengeAcceptedStatus) => {
+  const challengeAcceptedStatus: { [key in ChallengeAcceptedStatus]: string } = {
+    UNDER_REVIEW: 'Em Análise',
+    PENDING: 'Com Pendencias',
+    COMPLETE: 'Conquistado',
+  };
+
+  return challengeAcceptedStatus[status];
+};

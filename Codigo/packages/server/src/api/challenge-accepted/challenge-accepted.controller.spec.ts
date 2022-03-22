@@ -9,7 +9,9 @@ describe('ChallengeAcceptedController', () => {
       controllers: [ChallengeAcceptedController],
     }).compile();
 
-    controller = module.get<ChallengeAcceptedController>(ChallengeAcceptedController);
+    controller = module.get<ChallengeAcceptedController>(
+      ChallengeAcceptedController,
+    );
   });
 
   it('should be defined', () => {

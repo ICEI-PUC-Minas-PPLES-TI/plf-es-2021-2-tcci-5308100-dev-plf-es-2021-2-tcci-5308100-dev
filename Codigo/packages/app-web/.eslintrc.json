@@ -19,6 +19,8 @@
   },
   "plugins": ["@typescript-eslint", "react", "react-hooks"],
   "extends": [
+    "../../.eslintrc.json",
+    "eslint:recommended",
     "prettier",
     "eslint:recommended",
     "plugin:react/recommended",
@@ -29,5 +31,6 @@
   "rules": {
     "react/display-name": "off",
     "react/prop-types": "off"
+    // "@typescript-eslint/no-unused-vars": ["error"]
   }
 }

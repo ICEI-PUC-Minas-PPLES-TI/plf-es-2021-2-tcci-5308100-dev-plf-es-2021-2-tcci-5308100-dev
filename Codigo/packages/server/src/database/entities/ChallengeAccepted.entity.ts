@@ -31,6 +31,7 @@ export class ChallengeAccepted extends Model implements IChallengeAccepted {
   @OneToMany(
     () => ChallengeAcceptedResponse,
     (challengeAcceptedResponse) => challengeAcceptedResponse.challengeAccepted,
+    { cascade: true },
   )
   responses: ChallengeAcceptedResponse[];
 }

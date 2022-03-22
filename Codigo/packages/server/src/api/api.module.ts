@@ -1,11 +1,13 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationModule } from '~/authentication/authentication.module';
+import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
+import { RolesGuardClass } from '~/authentication/roles.guard';
 import { DatabaseModule } from '~/database/database.module';
 import { ShopifyModule } from '~/shopify/shopify.module';
 import { UtilsModule } from '~/utils/utils.module';
 import { AdministratorController } from './administrator/administrator.controller';
 import { AdministratorService } from './administrator/administrator.service';
-import { ChallengeAcceptedResponseController } from './challenge-accepted-response/challenge-accepted-response.controller';
 import { ChallengeAcceptedResponseService } from './challenge-accepted-response/challenge-accepted-response.service';
 import { ChallengeAcceptedController } from './challenge-accepted/challenge-accepted.controller';
 import { ChallengeAcceptedService } from './challenge-accepted/challenge-accepted.service';
@@ -38,7 +40,6 @@ import { UserService } from './user/user.service';
     AdministratorController,
     ChallengeController,
     ChallengeAcceptedController,
-    ChallengeAcceptedResponseController,
     CommentController,
     ExplorerController,
     NotificationController,
@@ -51,6 +52,14 @@ import { UserService } from './user/user.service';
     UserController,
   ],
   providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuardClass,
+    },
     AdministratorService,
     ChallengeService,
     ChallengeAcceptedService,

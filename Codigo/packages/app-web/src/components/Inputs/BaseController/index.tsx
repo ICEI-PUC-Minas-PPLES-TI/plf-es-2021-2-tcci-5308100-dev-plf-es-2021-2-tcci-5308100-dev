@@ -1,6 +1,6 @@
 import SpinLoading from '@Components/loading/SpinLoading';
 import { Form } from 'react-bootstrap';
-import { Controller, Path } from 'react-hook-form';
+import { Controller } from 'react-hook-form';
 import { BaseControllerProps } from './types';
 
 const { Group } = Form;

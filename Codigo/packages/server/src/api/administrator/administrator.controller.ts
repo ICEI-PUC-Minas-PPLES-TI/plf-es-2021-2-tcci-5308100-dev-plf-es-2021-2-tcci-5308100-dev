@@ -23,15 +23,13 @@ import {
 } from '@sec/common';
 import { In } from 'typeorm';
 import { AuthenticationService } from '~/authentication/authentication.service';
-import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
-import { RoleGuard } from '~/authentication/role.guard';
+import { Roles } from '~/authentication/role.guard';
 import { PublicRoute } from '~/utils/public-route.decorator';
 import { UtilsService } from '~/utils/utils.service';
 import { AdministratorService } from './administrator.service';
 
 @Controller('administrator')
-@UseGuards(RoleGuard([UserType.SUPER_ADMINISTRATOR]))
-@UseGuards(JwtAuthGuard)
+@Roles([UserType.SUPER_ADMINISTRATOR])
 export class AdministratorController {
   constructor(
     private readonly administratorService: AdministratorService,
@@ -40,7 +38,7 @@ export class AdministratorController {
   ) {}
 
   @PublicRoute()
-  @Post('login')
+  @Post('/login')
   async login(
     @Body() { email, password }: { email: string; password: string },
   ) {

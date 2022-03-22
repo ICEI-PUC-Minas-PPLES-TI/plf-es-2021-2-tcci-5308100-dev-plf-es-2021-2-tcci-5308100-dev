@@ -4,7 +4,6 @@ import { UtilsService } from '~/utils/utils.service';
 import { CommentService } from './comment.service';
 
 @Controller('comment')
-@UseGuards(JwtAuthGuard)
 export class CommentController {
   constructor(
     private readonly commentService: CommentService,

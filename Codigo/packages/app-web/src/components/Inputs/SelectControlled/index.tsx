@@ -1,13 +1,8 @@
-import React, { useRef } from 'react';
 import './styles.css';
-import { Controller } from 'react-hook-form';
-import Select, { createFilter, MultiValue, components } from 'react-select';
-import { Form } from 'react-bootstrap';
-import SpinLoading from '~/components/loading/SpinLoading';
+import Select, { createFilter, MultiValue } from 'react-select';
 import { SelectControlledOption, SelectControlledProps } from '~/components/Inputs/BaseController/types';
 import BaseController from '../BaseController';
 
-// TODO: Classe has-error
 const SelectControlled: <T extends SelectControlledOption, U>(props: SelectControlledProps<T, U>) => JSX.Element = ({
   options,
   isDisabled,

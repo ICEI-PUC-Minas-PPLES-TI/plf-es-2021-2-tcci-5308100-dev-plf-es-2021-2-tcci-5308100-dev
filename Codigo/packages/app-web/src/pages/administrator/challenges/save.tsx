@@ -50,7 +50,7 @@ const ChallengesSave: FunctionComponent = () => {
     isHighlighted: yup.boolean().required(),
     title: yup.string().required(),
     description: yup.string().required(),
-    // TODO: Alterar quando for definido o sistema para upload de arquivos
+    // FIXME: Alterar quando for definido o sistema para upload de arquivos
     coverId: yup.number().when('$idState', (idState, schema) => /* idState ? schema.required() :  */ schema),
     newCover: yup
       .mixed()

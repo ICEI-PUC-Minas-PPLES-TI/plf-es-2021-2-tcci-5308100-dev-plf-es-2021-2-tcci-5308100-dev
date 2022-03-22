@@ -20,14 +20,16 @@ import {
   UpdateRecompenseDTO,
   UpdateRecompensePayload,
   updateRecompenseValidator,
+  UserType,
 } from '@sec/common';
 import { In } from 'typeorm';
 import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
+import { Roles } from '~/authentication/role.guard';
 import { UtilsService } from '~/utils/utils.service';
 import { RecompenseService } from './recompense.service';
 
 @Controller('recompense')
-@UseGuards(JwtAuthGuard)
+@Roles([UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR])
 export class RecompenseController {
   constructor(
     private readonly recompenseService: RecompenseService,
@@ -63,7 +65,22 @@ export class RecompenseController {
   async getRecompense(@Param('id') id: string) {
     if (!Number(id)) return this.utilsService.apiResponseInvalidBody(null);
 
-    const recompense = await this.recompenseService.findOneById(+id);
+    const recompense = await this.recompenseService.findOne({
+      where: {
+        id: +id,
+      },
+      select: [
+        'id',
+        'createdAt',
+        'updatedAt',
+        'deletedAt',
+        'name',
+        'instructions',
+        'type',
+        'code',
+        'status',
+      ],
+    });
 
     return this.utilsService.apiResponse<GetRecompensePayload>({
       status: !!recompense ? 'SUCCESS' : 'FAIL',

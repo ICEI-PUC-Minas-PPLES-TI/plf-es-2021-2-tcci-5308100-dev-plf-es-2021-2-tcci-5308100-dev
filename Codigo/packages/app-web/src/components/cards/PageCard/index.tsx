@@ -40,15 +40,25 @@ type PageCardSimpleProps = {
 type PageCardProps = (PageCardDefaultProps | PageCardSimpleProps) & {
   hidePaddingBottomExtra?: boolean;
   simpleVariant?: boolean;
+  limitedWidth?: boolean;
 };
 
-const PageCard: React.FunctionComponent<PageCardProps> = ({ hidePaddingBottomExtra, children, ...props }) => {
+const PageCard: React.FunctionComponent<PageCardProps> = ({
+  hidePaddingBottomExtra,
+  limitedWidth,
+  children,
+  ...props
+}) => {
   const navigate = useNavigate();
 
   return (
     <div
       className='card rounded-md h-100'
       style={{
+        flexGrow: 1,
+        marginLeft: limitedWidth ? 'auto' : undefined,
+        marginRight: limitedWidth ? 'auto' : undefined,
+        maxWidth: limitedWidth ? '990px' : undefined,
         paddingBottom: hidePaddingBottomExtra ? undefined : '75px',
         paddingTop: props.simpleVariant && !props.hidePaddingTopExtra ? '30px' : undefined,
       }}

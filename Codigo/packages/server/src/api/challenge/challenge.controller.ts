@@ -10,28 +10,32 @@ import {
   Post,
 } from '@nestjs/common';
 import {
+  ChallengeStatus,
   CreateChallengeDTO,
   CreateChallengePayload,
   createChallengeValidator,
   ExplorerStatus,
   GetAllChallengesParams,
   GetAllChallengesPayload,
+  GetChallengeAsExplorerPayload,
   GetChallengeBasePayload,
   GetChallengePayload,
   RecompenseStatus,
   UpdateChallengeDTO,
   UpdateChallengePayload,
   updateChallengeValidator,
+  UserType,
 } from '@sec/common';
 import { In, Like } from 'typeorm';
 import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
+import { Roles } from '~/authentication/role.guard';
+import { RequestWithUser } from '~/authentication/roles.guard';
 import { UtilsService } from '~/utils/utils.service';
 import { ExplorerService } from '../explorer/explorer.service';
 import { RecompenseService } from '../recompense/recompense.service';
 import { ChallengeService } from './challenge.service';
 
 @Controller('challenge')
-@UseGuards(JwtAuthGuard)
 export class ChallengeController {
   constructor(
     private readonly challengeService: ChallengeService,
@@ -143,6 +147,72 @@ export class ChallengeController {
         payload: { challenge },
       },
       onFail: { message: 'Ocorreu um erro ao atualizar o desafio.' },
+    });
+  }
+
+  //Explorer
+  @Get('/explorer')
+  @Roles([
+    UserType.SUPER_ADMINISTRATOR,
+    UserType.ADMINISTRATOR,
+    UserType.EXPLORER,
+  ])
+  async getAllChallengesAsExplorer(@Req() request: RequestWithUser) {
+    const { user } = request;
+
+    const challenges = await this.challengeService.findWithRelations({
+      where: [
+        {
+          status: ChallengeStatus.OPEN,
+          challengedExplorer: user.id,
+        },
+        {
+          status: ChallengeStatus.OPEN,
+          challengedExplorer: null,
+        },
+      ],
+      relations: ['recompense'],
+    });
+
+    return this.utilsService.apiResponse<GetAllChallengesPayload>({
+      status: !!challenges ? 'SUCCESS' : 'FAIL',
+      message: 'Lista com todos os desafios cadastrados.',
+      payload: { challenges: challenges },
+    });
+  }
+
+  @Get('/explorer/:id')
+  @Roles([
+    UserType.SUPER_ADMINISTRATOR,
+    UserType.ADMINISTRATOR,
+    UserType.EXPLORER,
+  ])
+  async getChallengeAsExplorer(
+    @Param('id') id: string,
+    @Req() request: RequestWithUser,
+  ) {
+    if (!Number(id)) return this.utilsService.apiResponseInvalidBody(null);
+
+    const challenge = await this.challengeService.findOne({
+      where: [
+        {
+          id: +id,
+          status: ChallengeStatus.OPEN,
+          challengedExplorer: request.user.id,
+        },
+        {
+          id: +id,
+          status: ChallengeStatus.OPEN,
+          challengedExplorer: null,
+        },
+      ],
+      relations: ['recompense'],
+    });
+
+    return this.utilsService.apiResponse<GetChallengeAsExplorerPayload>({
+      status: !!challenge ? 'SUCCESS' : 'FAIL',
+      message: !!challenge ? 'Detalhes do desafio.' : 'Desafio indisponível.',
+      payload: { challenge: challenge },
     });
   }
 }

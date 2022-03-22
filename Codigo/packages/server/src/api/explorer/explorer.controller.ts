@@ -32,13 +32,9 @@ import {
 import { In } from 'typeorm';
 import { PublicRoute } from '~/utils/public-route.decorator';
 import { ShopifyService } from '~/shopify/shopify.service';
-import Shopify from '@shopify/shopify-api';
 import { AuthenticationService } from '~/authentication/authentication.service';
-import { RoleGuard } from '~/authentication/role.guard';
 
 @Controller('explorer')
-@UseGuards(RoleGuard([UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR]))
-@UseGuards(JwtAuthGuard)
 export class ExplorerController {
   constructor(
     private readonly explorerService: ExplorerService,

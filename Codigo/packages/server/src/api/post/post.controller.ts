@@ -4,7 +4,6 @@ import { UtilsService } from '~/utils/utils.service';
 import { PostService } from './post.service';
 
 @Controller('post')
-@UseGuards(JwtAuthGuard)
 export class PostController {
   constructor(
     private readonly postService: PostService,

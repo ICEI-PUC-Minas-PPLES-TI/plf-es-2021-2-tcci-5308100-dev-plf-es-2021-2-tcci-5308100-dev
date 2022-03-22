@@ -4,12 +4,14 @@ import { UserType } from './models/User';
 export * from './endpoints/administrators.endpoint';
 export * from './endpoints/explorer.endpoint';
 export * from './endpoints/challenge.endpoint';
+export * from './endpoints/challenge-accepted.endpoint';
 export * from './endpoints/recompense.endpoint';
 
 // validators
 export * from './validators/administrator.validation';
 export * from './validators/explorer.validation';
 export * from './validators/challenge.validation';
+export * from './validators/challenge-accepted.validation';
 export * from './validators/recompense.validation';
 
 // models
@@ -56,3 +58,5 @@ export interface AuthenticationPayload {
 export type Indexable<T> = { [K in keyof T]: T[K] };
 export type Modify<T, R> = Pick<T, Exclude<keyof T, keyof R>> & R;
 export type ExcludeTypes<T, R extends string[]> = Pick<T, Exclude<keyof T, R[number]>>;
+
+// export type Path = (import { Path } from 'react-hook-form')

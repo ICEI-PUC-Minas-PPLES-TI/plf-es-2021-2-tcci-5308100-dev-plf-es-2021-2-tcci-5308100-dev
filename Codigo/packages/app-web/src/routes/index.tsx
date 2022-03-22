@@ -25,7 +25,10 @@ import AdministratorRecompenses from '@Pages/administrator/recompenses';
 import AdministratorRecompensesSave from '@Pages/administrator/recompenses/save';
 
 import ExplorerLogin from '@Pages/explorer/login';
-import ExplorerChallenge from '@Pages/explorer/challenges/save';
+
+import ExplorerHome from '@Pages/explorer/home';
+import ExplorerExplorerProfile from '@Pages/explorer/explorer-profile';
+import ExplorerChallengeAccepted from '@Pages/explorer/explorer-profile/ChallengeAccepted';
 
 const urlPrefix = {
   [UserType.SUPER_ADMINISTRATOR]: '/administrador',
@@ -123,18 +126,24 @@ const routesExplorer: RouteSettings[] = [
     allowedUsers: [UserType.EXPLORER],
     label: 'Home',
     iconClass: 'fas fa-home',
-    component: () => <div>teste</div>,
+    component: ExplorerHome,
     show: true,
     hasNavMenu: true,
   },
   {
-    path: urlPrefix[UserType.EXPLORER] + '/desafios/:id',
+    path: urlPrefix[UserType.EXPLORER] + '/perfil',
     allowedUsers: [UserType.EXPLORER],
-    label: 'Desafios',
-    iconClass: 'fas fa-home',
-    component: ExplorerChallenge,
+    label: 'Perfil',
+    iconClass: 'fas fa-hand-sparkles',
+    component: ExplorerExplorerProfile,
     show: true,
     hasNavMenu: true,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/desafio-aceito/:id',
+    allowedUsers: [UserType.EXPLORER],
+    component: ExplorerChallengeAccepted,
+    show: false,
   },
 ];
 

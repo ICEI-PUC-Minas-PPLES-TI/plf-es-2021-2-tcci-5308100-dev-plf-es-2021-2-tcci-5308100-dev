@@ -30,3 +30,7 @@ export declare type CreateChallengePayload = {
 export declare type UpdateChallengePayload = {
   challenge: Challenge;
 };
+
+export type GetChallengeAsExplorerPayload = {
+  challenge: Challenge;
+};

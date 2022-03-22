@@ -14,6 +14,7 @@ import { challengeStatusBadge, challengeStatusFttr, formatDate } from '@Utils/fo
 
 const Challenges: FunctionComponent = () => {
   const { showToastDanger } = useContext(ToastContext);
+
   const initialFilters: InitialFilters = {
     status: [ChallengeStatus.OPEN, ChallengeStatus.DRAFT],
   };
@@ -47,6 +48,7 @@ const Challenges: FunctionComponent = () => {
       setIsLoading(false);
     }
   };
+
   return (
     <>
       <PageCard
