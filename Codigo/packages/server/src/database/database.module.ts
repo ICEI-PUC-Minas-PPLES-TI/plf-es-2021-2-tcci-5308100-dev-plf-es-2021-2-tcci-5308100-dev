@@ -1,3 +1,4 @@
+import { UserAccess } from '@Models/UserAccess.entity';
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from '~/../ormconfig';
@@ -36,6 +37,7 @@ const repositories = TypeOrmModule.forFeature([
   SocialMedia,
   SocialMediaParam,
   User,
+  UserAccess,
 ]);
 
 @Module({

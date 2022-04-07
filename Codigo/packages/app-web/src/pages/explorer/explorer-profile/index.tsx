@@ -1,10 +1,13 @@
-import { ChallengeAcceptedCard } from '@Components/cards/ChallengeAcceptedCard';
-import { ExplorerProfileCard } from '@Components/cards/ExplorerProfileCard';
+import ChallengeCard from '@Components/cards/ChallengeCard';
+import ExplorerProfileCard from '@Components/cards/ExplorerProfileCard';
 import PageCard from '@Components/cards/PageCard';
-import { SideCard } from '@Components/cards/SideCard';
+import SideCard from '@Components/cards/SideCard';
 import { ChallengeAccepted, ChallengeAcceptedStatus } from '@sec/common';
 import { getAllChallengesAccepted, GetAllChallengesAcceptedFilters } from '@Services/challengeAcceptedService';
+import { sortAcceptChallengeByStatus } from '@Utils/util';
+import arraySort from 'array-sort';
 import { useContext, useEffect, useState } from 'react';
+import Skeleton from 'react-loading-skeleton';
 import { useNavigate } from 'react-router-dom';
 import { ToastContext } from '~/context/ToastContext';
 import { defaultErrorHandler } from '~/error/defaultErrorHandler';
@@ -31,7 +34,9 @@ const ExplorerProfile = () => {
         payload: { challengesAccepted },
       } = await getAllChallengesAccepted(filter);
 
-      setChallengesAccepted(challengesAccepted);
+      setChallengesAccepted(
+        arraySort(challengesAccepted, [sortAcceptChallengeByStatus(), 'updatedAt'], { reverse: true })
+      );
     } catch (error) {
       defaultErrorHandler(error, showToastDanger);
     } finally {
@@ -53,17 +58,25 @@ const ExplorerProfile = () => {
               biography: 'Estudante de programação \\o/',
               instagram: 'bianca_julia',
               tikTok: 'bianca_julia',
-              twitter: '@bianca_julia',
-              facebook: '@bianca_julia',
-              linkedIn: '@bianca_julia',
+              twitter: 'bianca_julia',
+              facebook: 'bianca_julia',
+              linkedIn: 'bianca_julia',
             } as any
           }
         />
+        {isLoading && (
+          <>
+            <Skeleton height='30px' count={3} />
+            <div className='mb-2' />
+            <Skeleton height='30px' count={3} />
+          </>
+        )}
         {challengesAccepted.map((challengeAccepted, i) => (
-          <div className='row' key={'ChallengeAcceptedCard' + i}>
+          <div className='row mb-3' key={'ChallengeAcceptedCard' + i}>
             <div className='col-12'>
-              <ChallengeAcceptedCard
+              <ChallengeCard
                 challengeAccepted={challengeAccepted}
+                challenge={challengeAccepted.challenge}
                 onClick={() => navigate(`/explorador/desafio-aceito/${challengeAccepted.id}`)}
               />
             </div>
@@ -71,10 +84,10 @@ const ExplorerProfile = () => {
         ))}
       </PageCard>
       <SideCard>
-        <div className='card rounded-md mb-2' style={{ height: '40vh' }}>
+        <div className='card rounded-md mb-2 flex-center' style={{ height: '40vh' }}>
           side card
         </div>
-        <div className='card rounded-md ' style={{ height: '40vh' }}>
+        <div className='card rounded-md flex-center' style={{ height: '40vh' }}>
           side card
         </div>
       </SideCard>

@@ -3,7 +3,7 @@
  *    Ex.: Ao invés de recompense, usar recompenseId.
  */
 
-import { SchemaOf, BaseSchema } from 'yup';
+import { ObjectSchema,SchemaOf, BaseSchema } from 'yup';
 
 export type ValidatorBaseSchema<T> = { [key in keyof T]: BaseSchema };
 
@@ -31,9 +31,9 @@ export const assigner = <T>(source: any, fields: { [key in keyof T]-?: null }): 
   return aux as T;
 };
 
-export const validateHandler = async <T>(validator: any, dto: T): Promise<ValidatorResult<T>> => {
+export const validateHandler = async <T>(validator: ObjectSchema<any, any>, dto: T): Promise<ValidatorResult<T>> => {
   try {
-    await validator.validate(dto);
+    await validator.noUnknown().validate(dto);
     return {
       success: true,
       dto: dto,

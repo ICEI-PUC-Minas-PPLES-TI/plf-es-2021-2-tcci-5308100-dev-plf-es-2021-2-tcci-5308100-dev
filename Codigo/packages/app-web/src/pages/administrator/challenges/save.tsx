@@ -15,6 +15,8 @@ import FileDropzone from '@Components/Inputs/FileDropzone';
 import { FileMixedSchema, NewFile } from '@Components/Inputs/FileDropzone/types';
 import SelectControlled from '@Components/Inputs/SelectControlled';
 import { challengeStatusFttr, recompenseTypeFttr } from '@Utils/formatters';
+import InfoCard from '@Components/cards/InfoCard';
+import CardLoading from '@Components/loading/CardLoading';
 
 type FormInput = {
   id?: number;
@@ -35,6 +37,7 @@ const ChallengesSave: FunctionComponent = () => {
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
+  const [isLoading, setIsLoading] = useState(false);
   const [isAwaiting, setIsAwaiting] = useState(false);
 
   const [recompenses, setRecompenses] = useState<Recompense[]>([]);
@@ -50,8 +53,7 @@ const ChallengesSave: FunctionComponent = () => {
     isHighlighted: yup.boolean().required(),
     title: yup.string().required(),
     description: yup.string().required(),
-    // FIXME: Alterar quando for definido o sistema para upload de arquivos
-    coverId: yup.number().when('$idState', (idState, schema) => /* idState ? schema.required() :  */ schema),
+    coverId: yup.number().when('$idState', (idState, schema) => (idState ? schema.required() : schema)),
     newCover: yup
       .mixed()
       .when('$idState', (idState) =>
@@ -68,7 +70,6 @@ const ChallengesSave: FunctionComponent = () => {
     reset,
     watch,
     setValue,
-    trigger,
   } = useForm<FormInput>({
     resolver: yupResolver(schema),
     context: {
@@ -85,17 +86,19 @@ const ChallengesSave: FunctionComponent = () => {
   }, [id]);
 
   const fillForm = (challenge: Challenge) => {
+    console.log('challenge :>> ', challenge);
     reset({
       ...challenge,
       challengedExplorerId: challenge.challengedExplorer?.id,
       recompenseId: challenge.recompense.id,
-      // coverId: challenge.cover.id,
+      coverId: challenge.cover.id,
+      newCover: { ...challenge.cover, urlPath: challenge.cover.urlPath, isNew: false },
     });
   };
 
   const fetchData = async (id?: number) => {
     try {
-      setIsAwaiting(true);
+      setIsLoading(true);
       if (id) {
         const {
           payload: { challenge, explorers, recompenses },
@@ -114,8 +117,9 @@ const ChallengesSave: FunctionComponent = () => {
       }
     } catch (error: unknown) {
       defaultErrorHandler(error, showToastDanger);
+      navigate('/administrador/desafios');
     } finally {
-      setIsAwaiting(false);
+      setIsLoading(false);
     }
   };
 
@@ -133,9 +137,10 @@ const ChallengesSave: FunctionComponent = () => {
         : await createChallenge(params, (params.newCover as NewFile).file);
 
       if (!id) {
+        showToastSuccess({ message });
         navigate(`/administrador/desafios/salvar/${challenge.id}`);
       } else {
-        setValue('newCover', { ...challenge.cover, isNew: false } || undefined);
+        fillForm(challenge);
         showToastSuccess({ message });
       }
     } catch (error: unknown) {
@@ -146,7 +151,12 @@ const ChallengesSave: FunctionComponent = () => {
   };
 
   return (
-    <PageCard showBackButton title={id ? 'Atualizar desafio' : 'Cadastrar desafio'}>
+    <PageCard
+      showBackButton
+      backButtonURL='/administrador/desafios'
+      title={id ? 'Atualizar desafio' : 'Cadastrar desafio'}
+    >
+      {isLoading && <CardLoading />}
       <form className='pt-3 px-5' onSubmit={submitter(onSubmit, console.dir)}>
         <div className='row'>
           <div className='col-sm-12'>

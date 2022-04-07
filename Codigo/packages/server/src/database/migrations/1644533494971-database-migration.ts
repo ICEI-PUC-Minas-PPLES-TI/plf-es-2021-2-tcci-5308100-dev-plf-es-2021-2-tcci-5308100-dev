@@ -26,7 +26,7 @@ export class databaseMigration1644533494971 implements MigrationInterface {
       `CREATE TABLE "challenge_accepted_response" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "response" character varying(2000) NOT NULL, "challengeAcceptedId" integer, CONSTRAINT "PK_ca508cfe614c8eb0b2f21a65bd1" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
-      `CREATE TABLE "comment" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "text" character varying(200) NOT NULL, "userId" integer, "acceptedChallengesId" integer, CONSTRAINT "PK_0b0e4bbc8415ec426f87f3a88e2" PRIMARY KEY ("id"))`,
+      `CREATE TABLE "comment" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "text" character varying(200) NOT NULL, "userId" integer, "acceptedChallengeId" integer, CONSTRAINT "PK_0b0e4bbc8415ec426f87f3a88e2" PRIMARY KEY ("id"))`,
     );
     await queryRunner.query(
       `CREATE TABLE "challenge_accepted" ("id" SERIAL NOT NULL, "createdAt" TIMESTAMP NOT NULL DEFAULT now(), "updatedAt" TIMESTAMP NOT NULL DEFAULT now(), "deletedAt" TIMESTAMP, "status" character varying NOT NULL, "recompenseStatus" character varying NOT NULL, "explorerId" integer, "challengeId" integer, CONSTRAINT "PK_ba103e5e3c520fb14ea86e1aece" PRIMARY KEY ("id"))`,
@@ -68,7 +68,7 @@ export class databaseMigration1644533494971 implements MigrationInterface {
       `ALTER TABLE "comment" ADD CONSTRAINT "FK_c0354a9a009d3bb45a08655ce3b" FOREIGN KEY ("userId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
-      `ALTER TABLE "comment" ADD CONSTRAINT "FK_a1d2615649aa21a894d5bbf2d95" FOREIGN KEY ("acceptedChallengesId") REFERENCES "challenge_accepted"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
+      `ALTER TABLE "comment" ADD CONSTRAINT "FK_a1d2615649aa21a894d5bbf2d95" FOREIGN KEY ("acceptedChallengeId") REFERENCES "challenge_accepted"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,
     );
     await queryRunner.query(
       `ALTER TABLE "challenge_accepted" ADD CONSTRAINT "FK_36b7540bcb5a76aaac00fdb6f5d" FOREIGN KEY ("explorerId") REFERENCES "user"("id") ON DELETE NO ACTION ON UPDATE NO ACTION`,

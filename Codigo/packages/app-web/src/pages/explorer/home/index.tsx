@@ -3,8 +3,14 @@ import PageCard from '@Components/cards/PageCard';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContext } from '~/context/ToastContext';
 import { getAllChallengesAsExplorer, getChallengeAsExplorer } from '@Services/challengeService';
-import { Challenge } from '@sec/common';
+import { Challenge, Post } from '@sec/common';
 import { defaultErrorHandler } from '~/error/defaultErrorHandler';
+import SocialMediaStoriesCardContainer from '@Components/cards/SocialMediaStoriesCardContainer';
+import ChallengeCard from '@Components/cards/ChallengeCard';
+import { range } from '@Utils/util';
+import SideCard from '@Components/cards/SideCard';
+
+const postsExample: Post[] = range(10).map((i) => ({ id: i } as Post));
 
 const ExplorerHome = () => {
   const { showToastSuccess, showToastDanger } = useContext(ToastContext);
@@ -13,6 +19,8 @@ const ExplorerHome = () => {
   const [isAwaiting, setIsAwaiting] = useState(false);
   const [hasErrorOnResponse, setHasErrorOnResponse] = useState(false);
   const [challenges, setChallenges] = useState<Challenge[]>([]);
+  const [socialMediaStories, setSocialMediaStories] = useState<Post[]>(postsExample);
+  const [socialMediaPosts, setSocialMediaPosts] = useState<Post[]>(postsExample);
 
   useEffect(() => {
     fetchData();
@@ -34,9 +42,33 @@ const ExplorerHome = () => {
   };
 
   return (
-    <PageCard simpleVariant hidePaddingTopExtra>
-      teste
-    </PageCard>
+    <div className='d-flex'>
+      <PageCard simpleVariant limitedWidth hidePaddingTopExtra>
+        <SocialMediaStoriesCardContainer socialMediaStories={socialMediaStories} />
+        {/* TODO: Adicionar skeleton  */}
+        {isAwaiting && <></>}
+        {!isAwaiting && challenges.length === 0 && (
+          <div className='alert alert-secondary' role='alert'>
+            Lamento, no momento não temos nenhum novo desafio para você. <span className='fw-bold'>¯\_(ツ)_/¯</span>
+          </div>
+        )}
+        {challenges.map((challenge) => (
+          <div className='row mb-3' key={`ExplorerHome_List_ChallengeCard_${challenge.id}`}>
+            <div className='col-12'>
+              <ChallengeCard challenge={challenge} onClick={() => navigate(`/explorador/desafio/${challenge.id}`)} />
+            </div>
+          </div>
+        ))}
+      </PageCard>
+      <SideCard>
+        <div className='card rounded-md mb-2 flex-center' style={{ height: '40vh' }}>
+          side card
+        </div>
+        <div className='card rounded-md flex-center' style={{ height: '40vh' }}>
+          side card
+        </div>
+      </SideCard>
+    </div>
   );
 };
 

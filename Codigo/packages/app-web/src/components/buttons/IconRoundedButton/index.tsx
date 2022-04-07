@@ -7,7 +7,7 @@ export type IconRoundedButtonProps = {
   textGrey?: boolean;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const IconRoundedButton: React.FunctionComponent<IconRoundedButtonProps> = ({
+const IconRoundedButton: React.FunctionComponent<IconRoundedButtonProps> = ({
   icon,
   iconColor,
   label,
@@ -30,3 +30,5 @@ export const IconRoundedButton: React.FunctionComponent<IconRoundedButtonProps> 
     </button>
   );
 };
+
+export default IconRoundedButton;

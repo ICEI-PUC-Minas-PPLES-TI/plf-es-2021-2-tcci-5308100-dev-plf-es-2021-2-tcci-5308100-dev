@@ -51,7 +51,7 @@ export abstract class BaseService<T> {
         (await this.create(data)) as DeepPartial<T>,
       );
     } catch (error) {
-      if (process.env.NODE_ENV === 'DEVELOPMENT') console.dir(error);
+      if (process.env.NODE_ENV === 'development') console.dir(error);
       return undefined;
     }
   }

@@ -3,7 +3,7 @@ import { CSSProperties } from 'react';
 
 export interface FileCustomInterface {
   name: string;
-  path: string;
+  urlPath: string;
   isNew: boolean;
 }
 

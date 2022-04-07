@@ -6,6 +6,8 @@ export const defaultErrorHandler = (
   error: APIError | AxiosError | Error | unknown,
   messageReporter: (data: ToastFunction) => void
 ) => {
+  if (process.env.NODE_ENV === 'development') console.log('error :>> ', error);
+
   if (error instanceof APIError) {
     //TODO: ZIP Error
     messageReporter({ message: error.message });

@@ -15,8 +15,8 @@ const FileDropzone: React.FunctionComponent<FileDropzoneProps> = ({
 }) => {
   useEffect(() => {
     return () => {
-      if (props.singleFile) URL.revokeObjectURL(props.file?.path || '');
-      else props.files.forEach((file) => URL.revokeObjectURL(file.path));
+      if (props.singleFile) URL.revokeObjectURL(props.file?.urlPath || '');
+      else props.files.forEach((file) => URL.revokeObjectURL(file.urlPath));
     };
   }, [props.singleFile]);
 
@@ -55,12 +55,12 @@ const FileDropzone: React.FunctionComponent<FileDropzoneProps> = ({
                 ) : (
                   (props.singleFile ? [props.file as FileMixed] : props.files).map((file) => (
                     <div
-                      key={file.path}
+                      key={file.urlPath}
                       className='drop-container-image-box'
                       title={file.name}
                       onClick={() => onRemoveFile(file)}
                     >
-                      <img src={file.path} style={{ maxHeight: maxHeight }} />
+                      <img src={file.urlPath} style={{ maxHeight: maxHeight }} />
                       <i className='fas fa-times' />
                     </div>
                   ))
@@ -77,7 +77,7 @@ const FileDropzone: React.FunctionComponent<FileDropzoneProps> = ({
               {props.files.map((file, i) => (
                 <li key={i}>
                   <div>
-                    <a href={file.path} target='_blank' rel='noreferrer'>
+                    <a href={file.urlPath} target='_blank' rel='noreferrer'>
                       {file.name}&nbsp;&nbsp;
                     </a>
                     <a onClick={() => onRemoveFile(file)}>

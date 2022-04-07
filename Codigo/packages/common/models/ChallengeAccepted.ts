@@ -23,4 +23,7 @@ export interface ChallengeAccepted extends Model {
   challenge: Challenge;
   comments: Comment[];
   responses: ChallengeAcceptedResponse[];
+
+  commentsCount: { explorer: number; administrator: number };
+  responsesCount: number;
 }

@@ -15,6 +15,7 @@ import '~/assets/css/styles.css';
 import '~/assets/css/sidebar.css';
 import '~/assets/css/header.css';
 import '~/assets/css/toast.css';
+import '~/assets/css/background.css';
 import '~/assets/css/custom.css';
 
 ReactDOM.render(

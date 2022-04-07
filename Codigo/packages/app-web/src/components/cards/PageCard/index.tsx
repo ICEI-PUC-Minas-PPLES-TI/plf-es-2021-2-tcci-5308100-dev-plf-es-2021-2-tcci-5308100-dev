@@ -53,7 +53,7 @@ const PageCard: React.FunctionComponent<PageCardProps> = ({
 
   return (
     <div
-      className='card rounded-md h-100'
+      className='card rounded-md h-100 px-0 position-relative'
       style={{
         flexGrow: 1,
         marginLeft: limitedWidth ? 'auto' : undefined,

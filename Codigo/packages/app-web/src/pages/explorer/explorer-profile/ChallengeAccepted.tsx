@@ -1,93 +1,126 @@
 import PageCard from '@Components/cards/PageCard';
-import { GenericFileType } from '@GlobalTypes';
-import { Challenge } from '@sec/common';
-import { acceptChallenge } from '@Services/challengeAcceptedService';
-import { getChallengeAsExplorer } from '@Services/challengeService';
-import { ViewViewChallenge } from '@Views/ViewViewChallenge';
+import { Challenge, ChallengeAccepted, ChallengeAcceptedStatus, ChallengeStatus, Recompense } from '@sec/common';
+import {
+  getChallengeAccepted,
+  redeemChallengeAcceptedRecompense,
+  sendChallengeResponse,
+} from '@Services/challengeAcceptedService';
+import { createComment } from '@Services/commentService';
+import CommentsView, { CommentInputData } from '@Views/CommentsView';
+import PreviousAnswerView from '@Views/PreviousAnswerView';
+import RecompenseInformationView from '@Views/RecompenseInformationView';
+import ViewViewChallenge, { ExplorerRespondeChallenge } from '@Views/ViewViewChallenge';
+import SkeletonViewChallenge from '@Views/ViewViewChallenge/SkeletonViewChallenge';
+import SweetAlertSendSuccessfully from '@Views/ViewViewChallenge/SweetAlertSendSuccessfully';
 import React, { useContext, useEffect, useState } from 'react';
+import { Placeholder } from 'react-bootstrap';
+import Skeleton from 'react-loading-skeleton';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ToastContext } from '~/context/ToastContext';
 import { defaultErrorHandler } from '~/error/defaultErrorHandler';
 
-const ChallengesSave = () => {
-  const { showToastSuccess, showToastDanger } = useContext(ToastContext);
+const ExplorerChallengeAccepted = () => {
+  const { showToastDanger } = useContext(ToastContext);
   const navigate = useNavigate();
   const { id } = useParams<{ id: string }>();
 
-  const [isAwaiting, setIsAwaiting] = useState(false);
-  const [hasErrorOnResponse, setHasErrorOnResponse] = useState(false);
-  const [challenge, setChallenge] = useState<Challenge | undefined>(undefined);
-  const [text, setText] = useState('');
-  const [files, setFiles] = useState<GenericFileType[]>([]);
-  const [images, setImages] = useState<GenericFileType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [challengeAccepted, setChallengeAccepted] = useState<ChallengeAccepted | undefined>();
+  const [recompense, setRecompense] = useState<Recompense | undefined>(undefined);
+  const [sweetAlert, setSweetAlert] = useState<JSX.Element | undefined>(undefined);
 
   useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'auto' });
+
     if (id) fetchData(+id);
   }, [id]);
 
   const fetchData = async (id: number) => {
     try {
-      setIsAwaiting(true);
+      setIsLoading(true);
       const {
-        payload: { challenge },
-      } = await getChallengeAsExplorer(id);
+        payload: { challengeAccepted },
+      } = await getChallengeAccepted(id);
 
-      setChallenge(challenge);
+      setChallengeAccepted(challengeAccepted);
     } catch (error: unknown) {
+      navigate('/explorador/perfil');
       defaultErrorHandler(error, showToastDanger);
     } finally {
-      setIsAwaiting(false);
+      setIsLoading(false);
     }
   };
 
-  const handleOnSubmit = async () => {
+  const handleOnSubmit = async (params: ExplorerRespondeChallenge) => {
     try {
-      if (!id || (!text && !files.length && !images.length)) {
-        setHasErrorOnResponse(true);
-      } else {
-        setIsAwaiting(true);
-        const { message, payload } = await acceptChallenge({ challengeId: +id, response: text });
+      if (id) {
+        await sendChallengeResponse(
+          { challengeAcceptedId: +id, response: params.text },
+          params.files.map(({ file }) => file as File),
+          params.images.map(({ file }) => file as File)
+        );
 
-        showToastSuccess({ message });
-        navigate('/explorador/desafio-aceito/' + payload.challengeAccepted.id);
+        showSendSuccessfully();
       }
     } catch (error: unknown) {
       defaultErrorHandler(error, showToastDanger);
-    } finally {
-      setIsAwaiting(false);
+    }
+  };
+
+  const showSendSuccessfully = () => {
+    setSweetAlert(<SweetAlertSendSuccessfully />);
+  };
+
+  const handleOnSubmitCommit = async ({ text }: CommentInputData) => {
+    try {
+      if (id) {
+        const {
+          payload: { comment },
+        } = await createComment({ text, acceptedChallengeId: +id });
+        challengeAccepted?.comments.push(comment);
+        return true;
+      }
+      return false;
+    } catch (error: unknown) {
+      defaultErrorHandler(error, showToastDanger);
+      return false;
+    }
+  };
+
+  const redeemRecompense = async (challengeAcceptedId: number) => {
+    try {
+      const {
+        payload: { recompense },
+      } = await redeemChallengeAcceptedRecompense(challengeAcceptedId);
+
+      setRecompense(recompense);
+      return true;
+    } catch (error: unknown) {
+      defaultErrorHandler(error, showToastDanger);
+      return false;
     }
   };
 
   return (
     <PageCard simpleVariant hidePaddingTopExtra>
-      <ViewViewChallenge
-        onSubmit={handleOnSubmit}
-        challenge={isAwaiting ? undefined : challenge}
-        hasErrorOnResponse={hasErrorOnResponse}
-        textInput={{
-          value: text,
-          onChange: (value) => {
-            setHasErrorOnResponse(false);
-            setText(value);
-          },
-        }}
-        fileInput={{
-          value: files,
-          onChange: (value) => {
-            setHasErrorOnResponse(false);
-            setFiles(value);
-          },
-        }}
-        imageInput={{
-          value: images,
-          onChange: (value) => {
-            setHasErrorOnResponse(false);
-            setImages(value);
-          },
-        }}
-      />
+      {isLoading ? (
+        <SkeletonViewChallenge />
+      ) : (
+        <ViewViewChallenge
+          onSubmit={handleOnSubmit}
+          challenge={challengeAccepted?.challenge as Challenge}
+          challengeAccepted={challengeAccepted}
+          readOnly={challengeAccepted?.status === ChallengeAcceptedStatus.COMPLETE ?? true}
+          comments={<CommentsView comments={challengeAccepted?.comments ?? []} onSubmit={handleOnSubmitCommit} />}
+          previousAnswers={<PreviousAnswerView answers={challengeAccepted?.responses ?? []} />}
+          recompenseInformation={recompense && <RecompenseInformationView recompense={recompense} />}
+          onRedeemRecompense={redeemRecompense}
+        />
+      )}
+
+      {sweetAlert}
     </PageCard>
   );
 };
 
-export default ChallengesSave;
+export default ExplorerChallengeAccepted;

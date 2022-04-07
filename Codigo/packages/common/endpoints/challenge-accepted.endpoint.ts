@@ -1,4 +1,6 @@
+import { Comment } from '../models/Comment';
 import { ChallengeAccepted, ChallengeAcceptedStatus } from '../models/ChallengeAccepted';
+import { Recompense } from '../models/Recompense';
 
 export type GetAllChallengesAcceptedParams = {
   status?: ChallengeAcceptedStatus[];
@@ -12,10 +14,14 @@ export type GetChallengeAcceptedPayload = {
   challengeAccepted: ChallengeAccepted;
 };
 
-export declare type AcceptChallengePayload = {
+export type AcceptChallengePayload = {
   challengeAccepted: ChallengeAccepted;
 };
 
-export declare type SendChallengeResponsePayload = {
+export type SendChallengeResponsePayload = {
   challengeAccepted: ChallengeAccepted;
+};
+
+export type RedeemRecompensePayload = {
+  recompense: Recompense;
 };

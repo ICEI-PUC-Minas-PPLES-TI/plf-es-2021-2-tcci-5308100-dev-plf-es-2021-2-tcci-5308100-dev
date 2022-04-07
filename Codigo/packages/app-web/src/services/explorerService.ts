@@ -47,7 +47,7 @@ export const createExplorer = async (explorer: CreateExplorerDTO) => {
 };
 
 export const updateExplorer = async (explorer: UpdateExplorerDTO) => {
-  const { data, headers } = await api.put<ApiResponse<GetAllExplorersPayload>>('/explorer', explorer);
+  const { data, headers } = await api.put<ApiResponse<GetExplorerPayload>>('/explorer', explorer);
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

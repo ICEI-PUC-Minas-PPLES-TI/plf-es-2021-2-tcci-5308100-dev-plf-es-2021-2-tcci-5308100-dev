@@ -49,7 +49,7 @@ const ToastProvider: React.FunctionComponent = ({ children }) => {
   const [states, setStates] = useState<{ [index: string]: boolean }>({});
 
   const updateState = (id: string, status: boolean, timeout?: number) => {
-    setStates({ ...states, [id]: status });
+    setStates((states) => ({ ...states, [id]: status }));
 
     if (!!timeout && status) {
       setTimeout(() => {
@@ -101,7 +101,7 @@ const ToastProvider: React.FunctionComponent = ({ children }) => {
       id: id,
     };
 
-    setToasts({ ...toasts, [id]: toast });
+    setToasts((toasts) => ({ ...toasts, [id]: toast }));
   };
   return (
     <ToastContext.Provider

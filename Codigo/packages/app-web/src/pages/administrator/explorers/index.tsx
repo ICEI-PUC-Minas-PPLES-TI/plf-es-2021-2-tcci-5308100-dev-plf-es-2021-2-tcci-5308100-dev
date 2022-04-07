@@ -36,7 +36,12 @@ const Explorers: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    setExplorersFiltered(matchSorter(explorers, searchBox, { keys: ['nickname', 'name', 'email'] }));
+    if (searchBox !== '') {
+      setExplorersFiltered(matchSorter(explorers, searchBox, { keys: ['nickname', 'name', 'email'] }));
+    } else {
+      console.log(explorers);
+      setExplorersFiltered([...explorers]);
+    }
   }, [searchBox, explorers]);
 
   const fetchData = async (filter: GetAllExplorersFilters | null = null) => {
@@ -59,9 +64,9 @@ const Explorers: FunctionComponent = () => {
     else setExplorersSelected((prev) => prev.filter((p) => p !== value));
   };
 
-  const handleSaveExplorer = async (explorers: Explorer[]) => {
+  const handleSaveExplorer = async (explorer: Explorer) => {
     setExplorerSelected(null);
-    setExplorers(explorers);
+    setExplorers((currentExplorers) => [explorer, ...currentExplorers.filter((c) => c.id !== explorer.id)]);
     modalSave.current?.closeModal();
   };
 

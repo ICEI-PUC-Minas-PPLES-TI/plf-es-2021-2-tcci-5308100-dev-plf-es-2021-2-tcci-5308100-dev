@@ -19,6 +19,10 @@ export class ChallengeAcceptedResponse
   )
   challengeAccepted: ChallengeAccepted;
 
-  @OneToMany(() => SavedFile, (savedFile) => savedFile.id)
+  @OneToMany(
+    () => SavedFile,
+    (savedFile) => savedFile.challengeAcceptedResponse,
+    { cascade: true },
+  )
   savedFiles: SavedFile[];
 }

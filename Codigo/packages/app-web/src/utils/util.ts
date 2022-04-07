@@ -1,43 +1,12 @@
-import { Variant } from '@GlobalTypes';
+import { BackgroundVariant, GenericFileType, Variant } from '@GlobalTypes';
 import { Property } from 'csstype';
-import { Indexable } from '@sec/common';
+import { ChallengeAccepted, ChallengeAcceptedStatus, Indexable, SavedFile } from '@sec/common';
 import { NewFile } from '@Components/Inputs/FileDropzone/types';
 
 export const nestedPropByIndex = (object: { [index: string]: any }, index: string) =>
   index.split('.').reduce((p, prop) => p[prop], object);
 
 export const hasError = (data: any | Error): data is Error => Object.prototype.toString.call(data) === '[object Error]';
-
-export const getVariantColor = (variant: Variant | undefined): Property.Color => {
-  switch (variant) {
-    case 'primary':
-      return '#447DF7';
-
-    case 'secondary':
-      return '#6c757d';
-
-    case 'success':
-      return '#87CB16';
-
-    case 'danger':
-      return '#FB404B';
-
-    case 'warning':
-      return '#FFA534';
-
-    case 'info':
-      return '#23CCEF';
-
-    case 'light':
-      return '#f8f9fa';
-
-    case 'dark':
-      return '#343a40';
-
-    default:
-      return '#87CB16';
-  }
-};
 
 export const copyToClipboard = async (textToCopy: string) => {
   try {
@@ -106,8 +75,50 @@ export const zipError = async (error: any) => {
 };
 
 export const transformNewFile = (file: unknown & File): NewFile => ({
-  path: URL.createObjectURL(file),
+  urlPath: URL.createObjectURL(file),
   isNew: true,
   name: file.name,
   file: file,
 });
+
+export const mapSavedFileToGenericFile = (savedFile: SavedFile): GenericFileType => ({
+  ...savedFile,
+  urlPath: savedFile.urlPath,
+});
+
+export const getBackgroundColorClass = (variant: BackgroundVariant) => {
+  switch (variant) {
+    case 'primary':
+      return 'bg-primary';
+    case 'secondary':
+      return 'bg-secondary';
+    case 'success':
+      return 'bg-success';
+    case 'danger':
+      return 'bg-danger';
+    case 'warning':
+      return 'bg-warning';
+    case 'info':
+      return 'bg-info';
+    case 'light':
+      return 'bg-light';
+    case 'dark':
+      return 'bg-dark';
+
+    default:
+      return '';
+  }
+};
+
+export const sortAcceptChallengeByStatus = () => {
+  const priority: { [key in ChallengeAcceptedStatus]: number } = {
+    UNDER_REVIEW: 2,
+    PENDING: 3,
+    COMPLETE: 1,
+  };
+
+  return ({ status: statusA }: ChallengeAccepted, { status: statusB }: ChallengeAccepted) =>
+    priority[statusA] - priority[statusB];
+};
+
+export const generateRandom = (min: number, max: number) => Math.floor(Math.random() * (max - min)) + min;

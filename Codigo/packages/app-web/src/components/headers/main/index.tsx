@@ -1,11 +1,13 @@
 import React, { Fragment, useContext, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { MainHeaderType } from './types';
 import SLogo from '~/assets/img/s-logo.png';
 import { AuthContext } from '~/context/AuthContext';
 
 const MainHeader: React.FunctionComponent<MainHeaderType> = ({ centerMenus }) => {
   const { signOut } = useContext(AuthContext);
+  const navigate = useNavigate();
+
   const notifications: any[] = ['Notificação 01', 'Notificação 02', 'Notificação 03'];
 
   return (
@@ -66,7 +68,7 @@ const MainHeader: React.FunctionComponent<MainHeaderType> = ({ centerMenus }) =>
         </button>
         <ul className='dropdown-menu dropdown-menu-end'>
           <li>
-            <a className='dropdown-item' onClick={console.log}>
+            <a className='dropdown-item clickable' onClick={() => navigate('/explorador/perfil')}>
               <i className='far fa-user pe-2' />
               Perfil
             </a>
@@ -75,7 +77,7 @@ const MainHeader: React.FunctionComponent<MainHeaderType> = ({ centerMenus }) =>
             <hr className='dropdown-divider' />
           </li>
           <li>
-            <a className='dropdown-item' onClick={signOut}>
+            <a className='dropdown-item clickable' onClick={signOut}>
               <i className='fas fa-power-off pe-2' />
               Sair
             </a>

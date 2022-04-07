@@ -20,7 +20,8 @@ import AdministratorAdministratorsSave from '@Pages/administrator/administrators
 import AdministratorExplorers from '@Pages/administrator/explorers';
 import AdministratorChallenges from '@Pages/administrator/challenges';
 import AdministratorChallengesSave from '@Pages/administrator/challenges/save';
-
+import AdministratorChallengesAccepted from '@Pages/administrator/challenges-accepted';
+import AdministratorChallengesAcceptedSave from '@Pages/administrator/challenges-accepted/save';
 import AdministratorRecompenses from '@Pages/administrator/recompenses';
 import AdministratorRecompensesSave from '@Pages/administrator/recompenses/save';
 
@@ -29,6 +30,7 @@ import ExplorerLogin from '@Pages/explorer/login';
 import ExplorerHome from '@Pages/explorer/home';
 import ExplorerExplorerProfile from '@Pages/explorer/explorer-profile';
 import ExplorerChallengeAccepted from '@Pages/explorer/explorer-profile/ChallengeAccepted';
+import ExplorerChallenge from '@Pages/explorer/home/Challenge';
 
 const urlPrefix = {
   [UserType.SUPER_ADMINISTRATOR]: '/administrador',
@@ -65,6 +67,27 @@ const routesAdministrator: RouteSettings[] = [
     path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios/salvar/:id',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
     component: AdministratorChallengesSave,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios-aceitos',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    label: 'Desafios aceitos',
+    iconClass: 'fas fa-check-circle',
+    component: AdministratorChallengesAccepted,
+    show: true,
+    hasNavMenu: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios-aceitos/salvar',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    component: AdministratorChallengesAcceptedSave,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios-aceitos/salvar/:id',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    component: AdministratorChallengesAcceptedSave,
     show: false,
   },
   {
@@ -143,6 +166,12 @@ const routesExplorer: RouteSettings[] = [
     path: urlPrefix[UserType.EXPLORER] + '/desafio-aceito/:id',
     allowedUsers: [UserType.EXPLORER],
     component: ExplorerChallengeAccepted,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/desafio/:id',
+    allowedUsers: [UserType.EXPLORER],
+    component: ExplorerChallenge,
     show: false,
   },
 ];

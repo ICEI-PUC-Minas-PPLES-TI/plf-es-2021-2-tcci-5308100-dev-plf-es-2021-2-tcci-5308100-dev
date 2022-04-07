@@ -24,11 +24,11 @@ const BaseController: <T>(props: BaseControllerProps<T>) => JSX.Element = ({
   return (
     <Group className={`mb-3 has-label ${className || ''} ${checkIfHasError(checkError)}`}>
       {label && (
-        <label className='label-with-loading'>
+        <label className='label-with-loading d-flex'>
           {label}
           {isRequired && <span className='star'>*</span>}
           {isLoading && (
-            <span className='spin-loading-wrapper'>
+            <span className='spin-loading-wrapper ms-2'>
               <SpinLoading size='20px' radius='3px' alignItems='flex-start' />
             </span>
           )}

@@ -43,8 +43,19 @@ export const getChallenge = async (id: number) => {
   }
 };
 
+const serializeChallenge = (challenge: CreateChallengeDTO | UpdateChallengeDTO, newCover?: File): FormData => {
+  const formData = new FormData();
+  formData.append('object', JSON.stringify(challenge));
+  if (newCover) formData.append('newCover', newCover);
+
+  return formData;
+};
+
 export const createChallenge = async (challenge: CreateChallengeDTO, newCover: File) => {
-  const { data, headers } = await api.post<ApiResponse<GetChallengePayload>>('/challenge', challenge);
+  const { data, headers } = await api.post<ApiResponse<GetChallengePayload>>(
+    '/challenge',
+    serializeChallenge(challenge, newCover)
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -54,7 +65,10 @@ export const createChallenge = async (challenge: CreateChallengeDTO, newCover: F
 };
 
 export const updateChallenge = async (challenge: UpdateChallengeDTO, newCover?: File) => {
-  const { data, headers } = await api.put<ApiResponse<GetChallengePayload>>('/challenge', challenge);
+  const { data, headers } = await api.put<ApiResponse<GetChallengePayload>>(
+    '/challenge',
+    serializeChallenge(challenge, newCover)
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -64,7 +78,9 @@ export const updateChallenge = async (challenge: UpdateChallengeDTO, newCover?: 
 };
 
 export const getAllChallengesAsExplorer = async (filters: GetAllChallengesFilters | null) => {
-  const { data, headers } = await api.get<ApiResponse<GetAllChallengesPayload>>('/challenge/explorer', { params: filters });
+  const { data, headers } = await api.get<ApiResponse<GetAllChallengesPayload>>('/challenge/explorer', {
+    params: filters,
+  });
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

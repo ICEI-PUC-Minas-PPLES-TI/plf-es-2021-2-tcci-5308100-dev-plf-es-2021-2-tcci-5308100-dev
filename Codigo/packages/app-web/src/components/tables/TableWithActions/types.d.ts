@@ -10,13 +10,14 @@ interface TableWithActionsProps<T extends indexable<T>> {
   actions?: (TableActionButton<T> | TableActionRouter<T>)[];
 }
 interface TableColumn<T> {
-  label: string;
+  label: string | JSX.Element;
   width?: string;
   alignment?: 'right' | 'center' | 'left';
   field: keyof T;
   formatter?: (field: any) => string;
   className?: string;
   classNameFttr?: (field: any) => string;
+  sortable?: boolean;
 }
 
 interface TableAction<T> {

@@ -4,20 +4,23 @@ import React from 'react';
 type ImageListProps = {
   files: GenericFileType[];
   onRemoveFile: (file: GenericFileType) => void;
+  roundImages?: boolean;
 };
 
-export const ImageList: React.FunctionComponent<ImageListProps> = ({ files, onRemoveFile }) => {
+const ImageList: React.FunctionComponent<ImageListProps> = ({ files, onRemoveFile, roundImages }) => {
   return (
     <div>
       {files.map((file) => (
         <img
           key={file.id}
-          className='p-3'
-          style={{ maxHeight: '200px' }}
-          src={file.path}
+          className={`m-3 ${roundImages ? 'rounded-md' : ''}`}
+          style={{ maxHeight: '168px' }}
+          src={file.urlPath}
           onClick={() => onRemoveFile(file)}
         />
       ))}
     </div>
   );
 };
+
+export default ImageList;

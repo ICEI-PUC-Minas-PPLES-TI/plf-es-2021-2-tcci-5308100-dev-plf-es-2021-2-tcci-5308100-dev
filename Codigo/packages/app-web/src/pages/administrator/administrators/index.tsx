@@ -30,7 +30,11 @@ const Administrators: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    setAdministratorsFiltered(matchSorter(administrators, searchBox, { keys: ['nickname', 'name', 'email'] }));
+    if (searchBox !== '') {
+      setAdministratorsFiltered([...matchSorter(administrators, searchBox, { keys: ['nickname', 'name', 'email'] })]);
+    } else {
+      setAdministratorsFiltered([...administrators]);
+    }
   }, [searchBox, administrators]);
 
   const fetchData = async (filter: GetAllAdministratorsFilters | null = null) => {

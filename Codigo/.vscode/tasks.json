@@ -7,9 +7,9 @@
       "label": "Dev Common",
       "type": "shell",
       "command": "yarn dev:common",
-      "presentation": {
-        "group": "development"
-      }
+      // "presentation": {
+      //   "group": "development"
+      // }
     },
     {
       "label": "Dev Server",

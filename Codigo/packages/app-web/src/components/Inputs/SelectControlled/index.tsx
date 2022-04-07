@@ -55,9 +55,6 @@ const SelectControlled: <T extends SelectControlledOption, U>(props: SelectContr
           closeMenuOnSelect={!isMulti}
           formatOptionLabel={formatOptionLabel}
           filterOption={filterOptions ? createFilter(filterOptions) : undefined}
-          // components={{
-          //   Input: ({ autoComplete, ...props }) => <components.Input {...props} autoComplete="off" />,
-          // }}
         />
       )}
     />

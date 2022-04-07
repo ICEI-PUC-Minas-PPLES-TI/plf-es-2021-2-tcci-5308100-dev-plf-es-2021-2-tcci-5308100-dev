@@ -45,3 +45,31 @@
 .bg-linked-in {
   background-color: #0082ca;
 }
+
+.border-grey {
+  border: 1px solid grey;
+}
+.input-multi-values-disabled {
+  background: #80808017;
+}
+
+.input-multi-values-disabled textarea:disabled {
+  background: transparent;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.blink-tab-recompense {
+  --blink-time: 0.6s;
+  --timing-function: ease-in;
+  --iteration-count: 4;
+
+  -webkit-animation: blink var(--blink-time) var(--timing-function) var(--iteration-count);
+  -moz-animation: blink var(--blink-time) var(--timing-function) var(--iteration-count);
+  -o-animation: blink var(--blink-time) var(--timing-function) var(--iteration-count);
+  animation: blink var(--blink-time) var(--timing-function) var(--iteration-count);
+}

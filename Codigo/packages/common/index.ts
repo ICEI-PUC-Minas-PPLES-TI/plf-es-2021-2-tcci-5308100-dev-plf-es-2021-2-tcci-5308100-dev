@@ -6,6 +6,7 @@ export * from './endpoints/explorer.endpoint';
 export * from './endpoints/challenge.endpoint';
 export * from './endpoints/challenge-accepted.endpoint';
 export * from './endpoints/recompense.endpoint';
+export * from './endpoints/reports.endpoint';
 
 // validators
 export * from './validators/administrator.validation';
@@ -30,6 +31,7 @@ export * from './models/SavedFile';
 export * from './models/SocialMedia';
 export * from './models/SocialMediaParam';
 export * from './models/User';
+export * from './models/UserAccess';
 
 /**
  *

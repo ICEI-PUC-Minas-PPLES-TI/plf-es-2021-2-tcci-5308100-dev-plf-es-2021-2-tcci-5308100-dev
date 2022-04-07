@@ -4,6 +4,7 @@ import { AuthenticationModule } from '~/authentication/authentication.module';
 import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
 import { RolesGuardClass } from '~/authentication/roles.guard';
 import { DatabaseModule } from '~/database/database.module';
+import { FilesModule } from '~/files/files.module';
 import { ShopifyModule } from '~/shopify/shopify.module';
 import { UtilsModule } from '~/utils/utils.module';
 import { AdministratorController } from './administrator/administrator.controller';
@@ -33,9 +34,18 @@ import { SocialMediaParamController } from './socialMediaParam/socialMediaParam.
 import { SocialMediaParamService } from './socialMediaParam/socialMediaParam.service';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
+import { ReportsService } from './reports/reports.service';
+import { ReportsController } from './reports/reports.controller';
+import { UserAccessService } from './user-access/user-access.service';
 
 @Module({
-  imports: [UtilsModule, DatabaseModule, AuthenticationModule, ShopifyModule],
+  imports: [
+    UtilsModule,
+    DatabaseModule,
+    AuthenticationModule,
+    ShopifyModule,
+    FilesModule,
+  ],
   controllers: [
     AdministratorController,
     ChallengeController,
@@ -50,6 +60,7 @@ import { UserService } from './user/user.service';
     SocialMediaController,
     SocialMediaParamController,
     UserController,
+    ReportsController,
   ],
   providers: [
     {
@@ -74,6 +85,8 @@ import { UserService } from './user/user.service';
     SocialMediaService,
     SocialMediaParamService,
     UserService,
+    ReportsService,
+    UserAccessService,
   ],
   exports: [AdministratorService],
 })

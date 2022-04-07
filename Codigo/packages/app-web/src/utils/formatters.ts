@@ -113,6 +113,16 @@ export const recompenseTypeFttr = (status: RecompenseType) => {
   return recompenseType[status];
 };
 
+export const challengeAcceptedStatusBadge = (status: ChallengeAcceptedStatus) => {
+  const challengeAcceptedStatusBadges: { [key in ChallengeAcceptedStatus]: string } = {
+    UNDER_REVIEW: 'badge bg-warning',
+    PENDING: 'badge bg-info',
+    COMPLETE: 'badge bg-secondary',
+  };
+
+  return challengeAcceptedStatusBadges[status];
+};
+
 export const challengeAcceptedStatusFttr = (status: ChallengeAcceptedStatus) => {
   const challengeAcceptedStatus: { [key in ChallengeAcceptedStatus]: string } = {
     UNDER_REVIEW: 'Em Análise',

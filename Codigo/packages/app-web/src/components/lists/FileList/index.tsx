@@ -1,19 +1,18 @@
 import { GenericFileType } from '@GlobalTypes';
 import React from 'react';
 
-
 type FileListProps = {
   files: GenericFileType[];
   onRemoveFile: (file: GenericFileType) => void;
 };
 
-export const FileList: React.FunctionComponent<FileListProps> = ({ files, onRemoveFile }) => {
+const FileList: React.FunctionComponent<FileListProps> = ({ files, onRemoveFile }) => {
   return (
     <ul>
       {files.map((file, i) => (
         <li key={'FileList' + i + file.id}>
           <div>
-            <a href={file.path} target='_blank' rel='noreferrer'>
+            <a href={file.urlPath} target='_blank' rel='noreferrer'>
               {file.name}&nbsp;&nbsp;
             </a>
             <a onClick={() => onRemoveFile(file)}>
@@ -25,3 +24,5 @@ export const FileList: React.FunctionComponent<FileListProps> = ({ files, onRemo
     </ul>
   );
 };
+
+export default FileList;

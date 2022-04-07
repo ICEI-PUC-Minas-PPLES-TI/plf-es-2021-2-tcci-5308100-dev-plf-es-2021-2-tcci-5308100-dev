@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   Column,
   Entity,
   JoinColumn,
@@ -16,6 +17,8 @@ import { Challenge as IChallenge, ChallengeStatus } from '@sec/common';
 console.log(Model);
 @Entity()
 export class Challenge extends Model implements IChallenge {
+  public static coverFilenamePrefix = (id) => `challenge-cover-${id}`;
+
   @Column({ enum: ChallengeStatus })
   status: ChallengeStatus;
 
@@ -28,7 +31,7 @@ export class Challenge extends Model implements IChallenge {
   @Column({ length: 2000 })
   description: string;
 
-  @OneToOne(() => SavedFile)
+  @OneToOne(() => SavedFile, { cascade: true })
   @JoinColumn()
   cover: SavedFile;
 
@@ -43,4 +46,9 @@ export class Challenge extends Model implements IChallenge {
     (challengeAccepted) => challengeAccepted.challenge,
   )
   acceptedChallenges: ChallengeAccepted[];
+
+  // disponibility: { value: number; percentage: number; ratio: string };
+
+  // @AfterLoad()
+  // calcDisponibility() {}
 }
