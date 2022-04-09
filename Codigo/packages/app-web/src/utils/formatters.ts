@@ -1,4 +1,14 @@
-import { AdministratorStatus, ChallengeStatus, ExplorerStatus, RecompenseStatus, RecompenseType } from '@sec/common';
+import {
+  AdministratorStatus,
+  ChallengeAcceptedStatus,
+  ChallengeStatus,
+  ExplorerStatus,
+  RecompenseStatus,
+  RecompenseType,
+  SocialMediaName,
+  SocialMediaParamStatus,
+  SocialMediaParamType,
+} from '@sec/common';
 import moment, { Moment } from 'moment';
 
 export const toCurrency = (value: number | bigint) => {
@@ -97,8 +107,9 @@ export const recompenseStatusFttr = (status: RecompenseStatus) => {
 
 export const recompenseTypeBadge = (type: RecompenseType) => {
   const recompenseTypeBadges: { [key in RecompenseType]: string } = {
-    GENERAL: 'badge bg-primary',
+    GENERAL: 'badge bg-success',
     DISCOUNT_COUPON: 'badge bg-info',
+    GIFT_CARD: 'badge bg-primary',
   };
 
   return recompenseTypeBadges[type];
@@ -108,6 +119,7 @@ export const recompenseTypeFttr = (status: RecompenseType) => {
   const recompenseType: { [key in RecompenseType]: string } = {
     GENERAL: 'Geral',
     DISCOUNT_COUPON: 'Cupom de desconto',
+    GIFT_CARD: 'Cartão de presente',
   };
 
   return recompenseType[status];
@@ -131,4 +143,64 @@ export const challengeAcceptedStatusFttr = (status: ChallengeAcceptedStatus) => 
   };
 
   return challengeAcceptedStatus[status];
+};
+
+export const socialMediaParamStatusBadge = (status: SocialMediaParamStatus) => {
+  const socialMediaParamStatusBadges: { [key in SocialMediaParamStatus]: string } = {
+    ACTIVE: 'badge bg-primary',
+    INACTIVE: 'badge bg-secondary',
+  };
+
+  return socialMediaParamStatusBadges[status];
+};
+
+export const socialMediaParamStatusFttr = (status: SocialMediaParamStatus) => {
+  const socialMediaParamStatus: { [key in SocialMediaParamStatus]: string } = {
+    ACTIVE: 'Ativo',
+    INACTIVE: 'Inativo',
+  };
+
+  return socialMediaParamStatus[status];
+};
+
+export const socialMediaParamTypeBadge = (type: SocialMediaParamType) => {
+  const socialMediaParamTypeBadges: { [key in SocialMediaParamType]: string } = {
+    ACCOUNT: 'badge bg-primary',
+    HASHTAG: 'badge bg-info',
+  };
+
+  return socialMediaParamTypeBadges[type];
+};
+
+export const socialMediaParamTypeFttr = (status: SocialMediaParamType) => {
+  const socialMediaParamType: { [key in SocialMediaParamType]: string } = {
+    ACCOUNT: 'Perfil',
+    HASHTAG: 'Hashtag',
+  };
+
+  return socialMediaParamType[status];
+};
+
+export const socialMediasBadge = (type: SocialMediaName) => {
+  const socialMediaBadges: { [key in SocialMediaName]: string } = {
+    INSTAGRAM: 'badge bg-instagram',
+    TIKTOK: 'badge bg-tik-tok',
+    TWITTER: 'badge bg-twitter',
+    FACEBOOK: 'badge bg-facebook',
+    LINKEDIN: 'badge bg-linked-in',
+  };
+
+  return socialMediaBadges[type];
+};
+
+export const socialMediasFttr = (status: SocialMediaName) => {
+  const SocialMediaName: { [key in SocialMediaName]: string } = {
+    INSTAGRAM: 'Instagram',
+    TIKTOK: 'Tik Tok',
+    TWITTER: 'Twitter',
+    FACEBOOK: 'Facebook',
+    LINKEDIN: 'Linked In',
+  };
+
+  return SocialMediaName[status];
 };

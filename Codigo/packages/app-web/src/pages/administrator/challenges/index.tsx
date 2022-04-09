@@ -31,7 +31,11 @@ const Challenges: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    setChallengesFiltered(matchSorter(challenges, searchBox, { keys: ['title', 'recompenseName'] }));
+    if (searchBox !== '') {
+      setChallengesFiltered(matchSorter(challenges, searchBox, { keys: ['title', 'recompenseName'] }));
+    } else {
+      setChallengesFiltered([...challenges]);
+    }
   }, [searchBox, challenges]);
 
   const fetchData = async (filter: GetAllChallengesFilters | null = null) => {
@@ -75,7 +79,34 @@ const Challenges: FunctionComponent = () => {
             { field: 'id', label: 'ID', alignment: 'center', width: '50px' },
             { field: 'title', label: 'Desafio' },
             { field: 'recompenseName', label: 'Recompensa' },
-            { field: 'countAcceptedChallenges', label: 'Participações', alignment: 'center', width: '120px' },
+
+            {
+              field: 'countAcceptedChallenges',
+              label: (
+                <i className='fas fa-users text-primary' title='Exploradores que ainda não aceitaram este desafio' />
+              ),
+              alignment: 'center',
+              width: '50px',
+            },
+            {
+              field: 'countAcceptedChallenges',
+              label: <i className='fas fa-users text-warning' title='Respostas aguardando análise' />,
+              alignment: 'center',
+              width: '50px',
+            },
+            {
+              field: 'countAcceptedChallenges',
+              label: <i className='fas fa-users text-success' title='Respostas com pendencias' />,
+              alignment: 'center',
+              width: '50px',
+            },
+            {
+              field: 'countAcceptedChallenges',
+              label: <i className='fas fa-users text-secondary' title='Respostas aceitas' />,
+              alignment: 'center',
+              width: '50px',
+            },
+
             {
               field: 'status',
               label: 'Status',

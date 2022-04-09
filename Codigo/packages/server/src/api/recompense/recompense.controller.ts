@@ -25,6 +25,7 @@ import {
 import { In } from 'typeorm';
 import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
 import { Roles } from '~/authentication/role.guard';
+import { ShopifyService } from '~/shopify/shopify.service';
 import { UtilsService } from '~/utils/utils.service';
 import { RecompenseService } from './recompense.service';
 
@@ -54,11 +55,21 @@ export class RecompenseController {
 
   @Get('/base')
   async getRecompenseBase() {
-    return this.utilsService.apiResponse<GetRecompenseBasePayload>({
-      status: 'SUCCESS',
-      message: 'Dados base',
-      payload: {},
-    });
+    const discountCoupons =
+      await this.recompenseService.getShopifyDiscountCoupons();
+
+    return this.utilsService.apiResponseSuccessOrFail<GetRecompenseBasePayload>(
+      {
+        success: !!discountCoupons,
+        onSuccess: {
+          message: 'Cupons de desconto do Shopify.',
+          payload: { discountCoupons },
+        },
+        onFail: {
+          message: 'Houve um erro ao recuperar os cupons da loja na Shopify.',
+        },
+      },
+    );
   }
 
   @Get(':id')

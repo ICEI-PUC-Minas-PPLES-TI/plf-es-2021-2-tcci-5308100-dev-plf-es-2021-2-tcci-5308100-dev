@@ -37,7 +37,11 @@ const Recompenses: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    setRecompensesFiltered(matchSorter(recompenses, searchBox, { keys: ['name'] }));
+    if (searchBox !== '') {
+      setRecompensesFiltered(matchSorter(recompenses, searchBox, { keys: ['name'] }));
+    } else {
+      setRecompensesFiltered([...recompenses]);
+    }
   }, [searchBox, recompenses]);
 
   const fetchData = async (filter: GetAllRecompensesFilters | null = null) => {
@@ -89,7 +93,7 @@ const Recompenses: FunctionComponent = () => {
             {
               field: 'type',
               label: 'Tipo',
-              width: '140px',
+              width: '145px',
               alignment: 'center',
               classNameFttr: recompenseTypeBadge,
               formatter: recompenseTypeFttr,

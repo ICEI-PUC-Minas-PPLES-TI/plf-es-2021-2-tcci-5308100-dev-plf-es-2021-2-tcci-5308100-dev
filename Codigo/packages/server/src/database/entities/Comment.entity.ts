@@ -10,6 +10,7 @@ export class Comment extends Model implements IComment {
   @Column({ length: 200 })
   text: string;
 
+  // FIXME: Bug; Dependência circular encontrada.
   @ManyToOne(() => User /* , (user) => user.comments */)
   user: User;
 
@@ -17,5 +18,5 @@ export class Comment extends Model implements IComment {
     () => ChallengeAccepted,
     (challengeAccepted) => challengeAccepted.comments,
   )
-  acceptedChallenges: ChallengeAccepted;
+  acceptedChallenge: ChallengeAccepted;
 }

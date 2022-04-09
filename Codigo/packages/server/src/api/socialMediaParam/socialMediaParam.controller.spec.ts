@@ -9,7 +9,9 @@ describe('SocialMediaParamController', () => {
       controllers: [SocialMediaParamController],
     }).compile();
 
-    controller = module.get<SocialMediaParamController>(SocialMediaParamController);
+    controller = module.get<SocialMediaParamController>(
+      SocialMediaParamController,
+    );
   });
 
   it('should be defined', () => {

@@ -31,6 +31,7 @@ const schema: yup.SchemaOf<FormInput> = yup.object().shape({
 const CommonLoginView: FunctionComponent<CommonLoginViewProps> = ({ onSubmit, cardHeader }) => {
   const { signOut } = useContext(AuthContext);
   const navigate = useNavigate();
+
   const {
     handleSubmit: submitter,
     control,
@@ -116,6 +117,9 @@ const CommonLoginView: FunctionComponent<CommonLoginViewProps> = ({ onSubmit, ca
                       Login
                     </button>
                   )}
+                  <button className='btn btn-secondary w-100 mt-1' onClick={() => navigate('/')}>
+                    Voltar
+                  </button>
                 </div>
               </form>
             </div>

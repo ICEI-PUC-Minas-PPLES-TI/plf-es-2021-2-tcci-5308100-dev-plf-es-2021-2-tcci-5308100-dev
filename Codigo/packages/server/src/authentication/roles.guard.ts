@@ -42,10 +42,10 @@ export class RolesGuardClass implements CanActivate {
   constructor(private readonly reflector: Reflector) {}
 
   canActivate(context: ExecutionContext): boolean {
-    const isPublic = this.reflector.get<boolean>(
-      'isPublic',
+    const isPublic = this.reflector.getAllAndOverride<boolean>('isPublic', [
       context.getHandler(),
-    );
+      context.getClass(),
+    ]);
 
     if (isPublic) {
       return true;
@@ -59,8 +59,6 @@ export class RolesGuardClass implements CanActivate {
     const req = context.switchToHttp().getRequest<RequestWithUser>();
 
     const { user } = req;
-    console.log('roles :>> ', roles);
-    console.log('user :>> ', user);
 
     if (Array.isArray(roles)) {
       return roles.length === 0 ? false : roles.includes(user?.type);

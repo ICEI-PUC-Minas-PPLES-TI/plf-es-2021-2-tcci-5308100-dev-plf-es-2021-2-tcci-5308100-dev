@@ -4,6 +4,7 @@ import { Model } from './Model';
 export enum RecompenseType {
   DISCOUNT_COUPON = 'DISCOUNT_COUPON',
   GENERAL = 'GENERAL',
+  GIFT_CARD = 'GIFT_CARD'
 }
 
 export enum RecompenseStatus {

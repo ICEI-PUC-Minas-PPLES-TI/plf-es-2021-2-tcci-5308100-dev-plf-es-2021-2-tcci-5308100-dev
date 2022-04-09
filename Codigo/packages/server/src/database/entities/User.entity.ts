@@ -31,10 +31,13 @@ export class User extends Model implements IUser {
   @OneToMany(() => Notification, (notification) => notification.user)
   notifications: Notification[];
 
-  //Bug; Dependência circular encontrada.
+  // FIXME: Bug; Dependência circular encontrada.
   // @OneToMany(() => Comment, (comment) => comment.user)
   // comments: Comment[];
 
-  //TODO:
-  // async onUpdatePassword() {}
+  // FIXME: Solução para permitir recuperar o usuário do comentário no ChallengeAcceptedController.getChallengeAccepted
+  // Essa solução é necessária por causa do problema de dependência circular
+  getCountChallengeCompleted() {
+    return 0;
+  }
 }

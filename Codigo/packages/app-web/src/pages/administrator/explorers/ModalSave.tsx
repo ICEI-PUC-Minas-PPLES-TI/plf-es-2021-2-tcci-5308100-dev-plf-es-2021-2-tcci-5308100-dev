@@ -17,7 +17,7 @@ export type FormInput = {
 
 type ModalSaveProps = {
   modalRef: RefObject<ModalMethods>;
-  onSubmit: (explorers: Explorer[]) => void;
+  onSubmit: (explorer: Explorer) => void;
   explorer: Explorer | null;
 };
 
@@ -26,7 +26,7 @@ const schema: yup.SchemaOf<FormInput> = yup.object().shape({
 });
 
 const ModalSave: FunctionComponent<ModalSaveProps> = ({ modalRef, onSubmit, explorer }) => {
-  const { showToastDanger } = useContext(ToastContext);
+  const { showToastDanger, showToastSuccess } = useContext(ToastContext);
 
   const {
     handleSubmit: submitter,
@@ -48,7 +48,9 @@ const ModalSave: FunctionComponent<ModalSaveProps> = ({ modalRef, onSubmit, expl
       try {
         setIsSending(true);
         const { message, payload } = await updateExplorer({ id: explorer.id, status: status });
-        onSubmit(payload.explorers);
+
+        showToastSuccess({ message });
+        onSubmit(payload.explorer);
       } catch (error: any) {
         defaultErrorHandler(error, showToastDanger);
       } finally {

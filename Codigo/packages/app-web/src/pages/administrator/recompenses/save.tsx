@@ -2,7 +2,7 @@ import { FunctionComponent, useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
-import { Recompense, RecompenseStatus, RecompenseType } from '@sec/common';
+import { Recompense, RecompenseStatus, RecompenseType, ShopifyDiscountCoupon } from '@sec/common';
 import PageCard from '@Components/cards/PageCard';
 import InputControlled from '@Components/Inputs/InputControlled';
 import { createRecompense, getRecompense, getRecompenseBase, updateRecompense } from '@Services/recompenseService';
@@ -36,20 +36,19 @@ const RecompensesSave: FunctionComponent = () => {
   const [isAwaiting, setIsAwaiting] = useState(false);
   const [isAwaitingDiscountCoupons, setIsAwaitingDiscountCoupons] = useState(false);
 
-  const [discountCoupons, setDiscountCoupons] = useState<SelectControlledOption[]>([]);
+  const [discountCoupons, setDiscountCoupons] = useState<ShopifyDiscountCoupon[]>([]);
+  const [giftCards, setGiftCards] = useState([]);
 
   const schema: yup.SchemaOf<FormInput> = yup.object().shape({
     id: yup.number().when('$idState', (idState, schema) => (idState ? schema.required() : schema)),
 
     name: yup.string().required(),
     instructions: yup.string().max(2000).required(),
-    code: yup
-      .string()
-      .when('type', {
-        is: RecompenseType.DISCOUNT_COUPON,
-        then: (schema) => schema.required(),
-        otherwise: (schema) => schema.nullable(),
-      }),
+    code: yup.string().when('type', {
+      is: RecompenseType.DISCOUNT_COUPON,
+      then: (schema) => schema.required(),
+      otherwise: (schema) => schema.nullable(),
+    }),
 
     type: yup.mixed<RecompenseType>().oneOf(Object.values(RecompenseType)).required(),
     status: yup.mixed<RecompenseStatus>().oneOf(Object.values(RecompenseStatus)).required(),
@@ -74,8 +73,22 @@ const RecompensesSave: FunctionComponent = () => {
     if (id) fetchData(+id);
   }, [id]);
 
+  useEffect(() => {
+    if (watch('type') === RecompenseType.DISCOUNT_COUPON && discountCoupons.length === 0) {
+      fetchDiscountCodes();
+    } else if (watch('type') === RecompenseType.GIFT_CARD && giftCards.length === 0) {
+      fetchGiftCards();
+    }
+  }, [watch('type')]);
+
+  useEffect(() => {
+    if (getValues('type') === RecompenseType.DISCOUNT_COUPON && getValues('instructions').length === 0) {
+      setValue('instructions', 'Acesse a loja e aplique o cupom de desconto na sua próxima compra.');
+    }
+  }, [watch('type')]);
+
   const fillForm = (recompense: Recompense) => {
-    reset(recompense);
+    reset({ ...recompense });
   };
 
   const fetchData = async (id: number) => {
@@ -84,6 +97,11 @@ const RecompensesSave: FunctionComponent = () => {
       const {
         payload: { recompense },
       } = await getRecompense(id);
+
+      if (recompense.type === RecompenseType.DISCOUNT_COUPON) {
+        setDiscountCoupons((current) => [...current, { code: recompense.code } as any]);
+        await fetchDiscountCodes();
+      }
 
       fillForm(recompense);
     } catch (error: unknown) {
@@ -113,6 +131,25 @@ const RecompensesSave: FunctionComponent = () => {
     }
   };
 
+  const fetchDiscountCodes = async () => {
+    try {
+      setIsAwaitingDiscountCoupons(true);
+      const {
+        payload: { discountCoupons },
+      } = await getRecompenseBase();
+
+      setDiscountCoupons((current) => [...discountCoupons, ...current]);
+    } catch (error: unknown) {
+      defaultErrorHandler(error, showToastDanger);
+    } finally {
+      setIsAwaitingDiscountCoupons(false);
+    }
+  };
+
+  const fetchGiftCards = async () => {
+    showToastDanger({ message: 'Funcionalidade ainda não implementada.' });
+  };
+
   return (
     <PageCard
       showBackButton
@@ -121,7 +158,7 @@ const RecompensesSave: FunctionComponent = () => {
     >
       <form className='pt-3 px-5' onSubmit={submitter(onSubmit, console.dir)}>
         <div className='row'>
-          <div className='col-sm-6'>
+          <div className='col-sm-12 col-md-12 col-lg-6'>
             <InputControlled
               isRequired
               control={control}
@@ -133,7 +170,7 @@ const RecompensesSave: FunctionComponent = () => {
             />
           </div>
 
-          <div className='col-sm-6'>
+          <div className='col-sm-12 col-md-12 col-lg-3'>
             <SelectControlled
               isRequired
               control={control}
@@ -147,10 +184,8 @@ const RecompensesSave: FunctionComponent = () => {
               }))}
             />
           </div>
-        </div>
 
-        <div className='row'>
-          <div className='col-sm-6'>
+          <div className='col-sm-12 col-md-12 col-lg-3'>
             <SelectControlled
               isRequired
               control={control}
@@ -158,14 +193,18 @@ const RecompensesSave: FunctionComponent = () => {
               defaultValue={undefined}
               name='type'
               label='Tipo'
-              options={[RecompenseType.GENERAL, RecompenseType.DISCOUNT_COUPON].map((type) => ({
-                value: type,
-                label: recompenseTypeFttr(type),
-              }))}
+              options={[RecompenseType.GENERAL, RecompenseType.DISCOUNT_COUPON, RecompenseType.GIFT_CARD].map(
+                (type) => ({
+                  value: type,
+                  label: recompenseTypeFttr(type),
+                })
+              )}
             />
           </div>
+        </div>
 
-          <div className='col-sm-6'>
+        <div className='row'>
+          <div className='col-sm-12'>
             <SelectControlled
               isRequired
               isDisabled={watch('type') !== RecompenseType.DISCOUNT_COUPON}
@@ -175,7 +214,20 @@ const RecompensesSave: FunctionComponent = () => {
               defaultValue={undefined}
               name='code'
               label='Cupom de desconto'
-              options={discountCoupons}
+              options={discountCoupons.map((discountCoupon) => ({
+                ...discountCoupon,
+                value: discountCoupon.code,
+                label: `${discountCoupon.code}${discountCoupon.title ? ` - ${discountCoupon.title}` : ''}`,
+              }))}
+              isDoubleLine
+              formatOptionLabel={({ code, title, shortSummary }) => (
+                <div>
+                  {code}
+                  {title ? ` - ${title}` : ''}
+                  <br />
+                  {shortSummary}
+                </div>
+              )}
             />
           </div>
         </div>

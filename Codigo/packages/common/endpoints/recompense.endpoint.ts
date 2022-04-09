@@ -1,3 +1,4 @@
+import { ShopifyDiscountCoupon } from '../index';
 import { Recompense, RecompenseStatus, RecompenseType } from '../models/Recompense';
 
 export type GetAllRecompensesParams = {
@@ -9,7 +10,9 @@ export type GetAllRecompensesPayload = {
   recompenses: Recompense[];
 };
 
-export type GetRecompenseBasePayload = {};
+export type GetRecompenseBasePayload = {
+  discountCoupons: ShopifyDiscountCoupon[];
+};
 
 export type GetRecompensePayload = {
   recompense: Recompense;

@@ -15,6 +15,7 @@ import Error404 from '~/pages/error404';
 import ErrorCatcher from '~/components/error/ErrorCatcher';
 
 import AdministratorLogin from '@Pages/administrator/login';
+import AdministratorDashboard from '@Pages/administrator/dashboard';
 import AdministratorAdministrators from '@Pages/administrator/administrators';
 import AdministratorAdministratorsSave from '@Pages/administrator/administrators/save';
 import AdministratorExplorers from '@Pages/administrator/explorers';
@@ -24,6 +25,8 @@ import AdministratorChallengesAccepted from '@Pages/administrator/challenges-acc
 import AdministratorChallengesAcceptedSave from '@Pages/administrator/challenges-accepted/save';
 import AdministratorRecompenses from '@Pages/administrator/recompenses';
 import AdministratorRecompensesSave from '@Pages/administrator/recompenses/save';
+import AdministratorSocialMedias from '@Pages/administrator/social-medias';
+import AdministratorSocialMediasSave from '@Pages/administrator/social-medias/save';
 
 import ExplorerLogin from '@Pages/explorer/login';
 
@@ -44,9 +47,9 @@ const routesAdministrator: RouteSettings[] = [
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
     label: 'Dashboard',
     iconClass: 'fas fa-chart-line',
-    component: () => <div>Dashboard</div>,
+    component: AdministratorDashboard,
     show: true,
-    hasNavMenu: false,
+    hasNavMenu: true,
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios',
@@ -139,6 +142,27 @@ const routesAdministrator: RouteSettings[] = [
     path: urlPrefix[UserType.ADMINISTRATOR] + '/recompensas/salvar/:id',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
     component: AdministratorRecompensesSave,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/redes-sociais',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    label: 'Redes Sociais',
+    iconClass: 'fas fa-hashtag',
+    component: AdministratorSocialMedias,
+    show: true,
+    hasNavMenu: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/redes-sociais/salvar',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    component: AdministratorSocialMediasSave,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/redes-sociais/salvar/:id',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    component: AdministratorSocialMediasSave,
     show: false,
   },
 ];
@@ -258,8 +282,11 @@ const Routes: React.FunctionComponent = () => {
           </div>
         }
       />
-      <Route path='/login' element={<LoginLayout>{<ExplorerLogin />}</LoginLayout>} />
-      <Route path='/administrador/login' element={<LoginLayout>{<AdministratorLogin />}</LoginLayout>} />
+      <Route path='/login' element={<LoginLayout type={UserType.EXPLORER}>{<ExplorerLogin />}</LoginLayout>} />
+      <Route
+        path='/administrador/login'
+        element={<LoginLayout type={UserType.ADMINISTRATOR}>{<AdministratorLogin />}</LoginLayout>}
+      />
       <Route path='/nao-autorizado' element={<Error403 fullPage />} />
       <Route path='/*' element={<Error404 fullPage />} />
     </ReactRoutes>

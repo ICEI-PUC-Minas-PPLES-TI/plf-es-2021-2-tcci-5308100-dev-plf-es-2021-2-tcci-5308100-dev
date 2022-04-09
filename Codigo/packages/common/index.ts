@@ -7,6 +7,8 @@ export * from './endpoints/challenge.endpoint';
 export * from './endpoints/challenge-accepted.endpoint';
 export * from './endpoints/recompense.endpoint';
 export * from './endpoints/reports.endpoint';
+export * from './endpoints/social-media-param.endpoint';
+export * from './endpoints/comment.endpoint';
 
 // validators
 export * from './validators/administrator.validation';
@@ -14,6 +16,8 @@ export * from './validators/explorer.validation';
 export * from './validators/challenge.validation';
 export * from './validators/challenge-accepted.validation';
 export * from './validators/recompense.validation';
+export * from './validators/social-media-param.validation';
+export * from './validators/comment.validation';
 
 // models
 export * from './models/Administrator';
@@ -62,3 +66,16 @@ export type Modify<T, R> = Pick<T, Exclude<keyof T, keyof R>> & R;
 export type ExcludeTypes<T, R extends string[]> = Pick<T, Exclude<keyof T, R[number]>>;
 
 // export type Path = (import { Path } from 'react-hook-form')
+
+export type ShopifyDiscountCoupon = {
+  id: string;
+  code: string;
+  title: string;
+  shortSummary: string;
+  status: string;
+  asyncUsageCount: string;
+  usageLimit: string;
+  createdAt: string;
+  startsAt: string;
+  endsAt: string;
+};
