@@ -61,7 +61,7 @@ const ModalFilter: FunctionComponent<ModalFilterProps> = ({ modalRef, onSubmit, 
   };
   return (
     <Modal ref={modalRef} title='Filtrar recompensas' size='md'>
-      <form onSubmit={submitter(handleOnSubmit, console.dir)}>
+      <form onSubmit={submitter(handleOnSubmit)}>
         <div className='modal-body'>
           <SelectControlled
             isMulti

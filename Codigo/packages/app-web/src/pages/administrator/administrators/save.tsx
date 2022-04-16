@@ -87,8 +87,12 @@ const AdministratorsSave: FunctionComponent = () => {
   };
 
   return (
-    <PageCard showBackButton backButtonURL='/administrador/administradores' title={id ? 'Atualizar administrador' : 'Cadastrar administrador'}>
-      <form className='pt-3 px-5' onSubmit={submitter(onSubmit, console.log)} id='testedsdasdawsad'>
+    <PageCard
+      showBackButton
+      backButtonURL='/administrador/administradores'
+      title={id ? 'Atualizar administrador' : 'Cadastrar administrador'}
+    >
+      <form className='pt-3 px-5' onSubmit={submitter(onSubmit)}>
         <div className='row'>
           <div className='col-sm-12 col-md-4'>
             <InputControlled

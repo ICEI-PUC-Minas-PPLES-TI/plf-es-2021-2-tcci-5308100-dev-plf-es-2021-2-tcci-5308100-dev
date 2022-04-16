@@ -39,3 +39,5 @@ package-lock.json
 
 # TODO file from extension TODO+: https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-todo-plus
 TODO
+
+.localstack/data/**/*

@@ -204,6 +204,30 @@ export class ChallengeAcceptedService extends BaseService<ChallengeAccepted> {
     success: SavedFile[];
     fail: SavedFile[];
   }> {
+    images.forEach((image) => {
+      if (
+        !this.filesService.checkFileValidity(image, {
+          allowedMimeType: ['image/*'],
+          maxSize: 10485760,
+        })
+      )
+        throw new ErrorMessageToUser(
+          'Atenção, arquivos com formatos inválidos.',
+        );
+    });
+
+    attachments.forEach((attachment) => {
+      if (
+        !this.filesService.checkFileValidity(attachment, {
+          allowedMimeType: ['image/*'],
+          maxSize: 10485760,
+        })
+      )
+        throw new ErrorMessageToUser(
+          'Atenção, arquivos com formatos inválidos.',
+        );
+    });
+
     const files = [
       ...images.map((image) => ({ type: FileType.PHOTO, file: image })),
       ...attachments.map((attachment) => ({
@@ -250,7 +274,7 @@ export class ChallengeAcceptedService extends BaseService<ChallengeAccepted> {
       [FileType.PHOTO]: ChallengeAccepted.imageFilenamePrefix,
     };
 
-    return `${prefix[type](id)}-${moment().format('x')}`;
+    return `${prefix[type](id)}-${moment().format('x')}${count || ''}`.trim();
   }
 
   async redeemChallengeAcceptedRecompense({

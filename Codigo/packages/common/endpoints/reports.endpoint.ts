@@ -12,4 +12,6 @@ export type GetDashboardDataPayload = {
   totalChallenges: number;
   postsWithHashtags: number;
   postsWithHashtagsLast24h: number;
+  totalChallengeResponseUnderReview: number;
+  totalCommentsWithoutResponse: number;
 };

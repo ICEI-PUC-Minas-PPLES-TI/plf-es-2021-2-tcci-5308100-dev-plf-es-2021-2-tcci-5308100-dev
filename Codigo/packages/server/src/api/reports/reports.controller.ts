@@ -1,11 +1,11 @@
-import { Controller, Get, Query } from '@nestjs/common';
+import { Controller, Get, Query, Res } from '@nestjs/common';
 import {
   AccessLast30Days,
   GetDashboardDataParams,
   GetDashboardDataPayload,
 } from '@sec/common';
+import { Response } from 'express';
 import { UtilsService } from '~/utils/utils.service';
-import { UserAccessService } from '../user-access/user-access.service';
 import { ReportsService } from './reports.service';
 
 @Controller('reports')
@@ -26,23 +26,37 @@ export class ReportsController {
       this.reportsService.getTotalOpenChallenges();
     const totalChallengesPromise = this.reportsService.getTotalChallenges();
 
+    const totalChallengeResponseUnderReviewPromise =
+      this.reportsService.getTotalChallengeResponseUnderReview();
+
+    const totalCommentsWithoutResponsePromise =
+      this.reportsService.getTotalCommentsWithoutResponse();
+
     const result = await Promise.allSettled([
       accessLast30DaysPromise,
       totalUsersPromise,
       totalOpenChallengesPromise,
       totalChallengesPromise,
+      totalChallengeResponseUnderReviewPromise,
+      totalCommentsWithoutResponsePromise,
     ]);
 
     let promisesResolved = 0;
-    const [accessLast30Days, totalUsers, totalOpenChallenges, totalChallenges] =
-      result.map((r) => {
-        if (r.status === 'fulfilled') {
-          promisesResolved += 1;
-          return r.value;
-        } else {
-          return undefined;
-        }
-      });
+    const [
+      accessLast30Days,
+      totalUsers,
+      totalOpenChallenges,
+      totalChallenges,
+      totalChallengeResponseUnderReview,
+      totalCommentsWithoutResponse,
+    ] = result.map((r) => {
+      if (r.status === 'fulfilled') {
+        promisesResolved += 1;
+        return r.value;
+      } else {
+        return undefined;
+      }
+    });
 
     return this.utilsService.apiResponse<GetDashboardDataPayload>({
       status:
@@ -57,9 +71,48 @@ export class ReportsController {
         totalUsers: totalUsers as number,
         totalOpenChallenges: totalOpenChallenges as number,
         totalChallenges: totalChallenges as number,
+        totalChallengeResponseUnderReview:
+          totalChallengeResponseUnderReview as number,
+        totalCommentsWithoutResponse: totalCommentsWithoutResponse as number,
         postsWithHashtags: 0,
         postsWithHashtagsLast24h: 0,
       },
     });
+  }
+
+  @Get('export/explorers')
+  async exportExplorers(@Res() res: Response) {
+    const csv = await this.reportsService.exportExplorersToCSV();
+
+    res.header('Content-Type', 'text/csv');
+    res.attachment('exploradores.csv');
+    return res.send(csv);
+  }
+
+  @Get('export/challenges')
+  async exportChallenges(@Res() res: Response) {
+    const csv = await this.reportsService.exportChallengesToCSV();
+
+    res.header('Content-Type', 'text/csv');
+    res.attachment('desafios.csv');
+    return res.send(csv);
+  }
+
+  @Get('export/recompenses')
+  async exportRecompenses(@Res() res: Response) {
+    const csv = await this.reportsService.exportRecompensesToCSV();
+
+    res.header('Content-Type', 'text/csv');
+    res.attachment('recompensas.csv');
+    return res.send(csv);
+  }
+
+  @Get('export/challenges-accepted')
+  async exportChallengesAccepted(@Res() res: Response) {
+    const csv = await this.reportsService.exportChallengesAcceptedToCSV();
+
+    res.header('Content-Type', 'text/csv');
+    res.attachment('desafios-aceitos.csv');
+    return res.send(csv);
   }
 }

@@ -39,7 +39,6 @@ const Explorers: FunctionComponent = () => {
     if (searchBox !== '') {
       setExplorersFiltered(matchSorter(explorers, searchBox, { keys: ['nickname', 'name', 'email'] }));
     } else {
-      console.log(explorers);
       setExplorersFiltered([...explorers]);
     }
   }, [searchBox, explorers]);

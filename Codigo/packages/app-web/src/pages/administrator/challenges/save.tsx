@@ -86,7 +86,6 @@ const ChallengesSave: FunctionComponent = () => {
   }, [id]);
 
   const fillForm = (challenge: Challenge) => {
-    console.log('challenge :>> ', challenge);
     reset({
       ...challenge,
       challengedExplorerId: challenge.challengedExplorer?.id,
@@ -157,7 +156,7 @@ const ChallengesSave: FunctionComponent = () => {
       title={id ? 'Atualizar desafio' : 'Cadastrar desafio'}
     >
       {isLoading && <CardLoading />}
-      <form className='pt-3 px-5' onSubmit={submitter(onSubmit, console.dir)}>
+      <form className='pt-3 px-5' onSubmit={submitter(onSubmit)}>
         <div className='row'>
           <div className='col-sm-12'>
             <FileDropzone

@@ -1,12 +1,13 @@
 import { Variant } from '@GlobalTypes';
-import React from 'react';
+import React, { Fragment } from 'react';
+import { Dropdown } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 
 type PageCardActions = {
   variant: Variant;
   label: string;
-  type: 'BUTTON' | 'LINK' | 'ROUTER';
+  type: 'BUTTON' | 'LINK' | 'ROUTER' | 'DROPDOWN';
   isDisabled?: boolean;
 };
 
@@ -25,11 +26,16 @@ type PageCardActionsRouterLink = PageCardActions & {
   to: string;
 };
 
+type PageCardActionsDropdown = PageCardActions & {
+  type: 'DROPDOWN';
+  menus: { label: string; href?: string; onClick?: () => void; target?: React.HTMLAttributeAnchorTarget }[];
+};
+
 type PageCardDefaultProps = {
   title: string | JSX.Element;
   showBackButton?: boolean;
   backButtonURL?: string;
-  actions?: (PageCardActionsButton | PageCardActionsLink | PageCardActionsRouterLink)[];
+  actions?: (PageCardActionsButton | PageCardActionsLink | PageCardActionsRouterLink | PageCardActionsDropdown)[];
   simpleVariant?: false;
 };
 type PageCardSimpleProps = {
@@ -106,6 +112,32 @@ const PageCard: React.FunctionComponent<PageCardProps> = ({
                   >
                     {action.label}
                   </Link>
+                ) : action.type === 'DROPDOWN' ? (
+                  <Dropdown key={'PageCard_Dropdown' + i}>
+                    <Dropdown.Toggle
+                      variant={action.variant}
+                      className={`ms-2 rounded-lg`}
+                      disabled={action.isDisabled}
+                    >
+                      {action.label}
+                    </Dropdown.Toggle>
+
+                    <Dropdown.Menu>
+                      {action.menus.map((menu, i) => (
+                        <Fragment key={`PageCard_Dropdown_Menu_${i}`}>
+                          {i !== 0 && <Dropdown.Divider />}
+                          <Dropdown.Item
+                            href={menu.href}
+                            onClick={menu.onClick}
+                            target={menu.target}
+                            rel={menu.target === '_blank' ? 'noreferrer' : undefined}
+                          >
+                            {menu.label}
+                          </Dropdown.Item>
+                        </Fragment>
+                      ))}
+                    </Dropdown.Menu>
+                  </Dropdown>
                 ) : (
                   <></>
                 )

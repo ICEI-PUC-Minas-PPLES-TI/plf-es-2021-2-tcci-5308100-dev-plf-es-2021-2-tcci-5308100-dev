@@ -3,7 +3,13 @@ import PageCard from '@Components/cards/PageCard';
 import LineChart from '@Components/charts/LineChart';
 import { Serie as LineSerie } from '@nivo/line';
 import { AccessLast30Days } from '@sec/common';
-import { getDashboardData } from '@Services/reportsService';
+import {
+  exportChallenges,
+  exportChallengesAccepted,
+  exportExplorers,
+  exportRecompenses,
+  getDashboardData,
+} from '@Services/reportsService';
 import { generateRandom } from '@Utils/util';
 import moment from 'moment';
 import { useContext, useEffect, useState } from 'react';
@@ -14,13 +20,14 @@ const Dashboard = () => {
   const { showToastDanger } = useContext(ToastContext);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [isAwaiting, setIsAwaiting] = useState(false);
 
   const [accessToday, setAccessToday] = useState(0);
   const [totalUsers, setTotalUsers] = useState(0);
   const [totalOpenChallenges, setTotalOpenChallenges] = useState(0);
   const [totalChallenges, setTotalChallenges] = useState(0);
-  const [challengeResponseAwaitingReview, setChallengeResponseAwaitingReview] = useState(undefined);
-  const [commentsWithoutResponse, setCommentsWithoutResponse] = useState(undefined);
+  const [challengeResponseAwaitingReview, setChallengeResponseAwaitingReview] = useState(0);
+  const [commentsWithoutResponse, setCommentsWithoutResponse] = useState(0);
   const [postsWithHashtags, setPostsWithHashtags] = useState(0);
   const [postsWithHashtagsLast24h, setPostsWithHashtagsLast24h] = useState(0);
 
@@ -34,7 +41,16 @@ const Dashboard = () => {
     try {
       setIsLoading(true);
       const {
-        payload: { accessLast30Days, totalUsers, totalOpenChallenges, totalChallenges },
+        payload: {
+          accessLast30Days,
+          totalUsers,
+          totalOpenChallenges,
+          totalChallenges,
+          totalChallengeResponseUnderReview,
+          totalCommentsWithoutResponse,
+          postsWithHashtags,
+          postsWithHashtagsLast24h,
+        },
       } = await getDashboardData({});
 
       setAccessToday(
@@ -43,6 +59,11 @@ const Dashboard = () => {
       setTotalUsers(totalUsers);
       setTotalOpenChallenges(totalOpenChallenges);
       setTotalChallenges(totalChallenges);
+      setChallengeResponseAwaitingReview(totalChallengeResponseUnderReview);
+      setCommentsWithoutResponse(totalCommentsWithoutResponse);
+
+      setPostsWithHashtags(postsWithHashtags);
+      setPostsWithHashtagsLast24h(postsWithHashtagsLast24h);
 
       setChartAccessLast30Days([
         {
@@ -72,6 +93,38 @@ const Dashboard = () => {
     }
 
     return days;
+  };
+
+  const handleExportReport = async (report: 'EXPLORERS' | 'CHALLENGES' | 'RECOMPENSES' | 'CHALLENGES_ACCEPTED') => {
+    try {
+      setIsAwaiting(true);
+
+      switch (report) {
+        case 'EXPLORERS':
+          await exportExplorers();
+          break;
+
+        case 'CHALLENGES':
+          await exportChallenges();
+          break;
+
+        case 'RECOMPENSES':
+          await exportRecompenses();
+          break;
+
+        case 'CHALLENGES_ACCEPTED':
+          await exportChallengesAccepted();
+          break;
+
+        default:
+          showToastDanger({ message: 'Ocorreu um erro ao exportar o relatório. Por favor, tente novamente.' });
+          break;
+      }
+    } catch (error) {
+      showToastDanger({ message: 'Ocorreu um erro ao exportar o relatório. Por favor, tente novamente.' });
+    } finally {
+      setIsAwaiting(false);
+    }
   };
 
   return (
@@ -148,10 +201,15 @@ const Dashboard = () => {
           title='Dashboard'
           actions={[
             {
-              type: 'BUTTON',
+              type: 'DROPDOWN',
               variant: 'success',
-              label: 'Exportar relatórios',
-              onClick: () => '',
+              label: isAwaiting ? 'Preparando...' : 'Exportar relatórios',
+              menus: [
+                { label: 'Exportar exploradores', onClick: () => handleExportReport('EXPLORERS') },
+                { label: 'Exportar desafios', onClick: () => handleExportReport('CHALLENGES') },
+                { label: 'Exportar recompensas', onClick: () => handleExportReport('RECOMPENSES') },
+                { label: 'Exportar desafios aceitos', onClick: () => handleExportReport('CHALLENGES_ACCEPTED') },
+              ],
             },
           ]}
         >

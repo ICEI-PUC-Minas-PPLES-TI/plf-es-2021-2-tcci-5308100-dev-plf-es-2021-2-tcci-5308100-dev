@@ -48,7 +48,7 @@ const CommentsView: FunctionComponent<CommentsViewProps> = ({ comments, onSubmit
 
       <form
         className={`d-flex ${comments.length === 0 ? 'mt-3' : ''}`}
-        onSubmit={submitter(handleOnSubmit, console.log)}
+        onSubmit={submitter(handleOnSubmit)}
       >
         <input
           {...register('text')}

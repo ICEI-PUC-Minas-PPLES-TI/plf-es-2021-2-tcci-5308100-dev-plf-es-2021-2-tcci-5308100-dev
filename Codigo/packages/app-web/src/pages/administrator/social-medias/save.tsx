@@ -111,7 +111,7 @@ const SocialMediaParamsSave: FunctionComponent = () => {
       backButtonURL='/administrador/redes-sociais'
       title={id ? 'Atualizar recompensa' : 'Cadastrar recompensa'}
     >
-      <form className='pt-3 px-5' onSubmit={submitter(onSubmit, console.dir)}>
+      <form className='pt-3 px-5' onSubmit={submitter(onSubmit)}>
         <div className='row'>
           <div className='col-sm-12'>
             <InputControlled

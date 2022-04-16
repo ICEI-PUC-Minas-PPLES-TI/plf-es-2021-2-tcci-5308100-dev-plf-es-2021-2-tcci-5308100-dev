@@ -88,7 +88,7 @@ const InputMultiValues: React.FunctionComponent<InputMultiValuesProps> = ({
             label={
               <label>
                 Anexar
-                <input multiple type='file' className='d-none' onChange={addFile} />
+                <input multiple type='file' className='d-none' onChange={addFile} accept='image/*' />
               </label>
             }
           />
@@ -99,7 +99,7 @@ const InputMultiValues: React.FunctionComponent<InputMultiValuesProps> = ({
             label={
               <label>
                 Anexar fotos
-                <input multiple type='file' className='d-none' onChange={addImage} />
+                <input multiple type='file' className='d-none' onChange={addImage} accept='image/*' />
               </label>
             }
           />

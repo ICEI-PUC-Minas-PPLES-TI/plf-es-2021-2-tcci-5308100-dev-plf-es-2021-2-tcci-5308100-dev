@@ -156,7 +156,7 @@ const RecompensesSave: FunctionComponent = () => {
       backButtonURL='/administrador/recompensas'
       title={id ? 'Atualizar recompensa' : 'Cadastrar recompensa'}
     >
-      <form className='pt-3 px-5' onSubmit={submitter(onSubmit, console.dir)}>
+      <form className='pt-3 px-5' onSubmit={submitter(onSubmit)}>
         <div className='row'>
           <div className='col-sm-12 col-md-12 col-lg-6'>
             <InputControlled

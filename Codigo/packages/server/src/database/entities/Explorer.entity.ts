@@ -11,7 +11,7 @@ export class Explorer extends User implements IExplorer {
     super();
   }
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, select: false })
   token?: string;
 
   @Column({ nullable: true })
