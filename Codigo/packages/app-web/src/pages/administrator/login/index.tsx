@@ -14,6 +14,7 @@ const AdministratorLogin = () => {
         </>
       }
       onSubmit={(credentials) => signIn(UserType.ADMINISTRATOR, credentials)}
+      onForgotPassword={{ label: 'Esqueci minha senha', href: '/administrador/esqueci-minha-senha' }}
     />
   );
 };

@@ -30,7 +30,6 @@ const CommentsView: FunctionComponent<CommentsViewProps> = ({ comments, onSubmit
   });
 
   const [isSending, setIsSending] = useState(false);
-  const [text, setText] = useState('');
 
   const handleOnSubmit = async (params: CommentInputData) => {
     setIsSending(true);

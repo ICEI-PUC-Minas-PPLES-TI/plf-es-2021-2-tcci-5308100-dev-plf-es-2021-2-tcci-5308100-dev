@@ -22,6 +22,7 @@ export type FileDropzoneSingle = {
   singleFile: true;
   file: FileMixed | FileMixedSchema | undefined;
   onAcceptFile: (file: NewFile) => void;
+  avatarDropzone?: boolean;
 };
 
 export type FileDropzoneMultiple = {

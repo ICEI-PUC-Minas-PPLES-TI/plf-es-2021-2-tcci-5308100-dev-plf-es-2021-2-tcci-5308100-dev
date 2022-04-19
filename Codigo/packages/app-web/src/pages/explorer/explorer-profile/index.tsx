@@ -2,40 +2,44 @@ import ChallengeCard from '@Components/cards/ChallengeCard';
 import ExplorerProfileCard from '@Components/cards/ExplorerProfileCard';
 import PageCard from '@Components/cards/PageCard';
 import SideCard from '@Components/cards/SideCard';
-import { ChallengeAccepted, ChallengeAcceptedStatus } from '@sec/common';
+import { ModalMethods } from '@Components/modals/Modal';
+import { ChallengeAccepted, ChallengeAcceptedStatus, Explorer } from '@sec/common';
 import { getAllChallengesAccepted, GetAllChallengesAcceptedFilters } from '@Services/challengeAcceptedService';
+import { getExplorerProfile } from '@Services/explorerService';
 import { sortAcceptChallengeByStatus } from '@Utils/util';
 import arraySort from 'array-sort';
-import { useContext, useEffect, useState } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '~/context/AuthContext';
 import { ToastContext } from '~/context/ToastContext';
 import { defaultErrorHandler } from '~/error/defaultErrorHandler';
+import ModalEditExplorerProfile from './ModalEditExplorerProfile';
 
 const ExplorerProfile = () => {
   const navigate = useNavigate();
+  const modalEditExplorerProfile = useRef<ModalMethods>(null);
   const { showToastDanger } = useContext(ToastContext);
-
-  const initialFilters: GetAllChallengesAcceptedFilters = {
-    status: [ChallengeAcceptedStatus.UNDER_REVIEW, ChallengeAcceptedStatus.PENDING, ChallengeAcceptedStatus.COMPLETE],
-  };
+  const { user } = useContext(AuthContext);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [explorer, setExplorer] = useState<Explorer | undefined>(undefined);
   const [challengesAccepted, setChallengesAccepted] = useState<ChallengeAccepted[]>([]);
 
   useEffect(() => {
-    fetchData(initialFilters);
+    fetchData();
   }, []);
 
-  const fetchData = async (filter: GetAllChallengesAcceptedFilters | null = null) => {
+  const fetchData = async () => {
     try {
       setIsLoading(true);
       const {
-        payload: { challengesAccepted },
-      } = await getAllChallengesAccepted(filter);
+        payload: { explorer },
+      } = await getExplorerProfile(user.id);
 
+      setExplorer(explorer);
       setChallengesAccepted(
-        arraySort(challengesAccepted, [sortAcceptChallengeByStatus(), 'updatedAt'], { reverse: true })
+        arraySort(explorer.acceptedChallenges, [sortAcceptChallengeByStatus(), 'updatedAt'], { reverse: true })
       );
     } catch (error) {
       defaultErrorHandler(error, showToastDanger);
@@ -45,25 +49,9 @@ const ExplorerProfile = () => {
   };
 
   return (
-    <div className='d-flex'>
+    <div className='d-flex h-100'>
       <PageCard simpleVariant limitedWidth hidePaddingTopExtra>
-        <ExplorerProfileCard
-          explorer={
-            {
-              nickname: 'bianca_julia',
-              name: 'Bianca Julia Regina Beatriz Gomes',
-              createdAt: '2022-03-16 23:27:36.628',
-              countChallengeCompleted: 11,
-              favoriteProduct: 'Cerveja',
-              biography: 'Estudante de programação \\o/',
-              instagram: 'bianca_julia',
-              tikTok: 'bianca_julia',
-              twitter: 'bianca_julia',
-              facebook: 'bianca_julia',
-              linkedIn: 'bianca_julia',
-            } as any
-          }
-        />
+        <ExplorerProfileCard explorer={explorer} onEdit={() => modalEditExplorerProfile.current?.showModal()} />
         {isLoading && (
           <>
             <Skeleton height='30px' count={3} />
@@ -91,6 +79,7 @@ const ExplorerProfile = () => {
           side card
         </div>
       </SideCard>
+      <ModalEditExplorerProfile modalRef={modalEditExplorerProfile} explorer={explorer} onSubmit={setExplorer} />
     </div>
   );
 };

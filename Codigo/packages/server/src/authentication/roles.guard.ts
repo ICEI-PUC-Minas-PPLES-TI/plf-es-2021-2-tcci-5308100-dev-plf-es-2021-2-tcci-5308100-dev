@@ -51,7 +51,7 @@ export class RolesGuardClass implements CanActivate {
       return true;
     }
 
-    const roles = this.reflector.getAllAndOverride<UserType[]>('roles', [
+    const roles = this.reflector.getAllAndOverride<UserType[] | '*'>('roles', [
       context.getHandler(),
       context.getClass(),
     ]);
@@ -60,8 +60,10 @@ export class RolesGuardClass implements CanActivate {
 
     const { user } = req;
 
-    if (Array.isArray(roles)) {
-      return roles.length === 0 ? false : roles.includes(user?.type);
+    if (roles === '*') {
+      return true;
+    } else if (Array.isArray(roles)) {
+      return roles.includes(user?.type);
     } else {
       return [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR].includes(
         user?.type,

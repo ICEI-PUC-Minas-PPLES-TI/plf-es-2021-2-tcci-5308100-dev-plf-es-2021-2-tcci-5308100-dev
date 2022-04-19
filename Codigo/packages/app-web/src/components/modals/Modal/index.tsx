@@ -5,6 +5,8 @@ interface ModalSimpleProps {
   children?: JSX.Element | JSX.Element[];
   title?: string;
   size?: 'sm' | 'md' | 'lg' | 'xl';
+  rounded?: boolean;
+  headerClassName?: string;
 }
 
 interface ModalProps extends ModalSimpleProps {
@@ -18,14 +20,31 @@ export interface ModalMethods {
   getStates: () => {
     show: boolean;
   };
+  states: { show: boolean };
 }
 
 export type ModalPattern = { ref: React.RefObject<ModalMethods> } & ModalSimpleProps;
 
-const Modal: React.FunctionComponent<ModalProps> = ({ children, title, size = 'md', show, handleClose }) => {
+const Modal: React.FunctionComponent<ModalProps> = ({
+  children,
+  title,
+  size = 'md',
+  show,
+  handleClose,
+  rounded,
+  headerClassName,
+}) => {
   return (
-    <ModalBootstrap show={show} onHide={handleClose} size={size === 'md' ? undefined : size}>
-      <ModalBootstrap.Header closeButton>
+    <ModalBootstrap
+      show={show}
+      onHide={handleClose}
+      size={size === 'md' ? undefined : size}
+      contentClassName={rounded ? 'rounded-md' : ''}
+    >
+      <ModalBootstrap.Header
+        closeButton
+        className={`${headerClassName || ''} ${rounded ? 'rounded-md rounded-bottom-none' : ''}`}
+      >
         <ModalBootstrap.Title>{title}</ModalBootstrap.Title>
       </ModalBootstrap.Header>
       {children}
@@ -40,11 +59,16 @@ export const ModalWithMethods = forwardRef<ModalMethods, ModalSimpleProps>((prop
 
   const handleClose = () => setShow(false);
 
-  useImperativeHandle(ref, () => ({
-    showModal: () => setShow(true),
-    closeModal: handleClose,
-    getStates: () => ({ show }),
-  }));
+  useImperativeHandle(
+    ref,
+    () => ({
+      showModal: () => setShow(true),
+      closeModal: handleClose,
+      getStates: () => ({ show }),
+      states: { show },
+    }),
+    []
+  );
 
   return Modal({ show: show, handleClose: handleClose, ...props });
 });

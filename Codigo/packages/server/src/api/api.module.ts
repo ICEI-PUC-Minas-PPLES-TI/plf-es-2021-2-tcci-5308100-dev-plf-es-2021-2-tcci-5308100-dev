@@ -37,6 +37,7 @@ import { UserService } from './user/user.service';
 import { ReportsService } from './reports/reports.service';
 import { ReportsController } from './reports/reports.controller';
 import { UserAccessService } from './user-access/user-access.service';
+import { EmailModule } from '~/email/email.module';
 
 @Module({
   imports: [
@@ -45,6 +46,7 @@ import { UserAccessService } from './user-access/user-access.service';
     AuthenticationModule,
     ShopifyModule,
     FilesModule,
+    EmailModule,
   ],
   controllers: [
     AdministratorController,

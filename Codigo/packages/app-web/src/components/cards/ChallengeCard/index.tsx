@@ -17,7 +17,7 @@ const ChallengeCard: React.FunctionComponent<ChallengeCardProps> = ({ challenge,
       onClick={onClick}
     >
       <img
-        className='w-100 rounded-md border-bottom-none'
+        className='w-100 rounded-md rounded-bottom-none'
         style={{ maxHeight: '200px', objectFit: 'cover' }}
         src={challenge.cover.urlPath}
       />

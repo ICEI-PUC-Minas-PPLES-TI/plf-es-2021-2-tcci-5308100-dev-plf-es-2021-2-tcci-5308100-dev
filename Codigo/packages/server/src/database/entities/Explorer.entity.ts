@@ -1,8 +1,22 @@
-import { AfterLoad, ChildEntity, Column, Entity, OneToMany } from 'typeorm';
+import {
+  AfterLoad,
+  ChildEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
 import { Challenge } from './Challenge.entity';
 import { ChallengeAccepted } from './ChallengeAccepted.entity';
 import { User } from './User.entity';
-import { Explorer as IExplorer, ExplorerStatus, UserType } from '@sec/common';
+import {
+  ChallengeAcceptedStatus,
+  Explorer as IExplorer,
+  ExplorerStatus,
+  UserType,
+} from '@sec/common';
+import { SavedFile } from './SavedFile.entity';
 
 console.log(User);
 @ChildEntity(UserType.EXPLORER)
@@ -10,6 +24,12 @@ export class Explorer extends User implements IExplorer {
   constructor() {
     super();
   }
+
+  public static avatarFilenamePrefix = (id) => `explorer-avatar-${id}`;
+
+  @OneToOne(() => SavedFile, { cascade: true })
+  @JoinColumn()
+  avatar?: SavedFile;
 
   @Column({ nullable: true, select: false })
   token?: string;
@@ -49,12 +69,14 @@ export class Explorer extends User implements IExplorer {
 
   countChallengeCompleted: number;
 
-  // TODO: terminar método
   @AfterLoad()
   getCountChallengeCompleted() {
     const countChallengeCompleted =
-      (this.acceptedChallenges?.length || 0) +
-      (this.exclusiveChallenges?.length || 0);
+      this.acceptedChallenges?.reduce(
+        (acc, curr) =>
+          curr.status === ChallengeAcceptedStatus.COMPLETE ? ++acc : acc,
+        0,
+      ) || null;
 
     this.countChallengeCompleted = countChallengeCompleted;
     return countChallengeCompleted;

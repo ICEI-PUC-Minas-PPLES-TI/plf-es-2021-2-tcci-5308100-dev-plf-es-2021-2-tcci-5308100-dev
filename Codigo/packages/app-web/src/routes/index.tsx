@@ -29,11 +29,13 @@ import AdministratorSocialMedias from '@Pages/administrator/social-medias';
 import AdministratorSocialMediasSave from '@Pages/administrator/social-medias/save';
 
 import ExplorerLogin from '@Pages/explorer/login';
+import ExplorerNewAccount from '@Pages/explorer/login/NewAccount';
 
 import ExplorerHome from '@Pages/explorer/home';
 import ExplorerExplorerProfile from '@Pages/explorer/explorer-profile';
 import ExplorerChallengeAccepted from '@Pages/explorer/explorer-profile/ChallengeAccepted';
 import ExplorerChallenge from '@Pages/explorer/home/Challenge';
+import ExplorerIndicate from '@Pages/explorer/indicate';
 
 const urlPrefix = {
   [UserType.SUPER_ADMINISTRATOR]: '/administrador',
@@ -198,6 +200,16 @@ const routesExplorer: RouteSettings[] = [
     component: ExplorerChallenge,
     show: false,
   },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/indicar',
+    allowedUsers: [UserType.EXPLORER],
+    label: 'Indicar',
+    iconClass: 'fas fa-share-alt',
+    component: ExplorerIndicate,
+    show: true,
+    hasNavMenu: false,
+  },
+  
 ];
 
 const routes = [...routesAdministrator, ...routesExplorer];
@@ -283,6 +295,7 @@ const Routes: React.FunctionComponent = () => {
         }
       />
       <Route path='/login' element={<LoginLayout type={UserType.EXPLORER}>{<ExplorerLogin />}</LoginLayout>} />
+      <Route path='/criar-conta' element={<LoginLayout type={UserType.EXPLORER}>{<ExplorerNewAccount />}</LoginLayout>} />
       <Route
         path='/administrador/login'
         element={<LoginLayout type={UserType.ADMINISTRATOR}>{<AdministratorLogin />}</LoginLayout>}

@@ -26,6 +26,7 @@ import {
     ShopifyModule,
     ServeStaticModule.forRoot({
       rootPath: join(resolve(), 'public/app-web'),
+      exclude: ['/api*'],
     }),
     WinstonModule.forRoot({
       transports: [

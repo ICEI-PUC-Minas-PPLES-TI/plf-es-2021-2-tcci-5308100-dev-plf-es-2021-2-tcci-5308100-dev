@@ -1,5 +1,6 @@
 import { Challenge } from './Challenge';
 import { ChallengeAccepted } from './ChallengeAccepted';
+import { SavedFile } from './SavedFile';
 import { User } from './User';
 
 export enum ExplorerStatus {
@@ -10,6 +11,7 @@ export enum ExplorerStatus {
 }
 
 export interface Explorer extends User {
+  avatar?: SavedFile;
   token?: string;
   biography?: string;
   favoriteProduct?: string;

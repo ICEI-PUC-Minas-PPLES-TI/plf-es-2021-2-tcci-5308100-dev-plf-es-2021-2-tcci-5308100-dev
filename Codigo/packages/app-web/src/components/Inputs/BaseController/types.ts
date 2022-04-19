@@ -26,6 +26,8 @@ export type InputControlledProps<T> = FormInputControlled<T> &
     onBlur?: FocusEventHandler<HTMLInputElement>;
     placeholder?: string;
     inputStyle?: CSSProperties;
+    autoComplete?: ('current-password' | 'username' | 'new-password') | string;
+    maxLength?: number | undefined;
   };
 
 export interface InputControlledNumber {

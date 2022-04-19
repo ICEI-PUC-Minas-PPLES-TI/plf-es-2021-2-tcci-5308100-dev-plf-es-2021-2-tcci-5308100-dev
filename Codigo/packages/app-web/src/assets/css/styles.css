@@ -176,7 +176,7 @@ input.has-success:focus {
   color: var(--bs-gray-700) !important;
 }
 
-.border-bottom-none {
+.rounded-bottom-none {
   border-bottom-right-radius: 0px !important;
   border-bottom-left-radius: 0px !important;
 }
@@ -221,4 +221,26 @@ input.has-success:focus {
 }
 .bg-blue-gradiant {
   background: linear-gradient(to right, #0575e6, #021b79) !important;
+}
+
+.no-caret.dropdown-toggle::after {
+  content: none;
+}
+.no-shadow.btn:focus {
+  box-shadow: none;
+}
+
+.no-active-highlight.dropdown-item.active,
+.no-active-highlight.dropdown-item:active,
+.no-focus-highlight.dropdown-item:focus,
+.no-hover-highlight.dropdown-item:hover {
+  color: unset;
+  text-decoration: unset;
+  background-color: unset;
+}
+
+.avatar-size {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
 }

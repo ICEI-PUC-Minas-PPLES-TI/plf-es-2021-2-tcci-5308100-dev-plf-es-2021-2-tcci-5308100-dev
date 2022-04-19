@@ -11,6 +11,7 @@ import {
   UpdateAdministratorDTO,
   UserType,
 } from '@sec/common';
+import { EmailService } from '~/email/email.service';
 
 @Injectable()
 export class AdministratorService extends BaseService<Administrator> {
@@ -18,6 +19,7 @@ export class AdministratorService extends BaseService<Administrator> {
     @InjectRepository(Administrator)
     private readonly administratorRepository: Repository<Administrator>,
     private readonly profileService: ProfileService,
+    private readonly emailService: EmailService,
     private readonly utilsService: UtilsService,
   ) {
     super(administratorRepository, []);
@@ -84,5 +86,40 @@ export class AdministratorService extends BaseService<Administrator> {
       ...data,
       password: password,
     });
+  }
+
+  public async createAndSendPassword(
+    data: CreateAdministratorDTO,
+  ): Promise<Administrator> {
+    if (data.randomPassword)
+      data.password === this.utilsService.generateRandomString(8);
+
+    const administrator = await this.createAndSave(data);
+
+    if (!!administrator && !!data.password)
+      await this.emailService.newPasswordToAdministrator(
+        administrator,
+        data.password,
+      );
+
+    return administrator;
+  }
+
+  public async updateByIdAndSendPassword(
+    id: number,
+    data: UpdateAdministratorDTO,
+  ): Promise<Administrator> {
+    if (data.randomPassword)
+      data.password = this.utilsService.generateRandomString(8);
+
+    const administrator = await this.updateById(id, data);
+
+    if (!!administrator && !!data.password)
+      await this.emailService.newPasswordToAdministrator(
+        administrator,
+        data.password,
+      );
+
+    return administrator;
   }
 }

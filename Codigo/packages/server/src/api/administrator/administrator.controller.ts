@@ -127,7 +127,9 @@ export class AdministratorController {
 
     if (!success) return this.utilsService.apiResponseInvalidBody(error);
 
-    const administrator = await this.administratorService.createAndSave(dto);
+    const administrator = await this.administratorService.createAndSendPassword(
+      dto,
+    );
 
     return this.utilsService.apiResponseSuccessOrFail<GetAdministratorPayload>({
       success: !!administrator,
@@ -145,10 +147,8 @@ export class AdministratorController {
 
     if (!success) return this.utilsService.apiResponseInvalidBody(error);
 
-    const administrator = await this.administratorService.updateById(
-      body.id,
-      dto,
-    );
+    const administrator =
+      await this.administratorService.updateByIdAndSendPassword(body.id, dto);
 
     return this.utilsService.apiResponseSuccessOrFail<GetAdministratorPayload>({
       success: !!administrator,

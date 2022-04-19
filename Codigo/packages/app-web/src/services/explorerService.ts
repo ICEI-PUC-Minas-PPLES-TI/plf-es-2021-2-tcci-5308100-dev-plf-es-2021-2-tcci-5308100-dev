@@ -1,4 +1,4 @@
-import api from '../config/api';
+import api from '~/config/api';
 import {
   ApiResponse,
   CreateExplorerDTO,
@@ -6,11 +6,11 @@ import {
   GetAllExplorersParams,
   GetAllExplorersPayload,
   UpdateExplorerDTO,
-  Explorer,
   ActiveExplorersParams,
   ActiveExplorersPayload,
   BanExplorersParams,
   BanExplorersPayload,
+  UpdateExplorerProfileDTO,
 } from '@sec/common';
 import { APIError } from '~/error/APIError';
 
@@ -28,6 +28,37 @@ export const getAllExplorers = async (filters: GetAllExplorersFilters | null) =>
 
 export const getExplorer = async (id: number) => {
   const { data, headers } = await api.get<ApiResponse<GetExplorerPayload>>(`/explorer/${id}`);
+
+  if (data.status === 'SUCCESS' || data.status === 'WARNING') {
+    return data;
+  } else {
+    throw new APIError(data.message, data, headers);
+  }
+};
+
+export const getExplorerProfile = async (id: number) => {
+  const { data, headers } = await api.get<ApiResponse<GetExplorerPayload>>(`/explorer/profile/${id}`);
+
+  if (data.status === 'SUCCESS' || data.status === 'WARNING') {
+    return data;
+  } else {
+    throw new APIError(data.message, data, headers);
+  }
+};
+
+const serializeExplorerProfile = (explorer: UpdateExplorerProfileDTO, newAvatar?: File): FormData => {
+  const formData = new FormData();
+  formData.append('object', JSON.stringify(explorer));
+  if (newAvatar) formData.append('newAvatar', newAvatar);
+
+  return formData;
+};
+
+export const updateExplorerProfile = async (explorer: UpdateExplorerProfileDTO, newAvatar: File) => {
+  const { data, headers } = await api.put<ApiResponse<GetExplorerPayload>>(
+    '/explorer/profile',
+    serializeExplorerProfile(explorer, newAvatar)
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -68,6 +99,16 @@ export const activeExplorers = async (explorers: ActiveExplorersParams) => {
 
 export const banExplorers = async (explorers: BanExplorersParams) => {
   const { data, headers } = await api.put<ApiResponse<BanExplorersPayload>>('/explorer/ban-explorers', explorers);
+
+  if (data.status === 'SUCCESS' || data.status === 'WARNING') {
+    return data;
+  } else {
+    throw new APIError(data.message, data, headers);
+  }
+};
+
+export const indicateExplorer = async (request: { email: string }) => {
+  const { data, headers } = await api.post<ApiResponse<null>>('/explorer/indicate-explorer', request);
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

@@ -14,6 +14,8 @@ const InputControlled: <T>(props: InputControlledProps<T>) => JSX.Element = ({
   onBlur,
   inputStyle,
   placeholder,
+  maxLength,
+  autoComplete,
   ...rest
 }) => {
   return (
@@ -21,7 +23,7 @@ const InputControlled: <T>(props: InputControlledProps<T>) => JSX.Element = ({
       {...rest}
       render={({ ref, value, onChange }) => (
         <Control
-          autoComplete={type === 'password' ? 'new-password' : undefined}
+          autoComplete={autoComplete}
           ref={ref}
           type={type}
           value={value}
@@ -34,6 +36,7 @@ const InputControlled: <T>(props: InputControlledProps<T>) => JSX.Element = ({
             onChange(value);
           }}
           onBlur={onBlur}
+          maxLength={maxLength}
         />
       )}
     />

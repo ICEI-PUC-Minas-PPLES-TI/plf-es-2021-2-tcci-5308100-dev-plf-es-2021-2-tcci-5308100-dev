@@ -8,6 +8,21 @@ export type CreateExplorerDTO = BaseExplorerDTO;
 
 export type UpdateExplorerDTO = BaseExplorerDTO & { id: number; status: ExplorerStatus };
 
+export type UpdateExplorerProfileDTO = {
+  id: number;
+  nickname: string;
+  name: string;
+  favoriteProduct?: string;
+  biography?: string;
+  instagram?: string;
+  tikTok?: string;
+  twitter?: string;
+  facebook?: string;
+  linkedIn?: string;
+
+  avatarId?: number;
+};
+
 const validatorBase: yup.SchemaOf<BaseExplorerDTO> = yup.object().shape({});
 
 export const createExplorerValidator: (body: any) => Promise<ValidatorResult<CreateExplorerDTO>> = async (body) => {
@@ -25,6 +40,43 @@ export const updateExplorerValidator: (body: any) => Promise<ValidatorResult<Upd
     yup.object().shape({
       id: yup.number().required(),
       status: yup.mixed<ExplorerStatus>().oneOf(Object.values(ExplorerStatus)),
+    })
+  );
+
+  return await validateHandler(validator, dto);
+};
+
+export const updateExplorerProfileValidator: (body: any) => Promise<ValidatorResult<UpdateExplorerProfileDTO>> = async (
+  body
+) => {
+  const dto = assigner<UpdateExplorerProfileDTO>(body, {
+    id: null,
+    nickname: null,
+    name: null,
+    favoriteProduct: null,
+    biography: null,
+    instagram: null,
+    tikTok: null,
+    twitter: null,
+    facebook: null,
+    linkedIn: null,
+    avatarId: null,
+  });
+
+  const validator: yup.SchemaOf<UpdateExplorerProfileDTO> = validatorBase.concat(
+    yup.object().shape({
+      id: yup.number().required(),
+      nickname: yup.string().required(),
+      name: yup.string().required(),
+      favoriteProduct: yup.string(),
+      biography: yup.string(),
+      instagram: yup.string(),
+      tikTok: yup.string(),
+      twitter: yup.string(),
+      facebook: yup.string(),
+      linkedIn: yup.string(),
+
+      avatarId: yup.number(),
     })
   );
 

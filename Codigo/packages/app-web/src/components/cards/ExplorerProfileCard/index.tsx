@@ -1,26 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Explorer } from '@sec/common';
 import moment from 'moment';
 import { CSSProperties } from 'react';
 import Skeleton from 'react-loading-skeleton';
+import DropdownBackless from '@Components/dropdown/DropdownBackless';
+import { AuthContext } from '~/context/AuthContext';
+// import {AuthContext} from '~/context/AuthContext'
 
 export type ExplorerProfileCardProps = {
   explorer: Explorer | undefined;
+  onEdit?: (explorer: Explorer) => void;
 };
 
-const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = ({ explorer }) => {
+const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = ({ explorer, onEdit }) => {
   const classSideDiv = 'flex-grow-1 flex-center flex-column justify-content-end pb-3';
   const styleSideDiv: CSSProperties = { width: 'calc(50% - 100px)', fontSize: '0.9rem' };
 
-  const normalizeProfile = (profile: string) => (profile[0] === '@' ? profile.slice(1) : profile);
-  const formatProfile = (profile: string) => (profile[0] === '@' ? profile : '@' + profile);
+  const { user } = useContext(AuthContext);
 
   const profileUrls = {
-    instagram: (socialMediaProfile: string) => `https://www.instagram.com/${normalizeProfile(socialMediaProfile)}`,
-    tikTok: (socialMediaProfile: string) => `${normalizeProfile(socialMediaProfile)}`,
-    twitter: (socialMediaProfile: string) => `${normalizeProfile(socialMediaProfile)}`,
-    facebook: (socialMediaProfile: string) => `${normalizeProfile(socialMediaProfile)}`,
-    linkedIn: (socialMediaProfile: string) => `${normalizeProfile(socialMediaProfile)}`,
+    instagram: (socialMediaProfile: string) => `https://www.instagram.com/${socialMediaProfile}`,
+    tikTok: (socialMediaProfile: string) => `https://www.tiktok.com/${socialMediaProfile}`,
+    twitter: (socialMediaProfile: string) => `https://twitter.com/${socialMediaProfile}`,
+    facebook: (socialMediaProfile: string) => `https://www.facebook.com/${socialMediaProfile}`,
+    linkedIn: (socialMediaProfile: string) => `https://www.linkedin.com/in/${socialMediaProfile}`,
   };
 
   const formatExplorerSocialMedia = (
@@ -36,7 +39,7 @@ const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = (
           target='_blank'
           rel='noreferrer'
         >
-          {formatProfile(profile)} <i className={iconClass} style={{ width: '15px' }} />
+          {profile} <i className={iconClass} style={{ width: '15px' }} />
         </a>
       );
     } else {
@@ -68,12 +71,15 @@ const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = (
       <div className='flex-center justify-content-between flex-column h-100 py-3' style={{ width: '200px', zIndex: 2 }}>
         {!explorer ? (
           <Skeleton circle width='160px' height='160px' />
+        ) : explorer.avatar ? (
+          <img className='rounded-circle avatar-size' src={explorer.avatar.urlPath} />
         ) : (
-          <img
-            className='rounded-circle'
-            style={{ width: '160px', height: '160px', objectFit: 'cover' }}
-            src='https://steamuserimages-a.akamaihd.net/ugc/958596576368807294/2CDA31196125EAE96EC9C65EEF847A60508D48AB/'
-          />
+          <div
+            className='rounded-circle overflow-hidden flex-center align-items-start avatar-size border-grey text-muted'
+            style={{ fontSize: '160px' }}
+          >
+            <i className='fas fa-user' />
+          </div>
         )}
         {explorer && <h5 className='text-center m-0'>Bianca Julia Regina Beatriz Gomes</h5>}
       </div>
@@ -89,6 +95,23 @@ const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = (
         )}
       </div>
       <div style={{ position: 'absolute', left: 0, right: 0, height: '40%', background: '#fbd499', zIndex: 1 }} />
+      {explorer && user.id === explorer.id && (
+        <div className='' style={{ position: 'absolute', top: 0, right: '6px', zIndex: 3 }}>
+          <DropdownBackless
+            noCaret
+            noShadow
+            label='bars'
+            menus={[
+              {
+                iconClass: 'far fa-edit',
+                title: 'Editar',
+                subtitle: 'Editar meu perfil',
+                onClick: () => explorer && onEdit && onEdit(explorer),
+              },
+            ]}
+          />
+        </div>
+      )}
     </div>
   );
 };

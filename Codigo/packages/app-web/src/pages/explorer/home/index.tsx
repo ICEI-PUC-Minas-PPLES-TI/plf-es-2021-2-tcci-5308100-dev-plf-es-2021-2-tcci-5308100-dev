@@ -42,7 +42,7 @@ const ExplorerHome = () => {
   };
 
   return (
-    <div className='d-flex'>
+    <div className='d-flex h-100'>
       <PageCard simpleVariant limitedWidth hidePaddingTopExtra>
         <SocialMediaStoriesCardContainer socialMediaStories={socialMediaStories} />
         {/* TODO: Adicionar skeleton  */}

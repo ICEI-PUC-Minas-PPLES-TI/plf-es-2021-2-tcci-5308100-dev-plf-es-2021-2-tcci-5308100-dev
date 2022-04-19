@@ -44,24 +44,34 @@ const FileDropzone: React.FunctionComponent<FileDropzoneProps> = ({
             {({ getRootProps, getInputProps, isDragActive, isDragReject }) => (
               <div
                 {...getRootProps()}
-                className={`dropContainer mb-3 ${hasError ? 'has-error' : ''}`}
+                className={`dropContainer ${hasError ? 'has-error' : ''} ${
+                  props.singleFile && props.avatarDropzone ? 'rounded-circle avatar-size mx-auto' : 'mb-3'
+                }`}
                 style={{ borderColor: isDragReject ? '#e57878' : isDragActive ? '#78e5d5' : '' }}
               >
                 {(props.singleFile && !props.file) || (!props.singleFile && props.files.length === 0) ? (
                   <>
                     <input {...getInputProps()} />
-                    {renderDragMessage(isDragActive, isDragReject)}
+                    {props.singleFile && props.avatarDropzone ? (
+                      <i className='fas fa-camera text-secondary' style={{  fontSize: '50px' }} />
+                    ) : (
+                      renderDragMessage(isDragActive, isDragReject)
+                    )}
                   </>
                 ) : (
                   (props.singleFile ? [props.file as FileMixed] : props.files).map((file) => (
                     <div
                       key={file.urlPath}
-                      className='drop-container-image-box'
+                      className={`drop-container-image-box ${props.singleFile && props.avatarDropzone ? 'p-0' : ''}`}
                       title={file.name}
                       onClick={() => onRemoveFile(file)}
                     >
-                      <img src={file.urlPath} style={{ maxHeight: maxHeight }} />
-                      <i className='fas fa-times' />
+                      <img
+                        src={file.urlPath}
+                        style={{ maxHeight: maxHeight }}
+                        className={`${props.singleFile && props.avatarDropzone ? 'rounded-circle p-0 avatar-size' : ''} `}
+                      />
+                      {props.singleFile && !props.avatarDropzone && <i className='fas fa-times' />}
                     </div>
                   ))
                 )}

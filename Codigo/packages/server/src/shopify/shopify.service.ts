@@ -23,10 +23,12 @@ export class ShopifyService {
     password: string;
   }): Promise<{ token: string; expiresAt: moment.Moment } | null> {
     if (process.env.NODE_ENV === 'development') {
-      return {
-        token: moment().format('YYYY-MM-DD HH:mm:ss'),
-        expiresAt: moment(),
-      };
+      if (credentials.password === '123456')
+        return {
+          token: moment().format('YYYY-MM-DD HH:mm:ss'),
+          expiresAt: moment(),
+        };
+      else return null;
     } else {
       const client = new Shopify.Clients.Storefront(
         process.env.SHOPIFY_URL,

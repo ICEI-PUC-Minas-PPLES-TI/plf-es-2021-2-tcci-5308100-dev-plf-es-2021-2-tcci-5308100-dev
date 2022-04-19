@@ -8,6 +8,8 @@ import {
   Param,
   Post,
   Put,
+  UseInterceptors,
+  UploadedFile,
 } from '@nestjs/common';
 import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
 import { UtilsService } from '~/utils/utils.service';
@@ -28,12 +30,17 @@ import {
   ActiveExplorersPayload,
   BanExplorersParams,
   BanExplorersPayload,
+  UpdateExplorerProfileDTO,
+  updateExplorerProfileValidator,
 } from '@sec/common';
 import { In } from 'typeorm';
 import { PublicRoute } from '~/utils/public-route.decorator';
 import { ShopifyService } from '~/shopify/shopify.service';
 import { AuthenticationService } from '~/authentication/authentication.service';
 import { UserAccessService } from '../user-access/user-access.service';
+import { Roles } from '~/authentication/role.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { EmailService } from '~/email/email.service';
 
 @Controller('explorer')
 export class ExplorerController {
@@ -43,6 +50,7 @@ export class ExplorerController {
     private readonly shopifyService: ShopifyService,
     private readonly authenticationService: AuthenticationService,
     private readonly userAccessService: UserAccessService,
+    private readonly emailService: EmailService,
   ) {}
 
   @PublicRoute()
@@ -96,14 +104,15 @@ export class ExplorerController {
       });
     } else if (explorer && !data) {
       return this.utilsService.apiResponseFail({
-        message: 'Erro temporário. Por favor, tente novamente.',
+        message:
+          'E-mail e/ou senha inválidos. Por favor, confira as credenciais e tente novamente.',
+      });
+    } else if (explorer.status === ExplorerStatus.UNDER_REVIEW) {
+      return this.utilsService.apiResponseWarning({
+        message: explorerStatusMessage['UNDER_REVIEW'],
       });
     } else if (
-      [
-        ExplorerStatus.BANNED,
-        ExplorerStatus.INACTIVE,
-        ExplorerStatus.UNDER_REVIEW,
-      ].includes(explorer.status)
+      [ExplorerStatus.BANNED, ExplorerStatus.INACTIVE].includes(explorer.status)
     ) {
       return this.utilsService.apiResponseFail({
         message: explorerStatusMessage[explorer.status],
@@ -119,6 +128,56 @@ export class ExplorerController {
         payload: payload,
       });
     }
+  }
+
+  @Get('profile/:id')
+  @Roles('*')
+  async getExplorerProfile(@Param('id') id: string) {
+    if (!Number(id)) return this.utilsService.apiResponseInvalidBody(null);
+
+    const explorer = await this.explorerService.findOneByIdWithRelations(+id, [
+      'avatar',
+      'acceptedChallenges',
+      'acceptedChallenges.challenge',
+      'acceptedChallenges.challenge.recompense',
+      'acceptedChallenges.challenge.cover',
+    ]);
+
+    return this.utilsService.apiResponse<GetExplorerPayload>({
+      status: !!explorer ? 'SUCCESS' : 'FAIL',
+      message: 'Detalhes do explorador.',
+      payload: { explorer: explorer },
+    });
+  }
+
+  @Put('profile')
+  @Roles([UserType.EXPLORER])
+  @UseInterceptors(FileInterceptor('newAvatar'))
+  async updateExplorerProfile(
+    @Body() body: { object: string },
+    @UploadedFile() newAvatar: Express.Multer.File,
+  ) {
+    const data: UpdateExplorerProfileDTO = JSON.parse(body.object);
+    const { success, dto, error } = await updateExplorerProfileValidator(data);
+
+    if (!success) return this.utilsService.apiResponseInvalidBody(error);
+
+    const explorer = await this.explorerService.updateExplorerProfile(data.id, {
+      ...dto,
+      newAvatar,
+    });
+
+    return this.utilsService.apiResponseSuccessOrFail<GetExplorerPayload>({
+      success: !!explorer,
+      onSuccess: {
+        message: 'O perfil foi atualizado.',
+        payload: { explorer },
+      },
+      onFail: {
+        message:
+          'Ocorreu um erro ao atualizar o perfil. Por favor, tente novamente.',
+      },
+    });
   }
 
   @Get()
@@ -224,5 +283,24 @@ export class ExplorerController {
         message: 'Erro ao banir os exploradores.',
       });
     }
+  }
+
+  @Post('indicate-explorer')
+  @Roles('*')
+  async indicateExplorer(@Body() body: { email: string }) {
+    const { email } = body;
+    const result = await this.emailService.indicateExplorer({ email });
+
+    return this.utilsService.apiResponseSuccessOrFail({
+      success: result,
+      onSuccess: {
+        message: 'Obrigado pela indicação.',
+        payload: null,
+      },
+      onFail: {
+        message:
+          'Ocorreu um erro ao registrar a indicação. Por favor, tente novamente.',
+      },
+    });
   }
 }
