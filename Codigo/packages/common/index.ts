@@ -9,6 +9,7 @@ export * from './endpoints/recompense.endpoint';
 export * from './endpoints/reports.endpoint';
 export * from './endpoints/social-media-param.endpoint';
 export * from './endpoints/comment.endpoint';
+export * from './endpoints/social-media.endpoint';
 
 // validators
 export * from './validators/administrator.validation';

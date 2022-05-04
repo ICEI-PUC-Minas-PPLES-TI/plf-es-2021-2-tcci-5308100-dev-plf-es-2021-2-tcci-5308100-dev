@@ -11,6 +11,7 @@ import {
   BanExplorersParams,
   BanExplorersPayload,
   UpdateExplorerProfileDTO,
+  GetAvailableExplorersPayload,
 } from '@sec/common';
 import { APIError } from '~/error/APIError';
 
@@ -109,6 +110,16 @@ export const banExplorers = async (explorers: BanExplorersParams) => {
 
 export const indicateExplorer = async (request: { email: string }) => {
   const { data, headers } = await api.post<ApiResponse<null>>('/explorer/indicate-explorer', request);
+
+  if (data.status === 'SUCCESS' || data.status === 'WARNING') {
+    return data;
+  } else {
+    throw new APIError(data.message, data, headers);
+  }
+};
+
+export const getAvailableExplorers = async () => {
+  const { data, headers } = await api.get<ApiResponse<GetAvailableExplorersPayload>>('/social-media/posts');
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

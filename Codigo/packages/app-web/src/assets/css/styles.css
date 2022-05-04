@@ -244,3 +244,10 @@ input.has-success:focus {
   height: 160px;
   object-fit: cover;
 }
+
+.avatar-size img {
+  width: 156px;
+  max-width: 156px;
+  height: 156px;
+  max-height: 156px;
+}

@@ -6,6 +6,7 @@ import {
   GetAllSocialMediaParamsParams,
   GetAllSocialMediaParamsPayload,
   UpdateSocialMediaParamDTO,
+  GetAvailablePostsPayload,
 } from '@sec/common';
 import { APIError } from '~/error/APIError';
 
@@ -51,6 +52,16 @@ export const updateSocialMediaParam = async (socialMediaParam: UpdateSocialMedia
     '/social-media-param',
     socialMediaParam
   );
+
+  if (data.status === 'SUCCESS' || data.status === 'WARNING') {
+    return data;
+  } else {
+    throw new APIError(data.message, data, headers);
+  }
+};
+
+export const getAvailablePosts = async () => {
+  const { data, headers } = await api.get<ApiResponse<GetAvailablePostsPayload>>('/social-media/posts');
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

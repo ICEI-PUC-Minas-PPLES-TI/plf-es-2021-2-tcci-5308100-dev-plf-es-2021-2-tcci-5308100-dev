@@ -183,10 +183,10 @@ const SocialMediaParamsSave: FunctionComponent = () => {
               label='Redes sociais'
               options={[
                 { value: 1, label: socialMediasFttr(SocialMediaName.INSTAGRAM) },
-                { value: 2, label: socialMediasFttr(SocialMediaName.TIKTOK) },
+                { value: 2, label: socialMediasFttr(SocialMediaName.TIKTOK), isDisabled: true },
                 { value: 3, label: socialMediasFttr(SocialMediaName.TWITTER) },
-                { value: 4, label: socialMediasFttr(SocialMediaName.FACEBOOK) },
-                { value: 5, label: socialMediasFttr(SocialMediaName.LINKEDIN) },
+                { value: 4, label: socialMediasFttr(SocialMediaName.FACEBOOK), isDisabled: true },
+                { value: 5, label: socialMediasFttr(SocialMediaName.LINKEDIN), isDisabled: true },
               ]}
             />
           </div>

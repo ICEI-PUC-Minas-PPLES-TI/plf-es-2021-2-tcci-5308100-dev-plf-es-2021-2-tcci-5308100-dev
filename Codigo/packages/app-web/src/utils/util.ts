@@ -122,3 +122,18 @@ export const sortAcceptChallengeByStatus = () => {
 };
 
 export const generateRandom = (min: number, max: number) => Math.floor(Math.random() * (max - min)) + min;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const html = (string: any, ...value: any[]) => String.raw(string, ...value);
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const css = (string: any, ...value: any[]) => String.raw(string, ...value);
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const shuffleArray = <T>(arrayAux: T[]) => {
+  const array = [...arrayAux];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+};

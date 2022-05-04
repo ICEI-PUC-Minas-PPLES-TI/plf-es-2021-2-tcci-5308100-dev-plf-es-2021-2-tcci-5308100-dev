@@ -186,6 +186,7 @@ export class ExplorerController {
       where: {
         ...(queries.status ? { status: In(queries.status) } : undefined),
       },
+      relations: ['avatar'],
     });
 
     return this.utilsService.apiResponse<GetAllExplorersPayload>({

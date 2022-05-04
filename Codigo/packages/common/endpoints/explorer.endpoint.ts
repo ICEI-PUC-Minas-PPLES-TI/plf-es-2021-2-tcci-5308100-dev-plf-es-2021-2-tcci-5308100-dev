@@ -11,3 +11,7 @@ export type GetAllExplorersPayload = {
 export type GetExplorerPayload = {
   explorer: Explorer;
 };
+
+export type GetAvailableExplorersPayload = {
+  explorers: Explorer[];
+};

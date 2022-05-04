@@ -85,6 +85,14 @@ const ModalEditExplorerProfile: FunctionComponent<ModalEditExplorerProfileProps>
       ...explorer,
       avatarId: explorer.avatar?.id,
       newAvatar: explorer.avatar ? { ...explorer.avatar, urlPath: explorer.avatar.urlPath, isNew: false } : undefined,
+
+      favoriteProduct: explorer.favoriteProduct || '',
+      biography: explorer.biography || '',
+      instagram: explorer.instagram || '',
+      tikTok: explorer.tikTok || '',
+      twitter: explorer.twitter || '',
+      facebook: explorer.facebook || '',
+      linkedIn: explorer.linkedIn || '',
     });
   };
 
@@ -112,7 +120,7 @@ const ModalEditExplorerProfile: FunctionComponent<ModalEditExplorerProfileProps>
 
   return (
     <Modal rounded ref={modalRef} title='Meu perfil' size='md' headerClassName='bg-info'>
-      <form onSubmit={submitter(handleOnSubmit)}>
+      <form onSubmit={submitter(handleOnSubmit, console.log)}>
         <div className='modal-body'>
           <div className='row'>
             <div className='col-sm-12'>
