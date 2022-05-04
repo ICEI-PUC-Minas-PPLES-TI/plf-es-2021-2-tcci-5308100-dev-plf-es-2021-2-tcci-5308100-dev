@@ -2,11 +2,13 @@ import ChallengeCard from '@Components/cards/ChallengeCard';
 import ExplorerProfileCard from '@Components/cards/ExplorerProfileCard';
 import PageCard from '@Components/cards/PageCard';
 import SideCard from '@Components/cards/SideCard';
+import PostsListCard from '@Components/cards/PostsListCard';
+import SocialMediaPostList from '@Components/lists/SocialMediaPostList';
 import { ModalMethods } from '@Components/modals/Modal';
-import { ChallengeAccepted, ChallengeAcceptedStatus, Explorer } from '@sec/common';
+import { ChallengeAccepted, ChallengeAcceptedStatus, Explorer, SocialMediaName } from '@sec/common';
 import { getAllChallengesAccepted, GetAllChallengesAcceptedFilters } from '@Services/challengeAcceptedService';
 import { getExplorerProfile } from '@Services/explorerService';
-import { sortAcceptChallengeByStatus } from '@Utils/util';
+import { css, sortAcceptChallengeByStatus } from '@Utils/util';
 import arraySort from 'array-sort';
 import { useContext, useEffect, useRef, useState } from 'react';
 import Skeleton from 'react-loading-skeleton';
@@ -15,6 +17,7 @@ import { AuthContext } from '~/context/AuthContext';
 import { ToastContext } from '~/context/ToastContext';
 import { defaultErrorHandler } from '~/error/defaultErrorHandler';
 import ModalEditExplorerProfile from './ModalEditExplorerProfile';
+import AvailableExplorersListCard from '@Components/cards/AvailableExplorersListCard';
 
 const ExplorerProfile = () => {
   const navigate = useNavigate();
@@ -72,12 +75,9 @@ const ExplorerProfile = () => {
         ))}
       </PageCard>
       <SideCard>
-        <div className='card rounded-md mb-2 flex-center' style={{ height: '40vh' }}>
-          side card
-        </div>
-        <div className='card rounded-md flex-center' style={{ height: '40vh' }}>
-          side card
-        </div>
+        <AvailableExplorersListCard />
+        <div className='w-100 my-3' />
+        <PostsListCard />
       </SideCard>
       <ModalEditExplorerProfile modalRef={modalEditExplorerProfile} explorer={explorer} onSubmit={setExplorer} />
     </div>

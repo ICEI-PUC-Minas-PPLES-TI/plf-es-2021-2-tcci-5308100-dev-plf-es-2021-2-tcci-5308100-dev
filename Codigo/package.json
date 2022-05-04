@@ -21,6 +21,7 @@
     "app-web": "yarn workspace @sec/app-web --"
   },
   "dependencies": {
+    "rimraf": "^3.0.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {

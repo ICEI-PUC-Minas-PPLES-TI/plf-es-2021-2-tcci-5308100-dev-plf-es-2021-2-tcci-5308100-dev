@@ -1,5 +1,5 @@
 import { Model } from './Model';
-import { SocialMedia } from './SocialMedia';
+import { SocialMedia, SocialMediaName } from './SocialMedia';
 
 export enum SocialMediaParamType {
   HASHTAG = 'HASHTAG',
@@ -17,4 +17,5 @@ export interface SocialMediaParam extends Model {
   status: SocialMediaParamStatus;
   approveAll: boolean;
   socialMedias: SocialMedia[];
+  socialMediaNames: SocialMediaName[];
 }

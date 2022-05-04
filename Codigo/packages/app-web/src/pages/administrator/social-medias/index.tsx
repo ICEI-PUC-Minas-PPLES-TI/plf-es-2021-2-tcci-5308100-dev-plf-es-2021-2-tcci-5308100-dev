@@ -101,6 +101,12 @@ const SocialMedias: FunctionComponent = () => {
               formatter: socialMediasFttr,
             },
             {
+              field: 'approveAllIcon',
+              label: 'Aprovar tudo',
+              alignment: 'center',
+              width: '80px',
+            },
+            {
               field: 'status',
               label: 'Status',
               alignment: 'center',
@@ -120,9 +126,11 @@ const SocialMedias: FunctionComponent = () => {
           ]}
           data={socialMediaParamsFiltered.map((socialMediaParam) => ({
             ...socialMediaParam,
-            socialMediaNames: socialMediaParam.socialMedias
-              .sort((a, b) => a.name.toLowerCase().localeCompare(b.name.toLowerCase()))
-              .map(({ name }) => name),
+            approveAllIcon: socialMediaParam.approveAll ? (
+              <i className='far fa-check-square' />
+            ) : (
+              <i className='far fa-square' />
+            ),
           }))}
         />
       </PageCard>

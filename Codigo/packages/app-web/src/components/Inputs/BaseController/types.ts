@@ -143,6 +143,7 @@ export interface SelectControlledMultiple<T extends SelectControlledOption> {
 export interface SelectControlledOption {
   value: string | number | boolean | object;
   label: string;
+  isDisabled?: boolean;
 }
 
 export interface TextAreaControlledProps<T> extends FormInputControlled<T> {

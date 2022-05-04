@@ -81,7 +81,7 @@ const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = (
             <i className='fas fa-user' />
           </div>
         )}
-        {explorer && <h5 className='text-center m-0'>Bianca Julia Regina Beatriz Gomes</h5>}
+        {explorer && <h5 className='text-center m-0'>{explorer.name}</h5>}
       </div>
       <div className={`${classSideDiv} align-items-end pe-3`} style={styleSideDiv}>
         {explorer && (

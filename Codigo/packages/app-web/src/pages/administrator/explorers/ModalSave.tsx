@@ -10,6 +10,7 @@ import moment from 'moment';
 import { defaultErrorHandler } from '~/error/defaultErrorHandler';
 import { ToastContext } from '~/context/ToastContext';
 import { updateExplorer } from '@Services/explorerService';
+import Skeleton from 'react-loading-skeleton';
 
 export type FormInput = {
   status: ExplorerStatus;
@@ -63,6 +64,25 @@ const ModalSave: FunctionComponent<ModalSaveProps> = ({ modalRef, onSubmit, expl
     <Modal ref={modalRef} title='Salvar explorador' size='md'>
       <form onSubmit={submitter(handleOnSubmit)}>
         <div className='modal-body'>
+          <div
+            className='flex-center justify-content-between flex-column h-100 mx-auto'
+            style={{ width: '200px', zIndex: 2 }}
+          >
+            {!explorer ? (
+              <Skeleton circle width='160px' height='160px' />
+            ) : explorer.avatar ? (
+              <img className='rounded-circle avatar-size' src={explorer.avatar.urlPath} />
+            ) : (
+              <div
+                className='rounded-circle overflow-hidden flex-center align-items-start avatar-size border-grey text-muted'
+                style={{ fontSize: '160px' }}
+              >
+                <i className='fas fa-user' />
+              </div>
+            )}
+            {explorer && <h5 className='text-center m-0'>{explorer.name}</h5>}
+          </div>
+
           <SelectControlled
             isRequired
             control={control}
@@ -81,7 +101,7 @@ const ModalSave: FunctionComponent<ModalSaveProps> = ({ modalRef, onSubmit, expl
           {[
             { label: 'Apelido', value: explorer?.nickname },
             { label: 'Email', value: explorer?.email },
-            { label: 'Nome', value: explorer?.name },
+            // { label: 'Nome', value: explorer?.name },
             {
               label: 'Data de cadastro',
               value: explorer ? moment(explorer.createdAt).format('DD/MM/YYYY - HH:mm') : '-',

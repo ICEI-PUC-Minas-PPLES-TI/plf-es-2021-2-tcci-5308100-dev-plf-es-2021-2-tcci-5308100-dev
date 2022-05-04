@@ -9,6 +9,8 @@ import SocialMediaStoriesCardContainer from '@Components/cards/SocialMediaStorie
 import ChallengeCard from '@Components/cards/ChallengeCard';
 import { range } from '@Utils/util';
 import SideCard from '@Components/cards/SideCard';
+import PostsListCard from '@Components/cards/PostsListCard';
+import AvailableExplorersListCard from '@Components/cards/AvailableExplorersListCard';
 
 const postsExample: Post[] = range(10).map((i) => ({ id: i } as Post));
 
@@ -61,12 +63,9 @@ const ExplorerHome = () => {
         ))}
       </PageCard>
       <SideCard>
-        <div className='card rounded-md mb-2 flex-center' style={{ height: '40vh' }}>
-          side card
-        </div>
-        <div className='card rounded-md flex-center' style={{ height: '40vh' }}>
-          side card
-        </div>
+        <AvailableExplorersListCard />
+        <div className='w-100 my-3' />
+        <PostsListCard />
       </SideCard>
     </div>
   );
