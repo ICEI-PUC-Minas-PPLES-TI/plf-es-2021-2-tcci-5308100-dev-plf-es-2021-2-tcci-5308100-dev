@@ -5,6 +5,8 @@ import { BaseService } from '~/database/BaseService.abstract';
 import { SocialMediaParam } from '@Models/SocialMediaParam.entity';
 import {
   CreateSocialMediaParamDTO,
+  SocialMediaName,
+  SocialMediaParamType,
   UpdateSocialMediaParamDTO,
 } from '@sec/common';
 import { SocialMedia } from '@Models/SocialMedia.entity';
@@ -46,5 +48,39 @@ export class SocialMediaParamService extends BaseService<SocialMediaParam> {
         socialMediaParams: id,
       })) as any,
     });
+  }
+
+  public async prepareSocialMediaParam(type: SocialMediaParamType) {
+    const params = await this.getRepository()
+      .createQueryBuilder('socialMediaParam')
+      .innerJoinAndSelect(
+        'socialMediaParam.socialMedias',
+        'socialMedias',
+        `socialMedias.name IN ('${SocialMediaName.INSTAGRAM}', '${SocialMediaName.TWITTER}')`,
+      )
+      .where('type = :type', { type })
+      .getMany();
+
+    const instagram: SocialMediaParam[] = [];
+    const twitter: SocialMediaParam[] = [];
+    const mixed: SocialMediaParam[] = [];
+
+    params.forEach((param) => {
+      switch (param.socialMediaNames.toString()) {
+        case SocialMediaName.INSTAGRAM:
+          instagram.push(param);
+          break;
+
+        case SocialMediaName.TWITTER:
+          twitter.push(param);
+          break;
+
+        default:
+          mixed.push(param);
+          break;
+      }
+    });
+
+    return { instagram, twitter, mixed };
   }
 }

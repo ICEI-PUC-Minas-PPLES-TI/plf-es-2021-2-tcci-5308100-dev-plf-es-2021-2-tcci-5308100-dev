@@ -73,4 +73,12 @@ export class UtilsService {
       .reduce((acc, word) => acc + word.toString(36), '')
       .slice(0, length);
   }
+
+  compareArray<T>(array1: T[], array2: T[]) {
+    let i = array1.length;
+    while (i--) {
+      if (array1[i] !== array2[i]) return false;
+    }
+    return true;
+  }
 }

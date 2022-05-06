@@ -19,6 +19,7 @@ export * from './validators/challenge-accepted.validation';
 export * from './validators/recompense.validation';
 export * from './validators/social-media-param.validation';
 export * from './validators/comment.validation';
+export * from './validators/social-media.validation';
 
 // models
 export * from './models/Administrator';

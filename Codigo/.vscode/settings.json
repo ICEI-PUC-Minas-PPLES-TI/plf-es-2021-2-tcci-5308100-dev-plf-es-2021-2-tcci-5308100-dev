@@ -3,5 +3,7 @@
     "autosize",
     "LOCALSTACK",
     "shopify"
-  ]
+  ],
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.colorTheme": "Monokai"
 }

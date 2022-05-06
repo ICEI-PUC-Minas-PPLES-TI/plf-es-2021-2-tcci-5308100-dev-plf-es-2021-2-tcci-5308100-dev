@@ -7,8 +7,12 @@ import {
   GetAllSocialMediaParamsPayload,
   UpdateSocialMediaParamDTO,
   GetAvailablePostsPayload,
+  GetAllSocialMediaPostsParams,
+  GetAllSocialMediaPostsPayload,
 } from '@sec/common';
 import { APIError } from '~/error/APIError';
+import { UpdatePostStatusPayload } from '@sec/common/endpoints/social-media.endpoint';
+import { UpdatePostStatusDTO } from '@sec/common/validators/social-media.validation';
 
 export type GetAllSocialMediaParamsFilters = GetAllSocialMediaParamsParams;
 
@@ -62,6 +66,31 @@ export const updateSocialMediaParam = async (socialMediaParam: UpdateSocialMedia
 
 export const getAvailablePosts = async () => {
   const { data, headers } = await api.get<ApiResponse<GetAvailablePostsPayload>>('/social-media/posts');
+
+  if (data.status === 'SUCCESS' || data.status === 'WARNING') {
+    return data;
+  } else {
+    throw new APIError(data.message, data, headers);
+  }
+};
+
+export const getAllSocialMediaPosts = async (params?: GetAllSocialMediaPostsParams) => {
+  const { data, headers } = await api.get<ApiResponse<GetAllSocialMediaPostsPayload>>('/social-media/all-posts', {
+    params: params,
+  });
+
+  if (data.status === 'SUCCESS' || data.status === 'WARNING') {
+    return data;
+  } else {
+    throw new APIError(data.message, data, headers);
+  }
+};
+
+export const updatePostState = async (body: UpdatePostStatusDTO) => {
+  const { data, headers } = await api.post<ApiResponse<UpdatePostStatusPayload>>(
+    '/social-media/update-post-status',
+    body
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

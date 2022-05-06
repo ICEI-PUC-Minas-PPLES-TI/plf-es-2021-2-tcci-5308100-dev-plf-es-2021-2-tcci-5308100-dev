@@ -1,15 +1,5 @@
 import { SocialMediaParam } from '@Models/SocialMediaParam.entity';
-import {
-  Controller,
-  UseGuards,
-  Body,
-  Req,
-  Query,
-  Get,
-  Param,
-  Post,
-  Put,
-} from '@nestjs/common';
+import { Controller, Body, Query, Get, Param, Post, Put } from '@nestjs/common';
 import {
   CreateSocialMediaParamDTO,
   createSocialMediaParamValidator,
@@ -20,7 +10,6 @@ import {
   updateSocialMediaParamValidator,
 } from '@sec/common';
 import { In, SelectQueryBuilder } from 'typeorm';
-import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
 import { UtilsService } from '~/utils/utils.service';
 import { SocialMediaParamService } from './socialMediaParam.service';
 

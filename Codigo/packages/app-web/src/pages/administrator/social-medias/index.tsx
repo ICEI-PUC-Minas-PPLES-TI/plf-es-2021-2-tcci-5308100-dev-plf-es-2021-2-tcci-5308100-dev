@@ -68,6 +68,12 @@ const SocialMedias: FunctionComponent = () => {
         actions={[
           {
             type: 'ROUTER',
+            variant: 'primary',
+            to: '/administrador/redes-sociais/publicacoes',
+            label: 'Gerenciar publicações',
+          },
+          {
+            type: 'ROUTER',
             variant: 'success',
             to: '/administrador/redes-sociais/salvar',
             label: 'Cadastrar parâmetro de rede social',

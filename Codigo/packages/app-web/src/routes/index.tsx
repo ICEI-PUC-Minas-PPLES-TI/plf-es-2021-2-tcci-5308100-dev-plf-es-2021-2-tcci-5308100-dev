@@ -27,6 +27,7 @@ import AdministratorRecompenses from '@Pages/administrator/recompenses';
 import AdministratorRecompensesSave from '@Pages/administrator/recompenses/save';
 import AdministratorSocialMedias from '@Pages/administrator/social-medias';
 import AdministratorSocialMediasSave from '@Pages/administrator/social-medias/save';
+import AdministratorManagePosts from '@Pages/administrator/manage-posts';
 
 import ExplorerLogin from '@Pages/explorer/login';
 import ExplorerNewAccount from '@Pages/explorer/login/NewAccount';
@@ -167,6 +168,12 @@ const routesAdministrator: RouteSettings[] = [
     component: AdministratorSocialMediasSave,
     show: false,
   },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/redes-sociais/publicacoes',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    component: AdministratorManagePosts,
+    show: false,
+  },
 ];
 
 const routesExplorer: RouteSettings[] = [
@@ -209,7 +216,6 @@ const routesExplorer: RouteSettings[] = [
     show: true,
     hasNavMenu: false,
   },
-  
 ];
 
 const routes = [...routesAdministrator, ...routesExplorer];
@@ -295,7 +301,10 @@ const Routes: React.FunctionComponent = () => {
         }
       />
       <Route path='/login' element={<LoginLayout type={UserType.EXPLORER}>{<ExplorerLogin />}</LoginLayout>} />
-      <Route path='/criar-conta' element={<LoginLayout type={UserType.EXPLORER}>{<ExplorerNewAccount />}</LoginLayout>} />
+      <Route
+        path='/criar-conta'
+        element={<LoginLayout type={UserType.EXPLORER}>{<ExplorerNewAccount />}</LoginLayout>}
+      />
       <Route
         path='/administrador/login'
         element={<LoginLayout type={UserType.ADMINISTRATOR}>{<AdministratorLogin />}</LoginLayout>}

@@ -85,72 +85,74 @@ const PageCard: React.FunctionComponent<PageCardProps> = ({
             }}
           >
             <div>{props.title}</div>
-            <div>
-              {props.actions?.map((action, i) =>
-                action.type === 'BUTTON' ? (
-                  <button
-                    key={'PageCard_Button' + i}
-                    className={`ms-2 rounded-lg btn btn-${action.variant}`}
-                    onClick={action.onClick}
-                    disabled={!!action.isDisabled}
-                  >
-                    {action.label}
-                  </button>
-                ) : action.type === 'LINK' ? (
-                  <a
-                    key={'PageCard_Link' + i}
-                    className={`ms-2 rounded-lg btn btn-${action.variant} ${action.isDisabled ? 'disabled' : ''}`}
-                    href={action.href}
-                  >
-                    {action.label}
-                  </a>
-                ) : action.type === 'ROUTER' ? (
-                  <Link
-                    key={'PageCard_Router' + i}
-                    className={`ms-2 rounded-lg btn btn-${action.variant} ${action.isDisabled ? 'disabled' : ''}`}
-                    to={action.to}
-                  >
-                    {action.label}
-                  </Link>
-                ) : action.type === 'DROPDOWN' ? (
-                  <Dropdown key={'PageCard_Dropdown' + i}>
-                    <Dropdown.Toggle
-                      variant={action.variant}
-                      className={`ms-2 rounded-lg`}
-                      disabled={action.isDisabled}
+            <div className='d-flex flex-row' style={{ gap: '8px' }}>
+              <div>
+                {props.actions?.map((action, i) =>
+                  action.type === 'BUTTON' ? (
+                    <button
+                      key={'PageCard_Button' + i}
+                      className={`ms-2 rounded-lg btn btn-${action.variant}`}
+                      onClick={action.onClick}
+                      disabled={!!action.isDisabled}
                     >
                       {action.label}
-                    </Dropdown.Toggle>
+                    </button>
+                  ) : action.type === 'LINK' ? (
+                    <a
+                      key={'PageCard_Link' + i}
+                      className={`ms-2 rounded-lg btn btn-${action.variant} ${action.isDisabled ? 'disabled' : ''}`}
+                      href={action.href}
+                    >
+                      {action.label}
+                    </a>
+                  ) : action.type === 'ROUTER' ? (
+                    <Link
+                      key={'PageCard_Router' + i}
+                      className={`ms-2 rounded-lg btn btn-${action.variant} ${action.isDisabled ? 'disabled' : ''}`}
+                      to={action.to}
+                    >
+                      {action.label}
+                    </Link>
+                  ) : action.type === 'DROPDOWN' ? (
+                    <Dropdown key={'PageCard_Dropdown' + i}>
+                      <Dropdown.Toggle
+                        variant={action.variant}
+                        className={`ms-2 rounded-lg`}
+                        disabled={action.isDisabled}
+                      >
+                        {action.label}
+                      </Dropdown.Toggle>
 
-                    <Dropdown.Menu>
-                      {action.menus.map((menu, i) => (
-                        <Fragment key={`PageCard_Dropdown_Menu_${i}`}>
-                          {i !== 0 && <Dropdown.Divider />}
-                          <Dropdown.Item
-                            href={menu.href}
-                            onClick={menu.onClick}
-                            target={menu.target}
-                            rel={menu.target === '_blank' ? 'noreferrer' : undefined}
-                          >
-                            {menu.label}
-                          </Dropdown.Item>
-                        </Fragment>
-                      ))}
-                    </Dropdown.Menu>
-                  </Dropdown>
-                ) : (
-                  <></>
-                )
+                      <Dropdown.Menu>
+                        {action.menus.map((menu, i) => (
+                          <Fragment key={`PageCard_Dropdown_Menu_${i}`}>
+                            {i !== 0 && <Dropdown.Divider />}
+                            <Dropdown.Item
+                              href={menu.href}
+                              onClick={menu.onClick}
+                              target={menu.target}
+                              rel={menu.target === '_blank' ? 'noreferrer' : undefined}
+                            >
+                              {menu.label}
+                            </Dropdown.Item>
+                          </Fragment>
+                        ))}
+                      </Dropdown.Menu>
+                    </Dropdown>
+                  ) : (
+                    <></>
+                  )
+                )}
+              </div>
+              {props.showBackButton && (
+                <button
+                  className={`rounded-lg btn btn-secondary`}
+                  onClick={() => (props.backButtonURL ? navigate(props.backButtonURL) : navigate(-1))}
+                >
+                  Voltar
+                </button>
               )}
             </div>
-            {props.showBackButton && (
-              <button
-                className={`rounded-lg btn btn-secondary`}
-                onClick={() => (props.backButtonURL ? navigate(props.backButtonURL) : navigate(-1))}
-              >
-                Voltar
-              </button>
-            )}
           </div>
         </>
       )}
