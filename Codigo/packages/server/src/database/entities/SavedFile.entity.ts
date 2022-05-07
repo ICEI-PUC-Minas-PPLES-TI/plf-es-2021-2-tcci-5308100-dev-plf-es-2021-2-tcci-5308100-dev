@@ -3,7 +3,7 @@ import { Model } from './Model.abstract';
 import { SavedFile as ISavedFile, FileType } from '@sec/common';
 import { ChallengeAcceptedResponse } from './ChallengeAcceptedResponse.entity';
 
-console.log(Model);
+console.log('SavedFile :>>', Model);
 @Entity()
 export class SavedFile extends Model implements ISavedFile {
   @ManyToOne(
@@ -19,7 +19,7 @@ export class SavedFile extends Model implements ISavedFile {
   @Column()
   filename: string;
 
-  @Column({ enum: FileType })
+  @Column({ type: 'enum', enum: FileType })
   type: FileType;
 
   path: string;

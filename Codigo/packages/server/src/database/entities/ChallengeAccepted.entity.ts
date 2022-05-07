@@ -11,17 +11,17 @@ import {
   UserType,
 } from '@sec/common';
 
-console.log(Model);
+console.log('ChallengeAccepted :>>', Model);
 @Entity()
 export class ChallengeAccepted extends Model implements IChallengeAccepted {
   public static attachmentFilenamePrefix = (id) =>
     `challenge-accepted-attachment-${id}`;
   public static imageFilenamePrefix = (id) => `challenge-accepted-image-${id}`;
 
-  @Column({ enum: ChallengeAcceptedStatus })
+  @Column({ type: 'enum', enum: ChallengeAcceptedStatus })
   status: ChallengeAcceptedStatus;
 
-  @Column({ enum: ChallengeRecompenseStatus })
+  @Column({ type: 'enum', enum: ChallengeRecompenseStatus })
   recompenseStatus: ChallengeRecompenseStatus;
 
   @ManyToOne(() => Explorer, (explorer) => explorer.acceptedChallenges)

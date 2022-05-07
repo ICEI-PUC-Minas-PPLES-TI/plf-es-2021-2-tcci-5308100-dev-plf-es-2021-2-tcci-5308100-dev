@@ -119,7 +119,7 @@ export const indicateExplorer = async (request: { email: string }) => {
 };
 
 export const getAvailableExplorers = async () => {
-  const { data, headers } = await api.get<ApiResponse<GetAvailableExplorersPayload>>('/social-media/posts');
+  const { data, headers } = await api.get<ApiResponse<GetAvailableExplorersPayload>>('/explorer/available');
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

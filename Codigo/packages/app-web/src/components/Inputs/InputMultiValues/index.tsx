@@ -75,8 +75,8 @@ const InputMultiValues: React.FunctionComponent<InputMultiValuesProps> = ({
           onChange={(e) => textInput.onChange(e.target.value)}
           onBlur={(e) => textInput.onChange(e.target.value.trim())}
         />
-        <FileList files={fileInput.value} onRemoveFile={readOnly ? () => undefined : removeFile} />
-        <ImageList roundImages files={imageInput.value} onRemoveFile={readOnly ? () => undefined : removeImage} />
+        <FileList files={fileInput.value} onRemoveFile={readOnly ? undefined : removeFile} />
+        <ImageList roundImages files={imageInput.value} onRemoveFile={readOnly ? undefined : removeImage} />
       </label>
 
       <div className={'d-flex flex-row mt-3'}>

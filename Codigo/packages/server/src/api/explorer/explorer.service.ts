@@ -154,7 +154,6 @@ export class ExplorerService extends BaseService<Explorer> {
         });
       });
     } catch (error) {
-      console.log(error);
       if (error instanceof ErrorMessageToUser) {
         throw error;
       } else {
@@ -165,5 +164,15 @@ export class ExplorerService extends BaseService<Explorer> {
 
   private calcFilename(id) {
     return `${Explorer.avatarFilenamePrefix(id)}-${moment().format('x')}`;
+  }
+
+  public async getAvailableExplorers() {
+    return await this.getRepository()
+      .createQueryBuilder('explorers')
+      .leftJoinAndSelect('explorers.avatar', 'avatar')
+      .where('status = :status', { status: ExplorerStatus.ACTIVE })
+      .orderBy('RANDOM()')
+      .limit(50)
+      .getMany();
   }
 }

@@ -77,6 +77,9 @@ export class ChallengeController {
                 .subQuery()
                 .select('challenge_accepted.challengeId')
                 .from(ChallengeAccepted, 'challenge_accepted')
+                .where('challenge_accepted.explorerId = :explorerId', {
+                  explorerId: user.id,
+                })
                 .getQuery()}`,
           );
       },

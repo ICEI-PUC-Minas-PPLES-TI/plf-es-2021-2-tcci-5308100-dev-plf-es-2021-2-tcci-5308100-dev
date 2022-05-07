@@ -1,45 +1,54 @@
-import SocialMediaPostList from '@Components/lists/SocialMediaPostList';
-import { Post } from '@sec/common';
+import { Explorer } from '@sec/common';
 import { UIEventHandler, useContext, useEffect, useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
+import { useLocation } from 'react-router-dom';
 import { SocialMediaPostContext } from '~/context/SocialMediaPostContext';
+import ExplorerListItem from '../ExplorerListItem';
 
 const AvailableExplorersListCard = () => {
-  // const { posts } = useContext(SocialMediaPostContext);
-  // const [listShowed, setListShowed] = useState<Post[]>([]);
-  // const [postIndex, setPostIndex] = useState(0);
+  const { availableExplorers } = useContext(SocialMediaPostContext);
+  const location = useLocation();
 
-  // useEffect(() => {
-  //   addPosts(postIndex, 6);
-  // }, [posts]);
+  const [explorersToShow, setExplorersToShow] = useState<Explorer[]>([]);
+  const [listShowed, setListShowed] = useState<Explorer[]>([]);
+
+  useEffect(() => {
+    setListShowed([]);
+    addExplorers(availableExplorers, 6);
+  }, [availableExplorers]);
 
   const triggerPagination: UIEventHandler<HTMLDivElement> = (event) => {
-    //   const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
-    //   if (scrollTop + clientHeight >= scrollHeight * 0.9) {
-    //     addPosts(postIndex, 6);
-    //   }
+    const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
+    if (scrollTop + clientHeight >= scrollHeight * 0.9) {
+      addExplorers(explorersToShow, 6);
+    }
   };
 
-  // const addPosts = (start: number, qtd = 6) => {
-  //   const aux = [...posts];
-  //   const toAdd = aux.splice(start, qtd);
+  const addExplorers = (explorers: Explorer[], qtd = 6) => {
+    const aux = [...explorers];
+    const toAdd = aux.splice(0, qtd);
 
-  //   setListShowed((current) => [...current, ...toAdd]);
-  //   setPostIndex((curr) => curr + qtd);
-  // };
+    setListShowed((current) => [...current, ...toAdd]);
+    setExplorersToShow(aux);
+  };
 
   return (
     <div
-      className='card rounded-md social-media-widget'
-      style={{ height: '40vh', overflowX: 'hidden', overflowY: 'scroll' }}
+      className='card rounded-md overflow-hidden-overlay custom-scrollbar-light'
+      style={{ height: '40vh' }}
       onScroll={triggerPagination}
     >
       <ListGroup>
-        <ListGroup.Item>Cras justo odio</ListGroup.Item>
-        <ListGroup.Item>Dapibus ac facilisis in</ListGroup.Item>
-        <ListGroup.Item>Morbi leo risus</ListGroup.Item>
-        <ListGroup.Item>Porta ac consectetur ac</ListGroup.Item>
-        <ListGroup.Item>Vestibulum at eros</ListGroup.Item>
+        {listShowed.map((explorer) => (
+          <ListGroup.Item
+            key={`${location.pathname}_AvailableExplorersListCard_${explorer.id}`}
+            action
+            href={`/explorador/perfil/${explorer.id}`}
+            active={false}
+          >
+            <ExplorerListItem explorer={explorer} />
+          </ListGroup.Item>
+        ))}
       </ListGroup>
     </div>
   );

@@ -93,10 +93,9 @@ const SocialMediaParamsSave: FunctionComponent = () => {
         payload: { socialMediaParam },
       } = id ? await updateSocialMediaParam({ id: +id, ...params }) : await createSocialMediaParam(params);
 
+      showToastSuccess({ message });
       if (!id) {
         navigate(`/administrador/redes-sociais/salvar/${socialMediaParam.id}`);
-      } else {
-        showToastSuccess({ message });
       }
     } catch (error: unknown) {
       defaultErrorHandler(error, showToastDanger);

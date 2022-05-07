@@ -6,6 +6,7 @@ const SpinLoading: React.FunctionComponent<SpinLoadingProps> = ({
   radius = '5px',
   justifyContent = 'center',
   alignItems = 'center',
+  noSize,
 }) => {
   const style: CSSProperties = {
     width: size,
@@ -18,8 +19,8 @@ const SpinLoading: React.FunctionComponent<SpinLoadingProps> = ({
     <div
       style={{
         display: 'flex',
-        width: '100%',
-        height: '100%',
+        width: !noSize ? '100%' : undefined,
+        height: !noSize ? '100%' : undefined,
         justifyContent: justifyContent,
         alignItems: alignItems,
       }}

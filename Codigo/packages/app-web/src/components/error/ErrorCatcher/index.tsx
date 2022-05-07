@@ -4,7 +4,7 @@ import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 
 const ErrorCatcher: React.FunctionComponent = ({ children }) => {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback} /* onReset={() => {}} onError={() => {}} */>
+    <ErrorBoundary FallbackComponent={ErrorFallback} /* onReset={() => {}} */ onError={console.dir}>
       {children}
     </ErrorBoundary>
   );

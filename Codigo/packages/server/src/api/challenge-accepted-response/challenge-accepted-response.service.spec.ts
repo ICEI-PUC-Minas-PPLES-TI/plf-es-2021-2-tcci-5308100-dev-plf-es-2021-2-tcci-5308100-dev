@@ -9,7 +9,9 @@ describe('ChallengeAcceptedResponseService', () => {
       providers: [ChallengeAcceptedResponseService],
     }).compile();
 
-    service = module.get<ChallengeAcceptedResponseService>(ChallengeAcceptedResponseService);
+    service = module.get<ChallengeAcceptedResponseService>(
+      ChallengeAcceptedResponseService,
+    );
   });
 
   it('should be defined', () => {

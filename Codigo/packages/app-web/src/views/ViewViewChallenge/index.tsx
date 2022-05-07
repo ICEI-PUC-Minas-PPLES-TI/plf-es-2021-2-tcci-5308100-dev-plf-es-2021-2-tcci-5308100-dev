@@ -150,10 +150,10 @@ const ViewViewChallenge: React.FunctionComponent<ViewViewChallengeProps> = ({
         </div>
         <div className='row'>
           <div className='col-12'>
-            {/* <p className='text-grey' style={{ whiteSpace: 'pre-line' }}>
+            <p className='text-grey' style={{ whiteSpace: 'pre-line' }}>
               {challenge.description}
-            </p> */}
-            <pre className='text-grey'>{challenge.description}</pre>
+            </p>
+            {/* <pre className='text-grey'>{challenge.description}</pre> */}
           </div>
         </div>
         <div className='row position-relative'>

@@ -4,7 +4,7 @@ import { Model } from './Model.abstract';
 import { User } from './User.entity';
 import { Comment as IComment } from '@sec/common';
 
-console.log(Model);
+console.log('Comment :>>', Model);
 @Entity()
 export class Comment extends Model implements IComment {
   @Column({ length: 200 })

@@ -51,10 +51,7 @@ const DropdownBackless: FunctionComponent<DropdownBacklessProps> = ({
             >
               <div className='card-body p-0 d-flex'>
                 <i className={`${iconClass} text-grey me-3 font-lg`} style={{ fontSize: '25px' }} />
-                <span
-                  className='fw-600 font-xssss mt-0 me-4 pointer'
-                  style={{ fontSize: '12px', fontWeight: 600 }}
-                >
+                <span className='fw-600 font-xssss mt-0 me-4 pointer' style={{ fontSize: '12px', fontWeight: 600 }}>
                   {title}{' '}
                   <span
                     className='d-block font-xsssss fw-500 mt-1 lh-3'

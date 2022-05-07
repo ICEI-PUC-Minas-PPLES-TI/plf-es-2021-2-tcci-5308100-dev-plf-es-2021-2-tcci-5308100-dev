@@ -133,9 +133,9 @@ const SocialMedias: FunctionComponent = () => {
           data={socialMediaParamsFiltered.map((socialMediaParam) => ({
             ...socialMediaParam,
             approveAllIcon: socialMediaParam.approveAll ? (
-              <i className='far fa-check-square' />
+              <i className='far fa-check-square text-success' />
             ) : (
-              <i className='far fa-square' />
+              <i className='far fa-square text-success' />
             ),
           }))}
         />

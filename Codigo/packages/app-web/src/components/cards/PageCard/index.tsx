@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 
 type PageCardActions = {
   variant: Variant;
-  label: string;
+  label: string | JSX.Element;
   type: 'BUTTON' | 'LINK' | 'ROUTER' | 'DROPDOWN';
   isDisabled?: boolean;
 };

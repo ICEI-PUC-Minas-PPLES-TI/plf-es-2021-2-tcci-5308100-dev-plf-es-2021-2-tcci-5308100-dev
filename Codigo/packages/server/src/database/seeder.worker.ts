@@ -4,8 +4,11 @@ import { ProfileSeed } from '~/database/seeds/profile.seed';
 import { SocialMediaSeed } from '~/database/seeds/social-media.seed';
 import { UserSeed } from '~/database/seeds/user.seed';
 
-seeder(ProfileSeed);
-seeder(ExplorerSeed);
-seeder(UserSeed);
+const seederAll = async () => {
+  await seeder(ProfileSeed);
+  await seeder(ExplorerSeed);
+  await seeder(UserSeed);
+  await seeder(SocialMediaSeed);
+};
 
-seeder(SocialMediaSeed);
+seederAll();

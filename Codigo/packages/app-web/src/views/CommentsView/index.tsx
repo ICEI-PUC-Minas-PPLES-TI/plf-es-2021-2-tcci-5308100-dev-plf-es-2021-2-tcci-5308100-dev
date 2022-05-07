@@ -45,10 +45,7 @@ const CommentsView: FunctionComponent<CommentsViewProps> = ({ comments, onSubmit
         <UserCommentCard key={`CommentsView_${comment.id}`} comment={comment} />
       ))}
 
-      <form
-        className={`d-flex ${comments.length === 0 ? 'mt-3' : ''}`}
-        onSubmit={submitter(handleOnSubmit)}
-      >
+      <form className={`d-flex ${comments.length === 0 ? 'mt-3' : ''}`} onSubmit={submitter(handleOnSubmit)}>
         <input
           {...register('text')}
           className={`text-start btn rounded-lg me-2 flex-grow-1 border-grey ${errors.text ? 'has-error' : ''}`}

@@ -1,13 +1,15 @@
 import { FunctionComponent } from 'react';
 import { TwitterEmbed } from 'react-social-media-embed';
-import { TwitterTweetEmbed } from 'react-twitter-embed';
 
-type TwitterCardProps = { tweetId: string };
+type TwitterCardProps = {
+  tweetId: string;
+  tweetURL: string;
+};
 
-const TwitterCard: FunctionComponent<TwitterCardProps> = ({ tweetId }) => {
+const TwitterCard: FunctionComponent<TwitterCardProps> = ({ tweetId, tweetURL }) => {
   return (
-    <div className='social-media-widget social-media-widget'>
-      <TwitterEmbed url='' twitterTweetEmbedProps={{ tweetId: tweetId }} width={328} />
+    <div className='position-relative'>
+      <TwitterEmbed twitterTweetEmbedProps={{ tweetId: tweetId }} url={tweetURL || ''} width={330} />
     </div>
   );
 };

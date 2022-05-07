@@ -5,11 +5,13 @@ export type GetAvailablePostsPayload = {
 };
 
 export type GetAllSocialMediaPostsParams = {
-  status: PostStatus[];
+  status?: PostStatus[];
 };
 
 export type GetAllSocialMediaPostsPayload = {
   posts: Post[];
 };
 
-export type UpdatePostStatusPayload = null;
+export type UpdatePostStatusPayload = {
+  post: Post;
+};

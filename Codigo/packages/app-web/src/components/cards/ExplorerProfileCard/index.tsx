@@ -74,10 +74,7 @@ const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = (
         ) : explorer.avatar ? (
           <img className='rounded-circle avatar-size' src={explorer.avatar.urlPath} />
         ) : (
-          <div
-            className='rounded-circle overflow-hidden flex-center align-items-start avatar-size border-grey text-muted'
-            style={{ fontSize: '160px' }}
-          >
+          <div className='rounded-circle overflow-hidden flex-center align-items-start avatar-size border-grey text-muted'>
             <i className='fas fa-user' />
           </div>
         )}

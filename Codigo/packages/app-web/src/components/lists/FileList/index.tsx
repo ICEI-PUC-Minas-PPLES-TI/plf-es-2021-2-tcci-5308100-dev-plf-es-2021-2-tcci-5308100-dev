@@ -3,7 +3,7 @@ import React from 'react';
 
 type FileListProps = {
   files: GenericFileType[];
-  onRemoveFile: (file: GenericFileType) => void;
+  onRemoveFile?: (file: GenericFileType) => void;
 };
 
 const FileList: React.FunctionComponent<FileListProps> = ({ files, onRemoveFile }) => {
@@ -15,9 +15,11 @@ const FileList: React.FunctionComponent<FileListProps> = ({ files, onRemoveFile 
             <a href={file.urlPath} target='_blank' rel='noreferrer'>
               {file.name}&nbsp;&nbsp;
             </a>
-            <a onClick={() => onRemoveFile(file)}>
-              <i className='fas fa-times clickable ms-2 text-danger' />
-            </a>
+            {onRemoveFile && (
+              <a onClick={() => onRemoveFile(file)}>
+                <i className='fas fa-times clickable ms-2 text-danger' />
+              </a>
+            )}
           </div>
         </li>
       ))}

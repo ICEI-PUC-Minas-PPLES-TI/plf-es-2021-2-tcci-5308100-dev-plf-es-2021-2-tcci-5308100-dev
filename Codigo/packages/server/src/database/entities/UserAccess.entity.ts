@@ -3,7 +3,7 @@ import { Column, Entity, ManyToOne } from 'typeorm';
 import { Model } from './Model.abstract';
 import { User } from './User.entity';
 
-console.log(Model);
+console.log('UserAccess :>>', Model);
 @Entity()
 export class UserAccess extends Model implements IUserAccess {
   @Column()

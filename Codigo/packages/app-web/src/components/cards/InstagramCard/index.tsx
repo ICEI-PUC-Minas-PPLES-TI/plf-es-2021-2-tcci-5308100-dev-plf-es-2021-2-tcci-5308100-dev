@@ -3,13 +3,13 @@ import { InstagramEmbed } from 'react-social-media-embed';
 // import InstagramEmbed from 'react-instagram-embed';
 
 type InstagramCardProps = {
-  instagramId: string;
+  instagramURL: string;
 };
 
-const InstagramCard: FunctionComponent<InstagramCardProps> = ({ instagramId }) => {
+const InstagramCard: FunctionComponent<InstagramCardProps> = ({ instagramURL }) => {
   return (
-    <div className='social-media-widget social-media-widget'>
-      <InstagramEmbed url='https://www.instagram.com/p/CUbHfhpswxt/' width={330} />
+    <div className='position-relative'>
+      <InstagramEmbed url={instagramURL} width={330} />
     </div>
   );
 };

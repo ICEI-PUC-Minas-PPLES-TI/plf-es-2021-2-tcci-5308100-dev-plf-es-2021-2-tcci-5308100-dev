@@ -74,10 +74,9 @@ const AdministratorsSave: FunctionComponent = () => {
         payload: { administrator },
       } = id ? await updateAdministrator({ id: +id, ...params }) : await createAdministrator(params);
 
+      showToastSuccess({ message });
       if (!id) {
         navigate(`/administrador/administradores/salvar/${administrator.id}`);
-      } else {
-        showToastSuccess({ message });
       }
     } catch (error: any) {
       defaultErrorHandler(error, showToastDanger);

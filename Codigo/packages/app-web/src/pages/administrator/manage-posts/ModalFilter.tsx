@@ -4,46 +4,19 @@ import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import * as yup from 'yup';
 import SelectControlled from '@Components/Inputs/SelectControlled';
-import { SocialMediaName, SocialMediaParamStatus, SocialMediaParamType } from '@sec/common';
-import { GetAllSocialMediaParamsFilters as FormInput } from '@Services/socialMediaService';
-import {
-  socialMediaParamStatusBadge,
-  socialMediaParamStatusFttr,
-  socialMediaParamTypeBadge,
-  socialMediaParamTypeFttr,
-  socialMediasFttr,
-} from '@Utils/formatters';
-import InputControlled from '@Components/Inputs/InputControlled';
-import CheckBoxControlled from '@Components/Inputs/CheckBoxControlled';
+import { GetAllSocialMediaPostsParams, PostStatus } from '@sec/common';
+import { postStatusFttr } from '@Utils/formatters';
 
-export type InitialFilters = {
-  type: SocialMediaParamType[];
-  status: SocialMediaParamStatus[];
-  onlyApproveAll: boolean;
-  socialMedias: SocialMediaName[];
-};
+type FormInput = GetAllSocialMediaPostsParams;
 
 type ModalFilterProps = {
   modalRef: RefObject<ModalMethods>;
   onSubmit: (params: FormInput) => Promise<void>;
-  defaultValues: InitialFilters;
+  defaultValues: GetAllSocialMediaPostsParams;
 };
 
 const schema: yup.SchemaOf<FormInput> = yup.object().shape({
-  type: yup
-    .array<SocialMediaParamType[]>(
-      yup.mixed<SocialMediaParamType>().oneOf(Object.values(SocialMediaParamType)).required()
-    )
-    .required(),
-  status: yup
-    .array<SocialMediaParamStatus[]>(
-      yup.mixed<SocialMediaParamStatus>().oneOf(Object.values(SocialMediaParamStatus)).required()
-    )
-    .required(),
-  socialMedias: yup
-    .array<SocialMediaName[]>(yup.mixed<SocialMediaName>().oneOf(Object.values(SocialMediaName)).required())
-    .required(),
-  onlyApproveAll: yup.boolean().required(),
+  status: yup.array<PostStatus[]>(yup.mixed<PostStatus>().oneOf(Object.values(PostStatus)).required()).required(),
 });
 
 const ModalFilter: FunctionComponent<ModalFilterProps> = ({ modalRef, onSubmit, defaultValues }) => {
@@ -67,60 +40,23 @@ const ModalFilter: FunctionComponent<ModalFilterProps> = ({ modalRef, onSubmit, 
             isMulti
             control={control}
             checkError={errors}
-            defaultValue={defaultValues.type}
-            name='type'
-            label='Tipo'
-            options={[
-              { label: socialMediaParamTypeFttr(SocialMediaParamType.ACCOUNT), value: SocialMediaParamType.ACCOUNT },
-              { label: socialMediaParamTypeFttr(SocialMediaParamType.HASHTAG), value: SocialMediaParamType.HASHTAG },
-            ]}
-          />
-          <SelectControlled
-            isMulti
-            control={control}
-            checkError={errors}
             defaultValue={defaultValues.status}
             name='status'
             label='Status'
             options={[
               {
-                label: socialMediaParamStatusFttr(SocialMediaParamStatus.ACTIVE),
-                value: SocialMediaParamStatus.ACTIVE,
+                label: postStatusFttr(PostStatus.UNDER_REVIEW),
+                value: PostStatus.UNDER_REVIEW,
               },
               {
-                label: socialMediaParamStatusFttr(SocialMediaParamStatus.INACTIVE),
-                value: SocialMediaParamStatus.INACTIVE,
+                label: postStatusFttr(PostStatus.APPROVED),
+                value: PostStatus.APPROVED,
+              },
+              {
+                label: postStatusFttr(PostStatus.REFUSED),
+                value: PostStatus.REFUSED,
               },
             ]}
-          />
-          <SelectControlled
-            isMulti
-            placeholder='Todas'
-            control={control}
-            checkError={errors}
-            defaultValue={[
-              SocialMediaName.INSTAGRAM,
-              SocialMediaName.TIKTOK,
-              SocialMediaName.TWITTER,
-              SocialMediaName.FACEBOOK,
-              SocialMediaName.LINKEDIN,
-            ]}
-            name='socialMedias'
-            label='Redes Sociais'
-            options={[
-              { label: socialMediasFttr(SocialMediaName.INSTAGRAM), value: SocialMediaName.INSTAGRAM },
-              { label: socialMediasFttr(SocialMediaName.TIKTOK), value: SocialMediaName.TIKTOK },
-              { label: socialMediasFttr(SocialMediaName.TWITTER), value: SocialMediaName.TWITTER },
-              { label: socialMediasFttr(SocialMediaName.FACEBOOK), value: SocialMediaName.FACEBOOK },
-              { label: socialMediasFttr(SocialMediaName.LINKEDIN), value: SocialMediaName.LINKEDIN },
-            ]}
-          />
-
-          <CheckBoxControlled
-            control={control}
-            defaultValue={false}
-            name='onlyApproveAll'
-            label='Apenas com "Aprovar tudo"'
           />
         </div>
         <div className='modal-footer'>

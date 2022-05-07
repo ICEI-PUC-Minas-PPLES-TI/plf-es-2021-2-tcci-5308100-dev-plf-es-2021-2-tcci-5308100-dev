@@ -8,14 +8,17 @@ import {
 import { Model } from './Model.abstract';
 import { Notification } from './Notification.entity';
 import { Profile } from './Profile.entity';
-import { User as IUser, UserType } from '@sec/common';
+import { User as IUser, UserStatus, UserType } from '@sec/common';
 
-console.log(Model);
+console.log('User :>>', Model);
 @Entity()
 @TableInheritance({
   column: { type: 'enum', enum: UserType, name: 'typeEntity' },
 })
 export class User extends Model implements IUser {
+  @Column({ type: 'enum', enum: UserStatus })
+  status: string;
+
   @Column()
   nickname: string;
 

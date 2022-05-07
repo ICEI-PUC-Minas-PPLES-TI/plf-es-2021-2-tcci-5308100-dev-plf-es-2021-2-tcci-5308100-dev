@@ -11,6 +11,7 @@ export class ChallengeAcceptedResponseService extends BaseService<ChallengeAccep
     private readonly challengeAcceptedResponseRepository: Repository<ChallengeAcceptedResponse>,
   ) {
     super(challengeAcceptedResponseRepository, []);
-    this.challengeAcceptedResponseRepository = challengeAcceptedResponseRepository;
+    this.challengeAcceptedResponseRepository =
+      challengeAcceptedResponseRepository;
   }
 }

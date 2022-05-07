@@ -17,7 +17,7 @@ export class UserAccessService extends BaseService<UserAccess> {
 
   public async saveAccess(userId: number) {
     return await this.getRepository().save({
-      accessDate: moment().utc().format('YYYY/MM/DD HH:mm:ss'),
+      accessDate: moment().format('YYYY/MM/DD HH:mm:ss'),
       user: <any>userId,
     });
   }

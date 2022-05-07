@@ -3,4 +3,5 @@ interface SpinLoadingProps {
   radius?: string | number;
   justifyContent?: 'flex-start' | 'center' | 'flex-end';
   alignItems?: 'flex-start' | 'center' | 'flex-end';
+  noSize?: boolean;
 }

@@ -87,10 +87,20 @@ export const getAllSocialMediaPosts = async (params?: GetAllSocialMediaPostsPara
 };
 
 export const updatePostState = async (body: UpdatePostStatusDTO) => {
-  const { data, headers } = await api.post<ApiResponse<UpdatePostStatusPayload>>(
+  const { data, headers } = await api.put<ApiResponse<UpdatePostStatusPayload>>(
     '/social-media/update-post-status',
     body
   );
+
+  if (data.status === 'SUCCESS' || data.status === 'WARNING') {
+    return data;
+  } else {
+    throw new APIError(data.message, data, headers);
+  }
+};
+
+export const searchPublications = async () => {
+  const { data, headers } = await api.get<ApiResponse<null>>('/social-media');
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

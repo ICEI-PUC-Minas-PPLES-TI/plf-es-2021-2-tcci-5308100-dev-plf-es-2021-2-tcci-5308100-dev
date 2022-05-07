@@ -14,12 +14,12 @@ import { Recompense } from './Recompense.entity';
 import { SavedFile } from './SavedFile.entity';
 import { Challenge as IChallenge, ChallengeStatus } from '@sec/common';
 
-console.log(Model);
+console.log('Challenge :>>', Model);
 @Entity()
 export class Challenge extends Model implements IChallenge {
   public static coverFilenamePrefix = (id) => `challenge-cover-${id}`;
 
-  @Column({ enum: ChallengeStatus })
+  @Column({ type: 'enum', enum: ChallengeStatus })
   status: ChallengeStatus;
 
   @Column()

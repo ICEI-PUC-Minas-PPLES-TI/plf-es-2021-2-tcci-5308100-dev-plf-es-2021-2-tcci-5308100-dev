@@ -18,7 +18,7 @@ import {
 } from '@sec/common';
 import { SavedFile } from './SavedFile.entity';
 
-console.log(User);
+console.log('Explorer :>>', User);
 @ChildEntity(UserType.EXPLORER)
 export class Explorer extends User implements IExplorer {
   constructor() {
@@ -55,7 +55,7 @@ export class Explorer extends User implements IExplorer {
   @Column({ nullable: true })
   linkedIn?: string;
 
-  @Column({ enum: ExplorerStatus })
+  // @Column({ type: 'enum', enum: ExplorerStatus })
   status: ExplorerStatus;
 
   @OneToMany(

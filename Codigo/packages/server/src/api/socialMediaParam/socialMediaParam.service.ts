@@ -6,10 +6,12 @@ import { SocialMediaParam } from '@Models/SocialMediaParam.entity';
 import {
   CreateSocialMediaParamDTO,
   SocialMediaName,
+  SocialMediaParamStatus,
   SocialMediaParamType,
   UpdateSocialMediaParamDTO,
 } from '@sec/common';
 import { SocialMedia } from '@Models/SocialMedia.entity';
+import { Post } from '@Models/Post.entity';
 
 @Injectable()
 export class SocialMediaParamService extends BaseService<SocialMediaParam> {
@@ -51,36 +53,33 @@ export class SocialMediaParamService extends BaseService<SocialMediaParam> {
   }
 
   public async prepareSocialMediaParam(type: SocialMediaParamType) {
-    const params = await this.getRepository()
-      .createQueryBuilder('socialMediaParam')
-      .innerJoinAndSelect(
-        'socialMediaParam.socialMedias',
-        'socialMedias',
-        `socialMedias.name IN ('${SocialMediaName.INSTAGRAM}', '${SocialMediaName.TWITTER}')`,
-      )
-      .where('type = :type', { type })
-      .getMany();
-
-    const instagram: SocialMediaParam[] = [];
-    const twitter: SocialMediaParam[] = [];
-    const mixed: SocialMediaParam[] = [];
-
-    params.forEach((param) => {
-      switch (param.socialMediaNames.toString()) {
-        case SocialMediaName.INSTAGRAM:
-          instagram.push(param);
-          break;
-
-        case SocialMediaName.TWITTER:
-          twitter.push(param);
-          break;
-
-        default:
-          mixed.push(param);
-          break;
-      }
+    const params = await this.findWithRelations({
+      relations: ['socialMedias'],
+      where: { type, status: SocialMediaParamStatus.ACTIVE },
     });
 
-    return { instagram, twitter, mixed };
+    const paramsMapped: { [key in SocialMediaName]: SocialMediaParam[] } = {
+      INSTAGRAM: [],
+      TIKTOK: [],
+      TWITTER: [],
+      FACEBOOK: [],
+      LINKEDIN: [],
+    };
+
+    params.forEach((param) => {
+      Object.keys(paramsMapped).forEach(
+        (socialMedia: keyof typeof paramsMapped) => {
+          if (param.socialMediaNames.includes(socialMedia)) {
+            paramsMapped[socialMedia].push(param);
+          }
+        },
+      );
+    });
+
+    return paramsMapped;
+  }
+
+  public async getParamsWithApproveAll() {
+    return await this.find({ where: { approveAll: true } });
   }
 }

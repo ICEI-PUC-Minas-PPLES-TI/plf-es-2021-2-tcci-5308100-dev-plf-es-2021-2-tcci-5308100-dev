@@ -8,16 +8,16 @@ import {
   SocialMediaName,
 } from '@sec/common';
 
-console.log(Model);
+console.log('SocialMediaParam :>>', Model);
 @Entity()
 export class SocialMediaParam extends Model implements ISocialMediaParam {
   @Column()
   param: string;
 
-  @Column({ enum: SocialMediaParamType })
+  @Column({ type: 'enum', enum: SocialMediaParamType })
   type: SocialMediaParamType;
 
-  @Column({ enum: SocialMediaParamStatus })
+  @Column({ type: 'enum', enum: SocialMediaParamStatus })
   status: SocialMediaParamStatus;
 
   @Column()
