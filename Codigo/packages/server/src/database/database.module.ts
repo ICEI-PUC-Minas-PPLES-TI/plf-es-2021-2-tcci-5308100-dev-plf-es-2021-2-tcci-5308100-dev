@@ -18,6 +18,7 @@ import { SocialMedia } from './entities/SocialMedia.entity';
 import { SocialMediaParam } from './entities/SocialMediaParam.entity';
 import { User } from './entities/User.entity';
 import { ExplorerSeed } from './seeds/explorer.seed';
+import { ExplorersSeed } from './seeds/explorers.seed';
 import { ProfileSeed } from './seeds/profile.seed';
 import { SocialMediaSeed } from './seeds/social-media.seed';
 import { UserSeed } from './seeds/user.seed';
@@ -42,7 +43,13 @@ const repositories = TypeOrmModule.forFeature([
 
 @Module({
   imports: [TypeOrmModule.forRoot(config), repositories],
-  providers: [ProfileSeed, SocialMediaSeed, UserSeed, ExplorerSeed],
+  providers: [
+    ProfileSeed,
+    SocialMediaSeed,
+    UserSeed,
+    ExplorerSeed,
+    ExplorersSeed,
+  ],
   exports: [repositories],
 })
 export class DatabaseModule {}

@@ -1,4 +1,4 @@
-@media (min-width: 768px) {
+@media (min-width: 767px) {
   .login-background-light {
     --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
@@ -74,41 +74,28 @@
   animation: blink var(--blink-time) var(--timing-function) var(--iteration-count);
 }
 
-.social-media-widget {
-  /* position: sticky;
-  top: 0%; */
+.overflow-hidden-overlay {
+  overflow: hidden overlay;
 }
 
-.social-media-widget::-webkit-scrollbar {
+.post-min-width {
+  min-width: 330px;
+  width: 330px;
+}
+
+.custom-scrollbar-light::-webkit-scrollbar {
   width: 5px;
 }
 
-.social-media-widget::-webkit-scrollbar-track {
+.custom-scrollbar-light::-webkit-scrollbar-track {
   border-radius: 10px;
 }
 
-.social-media-widget::-webkit-scrollbar-thumb {
+.custom-scrollbar-light::-webkit-scrollbar-thumb {
   background: #d0d0d0;
   border-radius: 10px;
 }
 
-.social-media-widget::-webkit-scrollbar-thumb:hover {
+.custom-scrollbar-light::-webkit-scrollbar-thumb:hover {
   background: #acacac;
-}
-
-.social-media-widget::after {
-  position: absolute;
-  transition: box-shadow 0.3s;
-  content: '';
-  pointer-events: none;
-  box-shadow: inset 0 -10px 8px -8px #00000026;
-  transform: translate(0, -100%);
-
-  top: 0;
-  right: -1px;
-  bottom: unset;
-  left: 0;
-
-  width: 100%;
-  height: 30px;
 }

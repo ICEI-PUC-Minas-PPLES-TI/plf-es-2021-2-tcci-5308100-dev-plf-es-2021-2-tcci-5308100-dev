@@ -4,7 +4,7 @@ import { Model } from './Model.abstract';
 import { SavedFile } from './SavedFile.entity';
 import { ChallengeAcceptedResponse as IChallengeAcceptedResponse } from '@sec/common';
 
-console.log(Model);
+console.log('ChallengeAcceptedResponse :>>', Model);
 @Entity()
 export class ChallengeAcceptedResponse
   extends Model

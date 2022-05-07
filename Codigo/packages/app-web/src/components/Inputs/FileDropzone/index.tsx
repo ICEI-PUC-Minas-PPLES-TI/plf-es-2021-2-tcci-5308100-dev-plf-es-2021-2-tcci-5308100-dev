@@ -53,7 +53,7 @@ const FileDropzone: React.FunctionComponent<FileDropzoneProps> = ({
                   <>
                     <input {...getInputProps()} />
                     {props.singleFile && props.avatarDropzone ? (
-                      <i className='fas fa-camera text-secondary' style={{  fontSize: '50px' }} />
+                      <i className='fas fa-camera text-secondary' style={{ fontSize: '50px' }} />
                     ) : (
                       renderDragMessage(isDragActive, isDragReject)
                     )}
@@ -69,7 +69,9 @@ const FileDropzone: React.FunctionComponent<FileDropzoneProps> = ({
                       <img
                         src={file.urlPath}
                         style={{ maxHeight: maxHeight }}
-                        className={`${props.singleFile && props.avatarDropzone ? 'rounded-circle p-0 avatar-size' : ''} `}
+                        className={`${
+                          props.singleFile && props.avatarDropzone ? 'rounded-circle p-0 avatar-size' : ''
+                        } `}
                       />
                       {props.singleFile && !props.avatarDropzone && <i className='fas fa-times' />}
                     </div>

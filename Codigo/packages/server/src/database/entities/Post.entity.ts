@@ -12,10 +12,10 @@ import { Model } from './Model.abstract';
 import { SocialMedia } from './SocialMedia.entity';
 import { Post as IPost, PostStatus, SocialMediaName } from '@sec/common';
 
-console.log(Model);
+console.log('Post :>>', Model);
 @Entity()
 export class Post extends Model implements IPost {
-  @Column({ enum: PostStatus })
+  @Column({ type: 'enum', enum: PostStatus })
   status: PostStatus;
 
   @Column({ unique: true })

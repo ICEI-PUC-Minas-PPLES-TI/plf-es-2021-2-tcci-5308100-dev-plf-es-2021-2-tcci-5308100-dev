@@ -83,7 +83,7 @@ const Dashboard = () => {
     const days = [];
     const date = moment().subtract(29, 'days');
 
-    for (let index = 0; index < 30; index++) {
+    for (let index = 0; index <= 29; index++) {
       const access = accessLast30Days.find(
         ({ dayOfMonth }) => dayOfMonth.slice(5).split('-').reverse().join('/') === date.format('DD/MM')
       );

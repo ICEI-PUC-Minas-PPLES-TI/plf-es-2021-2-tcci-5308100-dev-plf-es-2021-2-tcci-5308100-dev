@@ -3,6 +3,7 @@ import {
   ChallengeAcceptedStatus,
   ChallengeStatus,
   ExplorerStatus,
+  PostStatus,
   RecompenseStatus,
   RecompenseType,
   SocialMediaName,
@@ -203,4 +204,14 @@ export const socialMediasFttr = (status: SocialMediaName) => {
   };
 
   return SocialMediaName[status];
+};
+
+export const postStatusFttr = (status: PostStatus) => {
+  const postStatus: { [key in PostStatus]: string } = {
+    APPROVED: 'Aprovado',
+    REFUSED: 'Reprovado',
+    UNDER_REVIEW: 'Sob revisão',
+  };
+
+  return postStatus[status];
 };

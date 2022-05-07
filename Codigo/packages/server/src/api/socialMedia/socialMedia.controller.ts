@@ -1,4 +1,4 @@
-import { Body, Controller, Get, Post, Put } from '@nestjs/common';
+import { Body, Controller, Get, Post, Put, Query } from '@nestjs/common';
 import { UtilsService } from '~/utils/utils.service';
 import { SocialMediaService } from './socialMedia.service';
 import { SocialMediaParamService } from '../socialMediaParam/socialMediaParam.service';
@@ -14,6 +14,8 @@ import {
 } from '@sec/common';
 import { PostService } from '../post/post.service';
 import { GetAvailablePostsPayload } from '@sec/common';
+import { Roles } from '~/authentication/role.guard';
+import { SocialMedia } from '@Models/SocialMedia.entity';
 
 @Controller('social-media')
 export class SocialMediaController {
@@ -26,57 +28,53 @@ export class SocialMediaController {
 
   @Get()
   public async searchPublications() {
-    const hashtags = await this.socialMediaParamService.prepareSocialMediaParam(
-      SocialMediaParamType.HASHTAG,
-    );
-    // const accounts = await this.socialMediaParamService.prepareSocialMediaParam(
-    //   SocialMediaParamType.ACCOUNT,
-    // );
+    try {
+      const hashtags =
+        await this.socialMediaParamService.prepareSocialMediaParam(
+          SocialMediaParamType.HASHTAG,
+        );
+      // const accounts = await this.socialMediaParamService.prepareSocialMediaParam(
+      //   SocialMediaParamType.ACCOUNT,
+      // );
 
-    //Hashtags
-    const instagramHashtagsPosts =
-      await this.socialMediaService.fetchPostsByHashtags({
-        q: hashtags.instagram.map(({ param }) => param),
-        networks: ['instagram'],
-      });
-    const twitterHashtagsPosts =
-      await this.socialMediaService.fetchPostsByHashtags({
-        q: hashtags.twitter.map(({ param }) => param),
-        networks: ['twitter'],
-      });
-    const mixedHashtagsPosts =
-      await this.socialMediaService.fetchPostsByHashtags({
-        q: hashtags.mixed.map(({ param }) => param),
-        networks: ['twitter', 'instagram'],
-      });
+      //Hashtags
+      const instagramHashtagsPosts =
+        await this.socialMediaService.fetchPostsByHashtagsOnSocialSearcher({
+          q: hashtags.INSTAGRAM.map(({ param }) => param),
+          networks: ['instagram'],
+        });
+      const twitterHashtagsPosts =
+        await this.socialMediaService.fetchPostsByHashtagsOnSocialSearcher({
+          q: hashtags.TWITTER.map(({ param }) => param),
+          networks: ['twitter'],
+        });
+      // const tikTokHashtagsPosts =
+      //   await this.socialMediaService.fetchPostsByHashtagsOnTikApi({
+      //     q: hashtags.TIKTOK.map(({ param }) => param),
+      //   });
 
-    //Accounts
-    // const instagramAccountsPosts =
-    //   await this.socialMediaService.fetchPostsByAccount(
-    //     accounts.instagram.map(({ param }) => param),
-    //     ['instagram'],
-    //   );
-    // const twitterAccountsPosts =
-    //   await this.socialMediaService.fetchPostsByAccount(
-    //     accounts.twitter.map(({ param }) => param),
-    //     ['twitter'],
-    //   );
-    // const mixedAccountsPosts =
-    //   await this.socialMediaService.fetchPostsByAccount(
-    //     accounts.mixed.map(({ param }) => param),
-    //     ['twitter', 'instagram'],
-    //   );
+      //Accounts
+      // const instagramAccountsPosts =
+      //   await this.socialMediaService.fetchPostsByAccount(
+      //     accounts.instagram.map(({ param }) => param),
+      //     ['instagram'],
+      //   );
+      // const twitterAccountsPosts =
+      //   await this.socialMediaService.fetchPostsByAccount(
+      //     accounts.twitter.map(({ param }) => param),
+      //     ['twitter'],
+      //   );
 
-    return {
-      hashtags,
-      instagramHashtagsPosts,
-      twitterHashtagsPosts,
-      mixedHashtagsPosts,
-      // accounts,
-      // instagramAccountsPosts,
-      // twitterAccountsPosts,
-      // mixedAccountsPosts,
-    };
+      return this.utilsService.apiResponseSuccess<null>({
+        message: 'A lista de publicações disponíveis foi atualizada.',
+        payload: null,
+      });
+    } catch (error) {
+      return this.utilsService.apiResponseFail({
+        message:
+          'Ocorreu um erro ao atualizar a lista de publicações disponíveis.',
+      });
+    }
   }
 
   @Post('/search-user-id')
@@ -85,9 +83,11 @@ export class SocialMediaController {
   }
 
   @Get('all-posts')
-  public async getAllSocialMediaPosts(param?: GetAllSocialMediaPostsParams) {
+  public async getAllSocialMediaPosts(
+    @Query() queries: GetAllSocialMediaPostsParams,
+  ) {
     const posts = await this.postService.findWithRelations({
-      where: param?.status ? { status: In(param.status) } : undefined,
+      where: { status: In(queries.status || []) },
       relations: ['socialMedia'],
     });
 
@@ -99,22 +99,29 @@ export class SocialMediaController {
   }
 
   @Get('posts')
+  @Roles('*')
   public async getAvailablePosts() {
     try {
       const posts = await this.postService
         .getRepository()
         .createQueryBuilder('posts')
+        .innerJoinAndSelect('posts.socialMedia', 'socialMedia')
         .where('status = :status', { status: PostStatus.APPROVED })
         .orderBy('RANDOM()')
         .limit(200)
         .getMany();
 
-      return this.utilsService.apiResponse<GetAvailablePostsPayload>({
-        status: !!posts ? 'SUCCESS' : 'FAIL',
+      return this.utilsService.apiResponseSuccess<GetAvailablePostsPayload>({
         message: 'Lista de publicações aprovadas.',
-        payload: { posts },
+        payload: {
+          posts: posts.map((post) => ({ ...post, socialMedia: undefined })),
+        },
       });
-    } catch (error) {}
+    } catch (error) {
+      return this.utilsService.apiResponseFail({
+        message: 'Erro ao buscar publicações.',
+      });
+    }
   }
 
   @Put('update-post-status')
@@ -131,7 +138,7 @@ export class SocialMediaController {
       success: !!post,
       onSuccess: {
         message: 'O status da publicação foi atualizado',
-        payload: null,
+        payload: { post },
       },
       onFail: {
         message: 'Ocorreu um erro ao atualizar o status da publicação.',

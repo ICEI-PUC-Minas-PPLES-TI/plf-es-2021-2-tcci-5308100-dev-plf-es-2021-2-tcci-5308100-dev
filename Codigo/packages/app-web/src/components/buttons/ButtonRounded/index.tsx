@@ -19,9 +19,9 @@ const ButtonRounded: React.FunctionComponent<ButtonRoundedProps> = ({
   return (
     <Button
       {...props}
-      className={`btn ${variant ? '' : 'btn-success'} rounded-lg ${className}`}
+      className={`rounded-lg ${className || ''}`}
       disabled={disabled ?? isLoading}
-      variant={variant}
+      variant={variant || 'success'}
     >
       {isLoading ? (
         <>

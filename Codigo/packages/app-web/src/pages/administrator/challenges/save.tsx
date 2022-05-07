@@ -135,12 +135,11 @@ const ChallengesSave: FunctionComponent = () => {
           )
         : await createChallenge(params, (params.newCover as NewFile).file);
 
+      showToastSuccess({ message });
       if (!id) {
-        showToastSuccess({ message });
         navigate(`/administrador/desafios/salvar/${challenge.id}`);
       } else {
         fillForm(challenge);
-        showToastSuccess({ message });
       }
     } catch (error: unknown) {
       defaultErrorHandler(error, showToastDanger);

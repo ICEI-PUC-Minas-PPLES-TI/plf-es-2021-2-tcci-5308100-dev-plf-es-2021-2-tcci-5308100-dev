@@ -8,7 +8,15 @@ export enum UserType {
   EXPLORER = 'EXPLORER',
 }
 
+export enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  BANNED = 'BANNED',
+}
+
 export interface User extends Model {
+  status: string;
   nickname: string;
   email: string;
   name: string;

@@ -119,10 +119,9 @@ const RecompensesSave: FunctionComponent = () => {
         payload: { recompense },
       } = id ? await updateRecompense({ id: +id, ...params }) : await createRecompense(params);
 
+      showToastSuccess({ message });
       if (!id) {
         navigate(`/administrador/recompensas/salvar/${recompense.id}`);
-      } else {
-        showToastSuccess({ message });
       }
     } catch (error: unknown) {
       defaultErrorHandler(error, showToastDanger);
@@ -193,12 +192,21 @@ const RecompensesSave: FunctionComponent = () => {
               defaultValue={undefined}
               name='type'
               label='Tipo'
-              options={[RecompenseType.GENERAL, RecompenseType.DISCOUNT_COUPON, RecompenseType.GIFT_CARD].map(
-                (type) => ({
-                  value: type,
-                  label: recompenseTypeFttr(type),
-                })
-              )}
+              options={[
+                {
+                  value: RecompenseType.GENERAL,
+                  label: recompenseTypeFttr(RecompenseType.GENERAL),
+                },
+                {
+                  value: RecompenseType.DISCOUNT_COUPON,
+                  label: recompenseTypeFttr(RecompenseType.DISCOUNT_COUPON),
+                },
+                {
+                  value: RecompenseType.GIFT_CARD,
+                  label: recompenseTypeFttr(RecompenseType.GIFT_CARD),
+                  isDisabled: true,
+                },
+              ]}
             />
           </div>
         </div>

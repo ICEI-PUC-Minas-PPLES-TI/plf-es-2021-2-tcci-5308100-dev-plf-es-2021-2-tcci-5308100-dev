@@ -29,7 +29,7 @@ body {
   width: calc(100% - 300px);
 }
 
-@media (max-width: 768px) {
+@media (max-width: 767px) {
   .wrapper > div > main {
     width: 100%;
     padding-left: 12px !important;
@@ -250,4 +250,25 @@ input.has-success:focus {
   max-width: 156px;
   height: 156px;
   max-height: 156px;
+}
+
+.avatar-size i {
+  font-size: 160px;
+}
+
+.avatar-size-sm {
+  width: 25px;
+  height: 25px;
+  object-fit: cover;
+}
+
+.avatar-size-sm img {
+  width: 21px;
+  max-width: 21px;
+  height: 21px;
+  max-height: 21px;
+}
+
+.avatar-size-sm i {
+  font-size: 25px;
 }

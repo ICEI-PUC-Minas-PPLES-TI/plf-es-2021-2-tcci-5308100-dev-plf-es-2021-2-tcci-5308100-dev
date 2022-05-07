@@ -32,6 +32,7 @@ import {
   BanExplorersPayload,
   UpdateExplorerProfileDTO,
   updateExplorerProfileValidator,
+  GetAvailableExplorersPayload,
 } from '@sec/common';
 import { In } from 'typeorm';
 import { PublicRoute } from '~/utils/public-route.decorator';
@@ -178,6 +179,26 @@ export class ExplorerController {
           'Ocorreu um erro ao atualizar o perfil. Por favor, tente novamente.',
       },
     });
+  }
+
+  @Get('available')
+  @Roles('*')
+  public async getAvailableExplorers() {
+    try {
+      const explorers = await this.explorerService.getAvailableExplorers();
+
+      return this.utilsService.apiResponseSuccess<GetAvailableExplorersPayload>(
+        {
+          message: 'Lista de exploradores.',
+          payload: { explorers },
+        },
+      );
+    } catch (error) {
+      console.log(error);
+      return this.utilsService.apiResponseFail({
+        message: 'Erro ao buscar exploradores.',
+      });
+    }
   }
 
   @Get()

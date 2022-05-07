@@ -5,22 +5,27 @@ import InstagramCard from '@Components/cards/InstagramCard';
 
 type SocialMediaPostListProps = {
   posts: Post[];
+  keyPrefix?: string;
 };
 
-const SocialMediaPostList: FunctionComponent<SocialMediaPostListProps> = ({ posts }) => {
-  const components: (postToken: string) => { [key in SocialMediaName]: JSX.Element } = (postToken) => ({
-    INSTAGRAM: <InstagramCard instagramId={postToken} />,
+const SocialMediaPostList: FunctionComponent<SocialMediaPostListProps> = ({ posts, keyPrefix }) => {
+  const components: (key: string, postToken: string, postId: string) => { [key in SocialMediaName]: JSX.Element } = (
+    key,
+    postToken,
+    postId
+  ) => ({
+    INSTAGRAM: <InstagramCard key={key} instagramURL={postToken} />,
     TIKTOK: <></>,
-    TWITTER: <TwitterCard tweetId={postToken} />,
+    TWITTER: <TwitterCard key={key} tweetURL={postToken} tweetId={postId} />,
     FACEBOOK: <></>,
     LINKEDIN: <></>,
   });
 
   return (
     <>
-      {posts.map((post) => (
-        <Fragment key={`SocialMediaPostListProps_${post.id}`}>{components(post.token)[post.type]}</Fragment>
-      ))}
+      {posts.map(
+        (post) => components(`${keyPrefix}_SocialMediaPostListProps_${post.id}`, post.url, post.token)[post.type]
+      )}
     </>
   );
 };

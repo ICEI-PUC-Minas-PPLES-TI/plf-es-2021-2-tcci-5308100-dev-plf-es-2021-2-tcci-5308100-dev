@@ -6,7 +6,7 @@ import {
   UserType,
 } from '@sec/common';
 
-console.log(User);
+console.log('Administrator :>>', User);
 @ChildEntity(UserType.ADMINISTRATOR)
 export class Administrator extends User implements IAdministrator {
   constructor() {
@@ -19,6 +19,6 @@ export class Administrator extends User implements IAdministrator {
   @Column()
   isSuper: boolean;
 
-  @Column({ enum: AdministratorStatus })
+  // @Column({ type: 'enum', enum: AdministratorStatus })
   status: AdministratorStatus;
 }
