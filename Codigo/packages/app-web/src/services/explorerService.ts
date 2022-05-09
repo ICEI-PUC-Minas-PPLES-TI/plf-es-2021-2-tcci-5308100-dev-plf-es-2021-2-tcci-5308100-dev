@@ -12,6 +12,7 @@ import {
   BanExplorersPayload,
   UpdateExplorerProfileDTO,
   GetAvailableExplorersPayload,
+  SearchExplorersPayload,
 } from '@sec/common';
 import { APIError } from '~/error/APIError';
 
@@ -118,8 +119,20 @@ export const indicateExplorer = async (request: { email: string }) => {
   }
 };
 
-export const getAvailableExplorers = async () => {
-  const { data, headers } = await api.get<ApiResponse<GetAvailableExplorersPayload>>('/explorer/available');
+export const getAvailableExplorers = async (all = false) => {
+  const { data, headers } = await api.get<ApiResponse<GetAvailableExplorersPayload>>('/explorer/available', {
+    params: { all },
+  });
+
+  if (data.status === 'SUCCESS' || data.status === 'WARNING') {
+    return data;
+  } else {
+    throw new APIError(data.message, data, headers);
+  }
+};
+
+export const searchExplorers = async (name: string) => {
+  const { data, headers } = await api.get<ApiResponse<SearchExplorersPayload>>(`/explorer/search-explorers/${name}`);
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

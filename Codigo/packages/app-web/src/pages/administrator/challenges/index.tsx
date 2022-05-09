@@ -10,7 +10,7 @@ import { matchSorter } from 'match-sorter';
 import { getAllChallenges, GetAllChallengesFilters } from '@Services/challengeService';
 import { ToastContext } from '~/context/ToastContext';
 import { defaultErrorHandler } from '~/error/defaultErrorHandler';
-import { challengeStatusBadge, challengeStatusFttr, formatDate } from '@Utils/formatters';
+import { challengeStatusBadge, challengeStatusFttr } from '@Utils/formatters';
 
 const Challenges: FunctionComponent = () => {
   const { showToastDanger } = useContext(ToastContext);

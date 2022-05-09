@@ -1,8 +1,6 @@
 import {
   Controller,
-  UseGuards,
   Body,
-  Req,
   Get,
   Query,
   Param,
@@ -10,8 +8,8 @@ import {
   Put,
   UseInterceptors,
   UploadedFile,
+  Request,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
 import { UtilsService } from '~/utils/utils.service';
 import { ExplorerService } from './explorer.service';
 import {
@@ -23,7 +21,6 @@ import {
   UpdateExplorerDTO,
   updateExplorerValidator,
   AuthenticationPayload,
-  Token,
   UserType,
   ExplorerStatus,
   ActiveExplorersParams,
@@ -34,7 +31,7 @@ import {
   updateExplorerProfileValidator,
   GetAvailableExplorersPayload,
 } from '@sec/common';
-import { In } from 'typeorm';
+import { ILike, In } from 'typeorm';
 import { PublicRoute } from '~/utils/public-route.decorator';
 import { ShopifyService } from '~/shopify/shopify.service';
 import { AuthenticationService } from '~/authentication/authentication.service';
@@ -42,6 +39,8 @@ import { UserAccessService } from '../user-access/user-access.service';
 import { Roles } from '~/authentication/role.guard';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { EmailService } from '~/email/email.service';
+import { RequestWithUser } from '~/authentication/roles.guard';
+import { SearchExplorersPayload } from '@sec/common/endpoints/explorer.endpoint';
 
 @Controller('explorer')
 export class ExplorerController {
@@ -133,16 +132,17 @@ export class ExplorerController {
 
   @Get('profile/:id')
   @Roles('*')
-  async getExplorerProfile(@Param('id') id: string) {
+  async getExplorerProfile(
+    @Param('id') id: string,
+    @Request() requestWithUser: RequestWithUser,
+  ) {
     if (!Number(id)) return this.utilsService.apiResponseInvalidBody(null);
 
-    const explorer = await this.explorerService.findOneByIdWithRelations(+id, [
-      'avatar',
-      'acceptedChallenges',
-      'acceptedChallenges.challenge',
-      'acceptedChallenges.challenge.recompense',
-      'acceptedChallenges.challenge.cover',
-    ]);
+    const { user } = requestWithUser;
+    const explorer =
+      +id === user.id
+        ? await this.explorerService.getExplorerProfile(+id)
+        : await this.explorerService.getAnotherExplorerProfile(+id);
 
     return this.utilsService.apiResponse<GetExplorerPayload>({
       status: !!explorer ? 'SUCCESS' : 'FAIL',
@@ -157,13 +157,15 @@ export class ExplorerController {
   async updateExplorerProfile(
     @Body() body: { object: string },
     @UploadedFile() newAvatar: Express.Multer.File,
+    @Request() requestWithUser: RequestWithUser,
   ) {
     const data: UpdateExplorerProfileDTO = JSON.parse(body.object);
     const { success, dto, error } = await updateExplorerProfileValidator(data);
 
     if (!success) return this.utilsService.apiResponseInvalidBody(error);
 
-    const explorer = await this.explorerService.updateExplorerProfile(data.id, {
+    const { user } = requestWithUser;
+    const explorer = await this.explorerService.updateExplorerProfile(user.id, {
       ...dto,
       newAvatar,
     });
@@ -183,9 +185,11 @@ export class ExplorerController {
 
   @Get('available')
   @Roles('*')
-  public async getAvailableExplorers() {
+  public async getAvailableExplorers(@Query() params: { all?: string }) {
     try {
-      const explorers = await this.explorerService.getAvailableExplorers();
+      const explorers = await this.explorerService.getAvailableExplorers(
+        params.all === 'true' ? null : 200,
+      );
 
       return this.utilsService.apiResponseSuccess<GetAvailableExplorersPayload>(
         {
@@ -322,6 +326,30 @@ export class ExplorerController {
       onFail: {
         message:
           'Ocorreu um erro ao registrar a indicação. Por favor, tente novamente.',
+      },
+    });
+  }
+
+  @Get('search-explorers/:name')
+  @Roles('*')
+  async searchExplorers(@Param('name') name: string) {
+    const explorers = await this.explorerService.findWithRelations({
+      where: [
+        { nickname: ILike(`%${name}%`) },
+        { name: ILike(`%${name}%`) },
+        { email: ILike(`%${name}%`) },
+      ],
+      relations: ['avatar'],
+    });
+
+    return this.utilsService.apiResponseSuccessOrFail<SearchExplorersPayload>({
+      success: !!explorers,
+      onSuccess: {
+        message: '',
+        payload: { explorers },
+      },
+      onFail: {
+        message: '',
       },
     });
   }

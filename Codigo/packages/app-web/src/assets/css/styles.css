@@ -21,6 +21,21 @@ body {
   margin-top: 112px;
 }
 
+@media (max-width: 607px) {
+  .wrapper {
+    min-height: calc(100vh - 152px);
+    margin-top: 152px;
+  }
+
+  .sidebar {
+    padding: 152px 0 16px;
+  }
+
+  .nav-input-search.on-small {
+    width: calc(100% - 32px) !important;
+  }
+}
+
 .wrapper > div > nav {
   width: 300px;
 }
@@ -99,6 +114,9 @@ link.no-border-focus:focus {
   text-align: center;
 }
 
+.bg-primary-gradient {
+  background: linear-gradient(135deg, #05f, #09f) !important;
+}
 .bg-gold-gradient {
   background: linear-gradient(to right, #f2994a, #f2c94c) !important;
 }
@@ -207,27 +225,12 @@ input.has-success:focus {
   border-color: #dee2e6 #dee2e6 #fff;
 }
 
-.bg-primary-gradiant {
-  background: linear-gradient(135deg, #05f, #09f) !important;
-}
-.bg-gold-gradiant {
-  background: linear-gradient(to right, #f2994a, #f2c94c) !important;
-}
-.bg-red-gradiant {
-  background: linear-gradient(to right, #e44d26, #f16529) !important;
-}
-.bg-mini-gradiant {
-  background: linear-gradient(to right, #ee0979, #ff6a00) !important;
-}
-.bg-blue-gradiant {
-  background: linear-gradient(to right, #0575e6, #021b79) !important;
-}
-
 .no-caret.dropdown-toggle::after {
   content: none;
 }
+input.no-shadow:focus,
 .no-shadow.btn:focus {
-  box-shadow: none;
+  box-shadow: none !important;
 }
 
 .no-active-highlight.dropdown-item.active,
@@ -257,18 +260,53 @@ input.has-success:focus {
 }
 
 .avatar-size-sm {
-  width: 25px;
-  height: 25px;
+  width: 40px;
+  height: 40px;
   object-fit: cover;
 }
 
 .avatar-size-sm img {
-  width: 21px;
-  max-width: 21px;
-  height: 21px;
-  max-height: 21px;
+  width: 36px;
+  max-width: 36px;
+  height: 36px;
+  max-height: 36px;
 }
 
 .avatar-size-sm i {
-  font-size: 25px;
+  font-size: 40px;
+}
+
+.avatar-size-md {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.avatar-size-md img {
+  width: 31px;
+  max-width: 31px;
+  height: 31px;
+  max-height: 31px;
+}
+
+.avatar-size-md i {
+  font-size: 60px;
+}
+
+
+.avatar-size-xs {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+}
+
+.avatar-size-xs img {
+  width: 31px;
+  max-width: 31px;
+  height: 31px;
+  max-height: 31px;
+}
+
+.avatar-size-xs i {
+  font-size: 60px;
 }

@@ -5,16 +5,16 @@ import { CSSProperties } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import DropdownBackless from '@Components/dropdown/DropdownBackless';
 import { AuthContext } from '~/context/AuthContext';
-// import {AuthContext} from '~/context/AuthContext'
 
 export type ExplorerProfileCardProps = {
   explorer: Explorer | undefined;
+  noOptions?: boolean;
   onEdit?: (explorer: Explorer) => void;
 };
 
-const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = ({ explorer, onEdit }) => {
+const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = ({ explorer, noOptions, onEdit }) => {
   const classSideDiv = 'flex-grow-1 flex-center flex-column justify-content-end pb-3';
-  const styleSideDiv: CSSProperties = { width: 'calc(50% - 100px)', fontSize: '0.9rem' };
+  const styleSideDiv: CSSProperties = { width: 'calc(50% - 100px)', fontSize: '0.9rem', zIndex: 3 };
 
   const { user } = useContext(AuthContext);
 
@@ -52,19 +52,22 @@ const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = (
       <div className={`${classSideDiv} align-items-start ps-3`} style={styleSideDiv}>
         {explorer && (
           <>
-            <span className='d-md-none d-lg-block'>
+            {/* <span className='d-md-none d-lg-block'>
               Apelido: <b>{explorer.nickname}</b>
-            </span>
-            <span className='d-md-none d-lg-block'>
-              Explorador desde <b>{moment(explorer.createdAt).format('DD/MM/YYYY')}</b>
-            </span>
+            </span> */}
             <span className='d-md-none d-lg-block'>
               {explorer.countChallengeCompleted === 1
                 ? '1 desafio conquistado'
                 : `${explorer.countChallengeCompleted} desafios conquistados`}
             </span>
-            <span className='d-md-none d-lg-block'>Produto preferido: {explorer.favoriteProduct}</span>
-            <span className='d-md-none d-lg-block mt-2'>Bio.: {explorer.biography}</span>
+            <span className='d-md-none d-lg-block mt-2'>
+              <small className='d-block fw-bold'>Produto preferido:</small>
+              <span>{explorer.favoriteProduct}</span>
+            </span>
+            <span className='d-md-none d-lg-block mt-2'>
+              <small className='d-block fw-bold'>Bio.:</small>
+              <span>{explorer.biography}</span>
+            </span>
           </>
         )}
       </div>
@@ -78,9 +81,21 @@ const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = (
             <i className='fas fa-user' />
           </div>
         )}
-        {explorer && <h5 className='text-center m-0'>{explorer.name}</h5>}
+        {explorer && (
+          <h5 className='text-center m-0'>
+            {explorer.name}
+            <small className='d-block' style={{ fontSize: '0.9rem' }}>
+              {explorer.nickname}
+            </small>
+          </h5>
+        )}
       </div>
       <div className={`${classSideDiv} align-items-end pe-3`} style={styleSideDiv}>
+        {explorer && (
+          <small className='d-md-none d-lg-block text-end mt-2 mb-auto' style={{ marginRight: '35px' }}>
+            Explorador desde <b>{moment(explorer.createdAt).format('DD/MM/YYYY')}</b>
+          </small>
+        )}
         {explorer && (
           <>
             {formatExplorerSocialMedia('instagram', 'fab fa-instagram')}
@@ -92,7 +107,7 @@ const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = (
         )}
       </div>
       <div style={{ position: 'absolute', left: 0, right: 0, height: '40%', background: '#fbd499', zIndex: 1 }} />
-      {explorer && user.id === explorer.id && (
+      {!noOptions && explorer && user.id === explorer.id && (
         <div className='' style={{ position: 'absolute', top: 0, right: '6px', zIndex: 3 }}>
           <DropdownBackless
             noCaret

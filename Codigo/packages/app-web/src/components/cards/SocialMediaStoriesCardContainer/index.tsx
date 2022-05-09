@@ -1,5 +1,5 @@
 import { Post } from '@sec/common';
-import React, { FunctionComponent } from 'react';
+import { FunctionComponent } from 'react';
 import SocialMediaStoriesCard from '../SocialMediaStoriesCard';
 
 type SocialMediaStoriesCardContainerProps = { socialMediaStories: Post[] };

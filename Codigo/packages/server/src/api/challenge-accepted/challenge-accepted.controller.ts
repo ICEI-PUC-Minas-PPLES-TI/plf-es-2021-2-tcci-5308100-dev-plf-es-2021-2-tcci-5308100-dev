@@ -22,6 +22,7 @@ import {
   GetAllChallengesAcceptedParams,
   GetAllChallengesAcceptedPayload,
   GetChallengeAcceptedPayload,
+  GetReadOnlyChallengeAcceptedPayload,
   RedeemRecompensePayload,
   SendChallengeResponseDTO,
   SendChallengeResponsePayload,
@@ -260,6 +261,39 @@ export class ChallengeAcceptedController {
     });
   }
 
+  @Get('read-only/:id')
+  @Roles([
+    UserType.SUPER_ADMINISTRATOR,
+    UserType.ADMINISTRATOR,
+    UserType.EXPLORER,
+  ])
+  async getReadOnlyChallengeAccepted(@Param('id') id: string) {
+    if (!Number(id)) return this.utilsService.apiResponseInvalidBody(null);
+
+    const challengeAccepted = await this.challengeAcceptedService
+      .getRepository()
+      .createQueryBuilder('challengeAccepted')
+      .leftJoinAndSelect('challengeAccepted.challenge', 'challenge')
+      .leftJoinAndSelect('challenge.recompense', 'recompense')
+      .leftJoinAndSelect('challenge.cover', 'cover')
+      .leftJoinAndSelect('challengeAccepted.responses', 'responses')
+      .leftJoinAndSelect('responses.savedFiles', 'savedFiles')
+      .leftJoin(
+        'challengeAccepted.responses',
+        'next_responses',
+        'responses.createdAt < next_responses.createdAt',
+      )
+      .where('next_responses.id IS NULL')
+      .andWhere({ id: +id })
+      .getOne();
+
+    return this.utilsService.apiResponse<GetReadOnlyChallengeAcceptedPayload>({
+      status: !!challengeAccepted ? 'SUCCESS' : 'FAIL',
+      message: 'Detalhes do desafio.',
+      payload: { challengeAccepted: challengeAccepted },
+    });
+  }
+
   @Get(':id')
   @Roles([
     UserType.SUPER_ADMINISTRATOR,
@@ -285,8 +319,9 @@ export class ChallengeAcceptedController {
       ],
     });
 
-    challengeAccepted.comments =
-      await this.commentService.getByAcceptedChallenge(+id);
+    if (!!challengeAccepted)
+      challengeAccepted.comments =
+        await this.commentService.getByAcceptedChallenge(+id);
 
     return this.utilsService.apiResponse<GetChallengeAcceptedPayload>({
       status: !!challengeAccepted ? 'SUCCESS' : 'FAIL',

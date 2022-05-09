@@ -1,3 +1,4 @@
+import ErrorCatcher from '@Components/error/ErrorCatcher';
 import { FunctionComponent } from 'react';
 import { TwitterEmbed } from 'react-social-media-embed';
 
@@ -9,7 +10,9 @@ type TwitterCardProps = {
 const TwitterCard: FunctionComponent<TwitterCardProps> = ({ tweetId, tweetURL }) => {
   return (
     <div className='position-relative'>
-      <TwitterEmbed twitterTweetEmbedProps={{ tweetId: tweetId }} url={tweetURL || ''} width={330} />
+      <ErrorCatcher>
+        <TwitterEmbed twitterTweetEmbedProps={{ tweetId: tweetId }} url={tweetURL || ''} width={330} />
+      </ErrorCatcher>
     </div>
   );
 };

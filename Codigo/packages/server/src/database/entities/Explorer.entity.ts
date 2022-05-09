@@ -34,25 +34,25 @@ export class Explorer extends User implements IExplorer {
   @Column({ nullable: true, select: false })
   token?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 40 })
   biography?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 30 })
   favoriteProduct?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 20 })
   instagram?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 20 })
   tikTok?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 20 })
   twitter?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 20 })
   facebook?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, length: 20 })
   linkedIn?: string;
 
   // @Column({ type: 'enum', enum: ExplorerStatus })
@@ -71,14 +71,18 @@ export class Explorer extends User implements IExplorer {
 
   @AfterLoad()
   getCountChallengeCompleted() {
-    const countChallengeCompleted =
-      this.acceptedChallenges?.reduce(
+    if (Array.isArray(this.acceptedChallenges)) {
+      const countChallengeCompleted = this.acceptedChallenges.reduce(
         (acc, curr) =>
           curr.status === ChallengeAcceptedStatus.COMPLETE ? ++acc : acc,
         0,
-      ) || null;
+      );
 
-    this.countChallengeCompleted = countChallengeCompleted;
-    return countChallengeCompleted;
+      this.countChallengeCompleted = countChallengeCompleted;
+      return countChallengeCompleted;
+    } else {
+      this.countChallengeCompleted = null;
+      return null;
+    }
   }
 }

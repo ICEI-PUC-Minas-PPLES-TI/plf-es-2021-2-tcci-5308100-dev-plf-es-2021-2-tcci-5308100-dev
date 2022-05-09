@@ -1,10 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectRepository } from '@nestjs/typeorm';
-import { Connection, Repository } from 'typeorm';
+import { Connection, Repository, SelectQueryBuilder } from 'typeorm';
 import { BaseService } from '~/database/BaseService.abstract';
 import { Explorer } from '@Models/Explorer.entity';
 import {
   AuthenticationPayload,
+  ChallengeAcceptedStatus,
   ExplorerStatus,
   FileType,
   Token,
@@ -102,7 +103,7 @@ export class ExplorerService extends BaseService<Explorer> {
         if (newAvatar) {
           const filename = this.calcFilename(id);
 
-          const { success, error } = await this.filesService.saveFile(
+          const { success } = await this.filesService.saveFile(
             newAvatar,
             filename,
           );
@@ -166,13 +167,57 @@ export class ExplorerService extends BaseService<Explorer> {
     return `${Explorer.avatarFilenamePrefix(id)}-${moment().format('x')}`;
   }
 
-  public async getAvailableExplorers() {
-    return await this.getRepository()
+  public async getAvailableExplorers(limit: number | null = 200) {
+    const availableExplorers = await this.getRepository()
       .createQueryBuilder('explorers')
       .leftJoinAndSelect('explorers.avatar', 'avatar')
-      .where('status = :status', { status: ExplorerStatus.ACTIVE })
+      .leftJoinAndSelect(
+        'explorers.acceptedChallenges',
+        'acceptedChallenges',
+        'acceptedChallenges.status = :acceptedChallengesStatus',
+        { acceptedChallengesStatus: ChallengeAcceptedStatus.COMPLETE },
+      )
+      .where('explorers.status = :explorersStatus', {
+        explorersStatus: ExplorerStatus.ACTIVE,
+      })
       .orderBy('RANDOM()')
-      .limit(50)
+      .limit(limit)
       .getMany();
+
+    return availableExplorers.map((availableExplorer) => ({
+      ...availableExplorer,
+      acceptedChallenges: null,
+    })) as Explorer[];
+  }
+
+  public async getExplorerProfile(explorerId: number) {
+    return await this.findOneByIdWithRelations(explorerId, [
+      'avatar',
+      'acceptedChallenges',
+      'acceptedChallenges.challenge',
+      'acceptedChallenges.challenge.recompense',
+      'acceptedChallenges.challenge.cover',
+    ]);
+  }
+
+  public async getAnotherExplorerProfile(explorerId: number) {
+    try {
+      return await this.getRepository()
+        .createQueryBuilder('explorer')
+        .leftJoinAndSelect('explorer.avatar', 'avatar')
+        .leftJoinAndSelect(
+          'explorer.acceptedChallenges',
+          'acceptedChallenges',
+          'acceptedChallenges.status = :status',
+          { status: ChallengeAcceptedStatus.COMPLETE },
+        )
+        .leftJoinAndSelect('acceptedChallenges.challenge', 'challenge')
+        .leftJoinAndSelect('challenge.recompense', 'recompense')
+        .leftJoinAndSelect('challenge.cover', 'cover')
+        .where({ id: explorerId })
+        .getOneOrFail();
+    } catch (error) {
+      return undefined;
+    }
   }
 }

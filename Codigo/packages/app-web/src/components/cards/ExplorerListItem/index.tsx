@@ -14,12 +14,12 @@ const ExplorerListItem: FunctionComponent<ExplorerListItemProps> = ({ explorer }
             <i className='fas fa-user' />
           </div>
         )}
-        <span className='text-muted ms-1' style={{ fontSize: '0.9rem' }}>
+        <span className='text-muted ms-1' style={{ fontSize: '1rem' }}>
           {explorer.name}
         </span>
       </div>
-      <small style={{ fontSize: '0.7rem', color: 'var(--bs-gray)' }}>{explorer.favoriteProduct}</small>
-      <span style={{ fontSize: '0.8rem', color: 'var(--bs-gray-800)' }}>{explorer.biography}</span>
+      <small style={{ fontSize: '0.8rem', color: 'var(--bs-gray)' }}>{explorer.favoriteProduct}</small>
+      <span style={{ fontSize: '0.9rem', color: 'var(--bs-gray-800)' }}>{explorer.biography}</span>
     </div>
   );
 };

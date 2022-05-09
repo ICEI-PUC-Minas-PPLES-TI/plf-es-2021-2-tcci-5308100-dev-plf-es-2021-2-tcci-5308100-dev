@@ -34,7 +34,12 @@ import ExplorerNewAccount from '@Pages/explorer/login/NewAccount';
 
 import ExplorerHome from '@Pages/explorer/home';
 import ExplorerExplorerProfile from '@Pages/explorer/explorer-profile';
+import ExplorerExplorePosts from '@Pages/explorer/explore-publications';
+import ExplorerExploreExplorers from '@Pages/explorer/explore-explorers';
+import ExplorerAnotherExplorerProfile from '@Pages/explorer/another-explorer-profile';
 import ExplorerChallengeAccepted from '@Pages/explorer/explorer-profile/ChallengeAccepted';
+import ExplorerReadOnlyChallengeAccepted from '@Pages/explorer/another-explorer-profile/ReadOnlyChallengeAccepted';
+
 import ExplorerChallenge from '@Pages/explorer/home/Challenge';
 import ExplorerIndicate from '@Pages/explorer/indicate';
 
@@ -182,16 +187,44 @@ const routesExplorer: RouteSettings[] = [
     allowedUsers: [UserType.EXPLORER],
     label: 'Home',
     iconClass: 'fas fa-home',
+    bgClass: 'bg-primary-gradient text-white',
     component: ExplorerHome,
     show: true,
     hasNavMenu: true,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/perfil/:id',
+    allowedUsers: [UserType.EXPLORER],
+    component: ExplorerAnotherExplorerProfile,
+    show: false,
   },
   {
     path: urlPrefix[UserType.EXPLORER] + '/perfil',
     allowedUsers: [UserType.EXPLORER],
     label: 'Perfil',
     iconClass: 'fas fa-hand-sparkles',
+    bgClass: 'bg-gold-gradient text-white',
     component: ExplorerExplorerProfile,
+    show: true,
+    hasNavMenu: true,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/explorar-publicacoes',
+    allowedUsers: [UserType.EXPLORER],
+    label: 'Explorar publicações',
+    iconClass: 'fas fa-hashtag',
+    bgClass: 'bg-red-gradient text-white',
+    component: ExplorerExplorePosts,
+    show: true,
+    hasNavMenu: true,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/encontrar-exploradores',
+    allowedUsers: [UserType.EXPLORER],
+    label: 'Encontrar exploradores',
+    iconClass: 'fas fa-user',
+    bgClass: 'bg-primary-gradient text-white',
+    component: ExplorerExploreExplorers,
     show: true,
     hasNavMenu: true,
   },
@@ -199,6 +232,12 @@ const routesExplorer: RouteSettings[] = [
     path: urlPrefix[UserType.EXPLORER] + '/desafio-aceito/:id',
     allowedUsers: [UserType.EXPLORER],
     component: ExplorerChallengeAccepted,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/ver-desafio-aceito/:id',
+    allowedUsers: [UserType.EXPLORER],
+    component: ExplorerReadOnlyChallengeAccepted,
     show: false,
   },
   {
@@ -212,6 +251,7 @@ const routesExplorer: RouteSettings[] = [
     allowedUsers: [UserType.EXPLORER],
     label: 'Indicar',
     iconClass: 'fas fa-share-alt',
+    bgClass: 'bg-orange-gradient text-white',
     component: ExplorerIndicate,
     show: true,
     hasNavMenu: false,

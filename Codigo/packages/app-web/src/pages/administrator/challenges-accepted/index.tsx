@@ -78,6 +78,7 @@ const ChallengesAccepted: FunctionComponent = () => {
             { field: 'challengeTitle', label: 'Desafio' },
             { field: 'recompenseName', label: 'Recompensa' },
             { field: 'explorerName', label: 'Explorador' },
+            { field: 'explorerEmail', label: 'Email' },
 
             { field: 'responsesCount', label: 'Respostas enviadas', width: '115px', alignment: 'center' },
             // { field: 'commentsCount', label: 'Comentários', width: '95px', alignment: 'center' },
@@ -105,6 +106,7 @@ const ChallengesAccepted: FunctionComponent = () => {
             challengeTitle: c.challenge.title,
             recompenseName: c.challenge.recompense.name,
             explorerName: c.explorer.name,
+            explorerEmail: c.explorer.email,
             responsesCount: c.responsesCount,
             // commentsCount: (
             //   <>

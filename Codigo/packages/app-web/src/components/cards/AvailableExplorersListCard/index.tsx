@@ -1,11 +1,16 @@
 import { Explorer } from '@sec/common';
-import { UIEventHandler, useContext, useEffect, useState } from 'react';
+import { FunctionComponent, UIEventHandler, useContext, useEffect, useState } from 'react';
 import { ListGroup } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { SocialMediaPostContext } from '~/context/SocialMediaPostContext';
 import ExplorerListItem from '../ExplorerListItem';
 
-const AvailableExplorersListCard = () => {
+type AvailableExplorersListCardProps = {
+  doubleSize?: boolean;
+};
+
+const AvailableExplorersListCard: FunctionComponent<AvailableExplorersListCardProps> = ({ doubleSize }) => {
   const { availableExplorers } = useContext(SocialMediaPostContext);
   const location = useLocation();
 
@@ -14,17 +19,17 @@ const AvailableExplorersListCard = () => {
 
   useEffect(() => {
     setListShowed([]);
-    addExplorers(availableExplorers, 6);
+    addExplorers(availableExplorers);
   }, [availableExplorers]);
 
   const triggerPagination: UIEventHandler<HTMLDivElement> = (event) => {
     const { scrollTop, scrollHeight, clientHeight } = event.currentTarget;
     if (scrollTop + clientHeight >= scrollHeight * 0.9) {
-      addExplorers(explorersToShow, 6);
+      addExplorers(explorersToShow);
     }
   };
 
-  const addExplorers = (explorers: Explorer[], qtd = 6) => {
+  const addExplorers = (explorers: Explorer[], qtd = doubleSize ? 12 : 6) => {
     const aux = [...explorers];
     const toAdd = aux.splice(0, qtd);
 
@@ -35,15 +40,16 @@ const AvailableExplorersListCard = () => {
   return (
     <div
       className='card rounded-md overflow-hidden-overlay custom-scrollbar-light'
-      style={{ height: '40vh' }}
+      style={{ height: doubleSize ? '83.5vh' : '40vh' }}
       onScroll={triggerPagination}
     >
       <ListGroup>
         {listShowed.map((explorer) => (
           <ListGroup.Item
+            as={Link}
             key={`${location.pathname}_AvailableExplorersListCard_${explorer.id}`}
             action
-            href={`/explorador/perfil/${explorer.id}`}
+            to={`/explorador/perfil/${explorer.id}`}
             active={false}
           >
             <ExplorerListItem explorer={explorer} />

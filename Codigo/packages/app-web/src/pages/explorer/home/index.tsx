@@ -5,12 +5,12 @@ import { ToastContext } from '~/context/ToastContext';
 import { getAllChallengesAsExplorer, getChallengeAsExplorer } from '@Services/challengeService';
 import { Challenge, Post } from '@sec/common';
 import { defaultErrorHandler } from '~/error/defaultErrorHandler';
-import SocialMediaStoriesCardContainer from '@Components/cards/SocialMediaStoriesCardContainer';
 import ChallengeCard from '@Components/cards/ChallengeCard';
 import { range } from '@Utils/util';
 import SideCard from '@Components/cards/SideCard';
 import PostsListCard from '@Components/cards/PostsListCard';
 import AvailableExplorersListCard from '@Components/cards/AvailableExplorersListCard';
+import Skeleton from 'react-loading-skeleton';
 
 const postsExample: Post[] = range(10).map((i) => ({ id: i } as Post));
 
@@ -19,10 +19,7 @@ const ExplorerHome = () => {
   const navigate = useNavigate();
 
   const [isAwaiting, setIsAwaiting] = useState(false);
-  const [hasErrorOnResponse, setHasErrorOnResponse] = useState(false);
   const [challenges, setChallenges] = useState<Challenge[]>([]);
-  const [socialMediaStories, setSocialMediaStories] = useState<Post[]>(postsExample);
-  const [socialMediaPosts, setSocialMediaPosts] = useState<Post[]>(postsExample);
 
   useEffect(() => {
     fetchData();
@@ -46,9 +43,15 @@ const ExplorerHome = () => {
   return (
     <div className='d-flex h-100'>
       <PageCard simpleVariant limitedWidth hidePaddingTopExtra>
-        <SocialMediaStoriesCardContainer socialMediaStories={socialMediaStories} />
-        {/* TODO: Adicionar skeleton  */}
-        {isAwaiting && <></>}
+        {isAwaiting && (
+          <>
+            <Skeleton height='30px' count={3} />
+            <br />
+            <Skeleton height='30px' count={3} />
+            <br />
+            <Skeleton height='30px' count={3} />
+          </>
+        )}
         {!isAwaiting && challenges.length === 0 && (
           <div className='alert alert-secondary' role='alert'>
             Lamento, no momento não temos nenhum novo desafio para você. <span className='fw-bold'>¯\_(ツ)_/¯</span>

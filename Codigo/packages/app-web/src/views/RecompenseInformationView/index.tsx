@@ -9,11 +9,12 @@ type RecompenseInformationViewProps = {
 const RecompenseInformationView: FunctionComponent<RecompenseInformationViewProps> = ({ recompense }) => {
   return (
     <div>
-      <span>Instruções para resgate da recompensa:</span>
+      <span className='text-decoration-underline'>Instruções para resgate da recompensa:</span>
       {recompense ? (
         <div>
           <strong className='d-block mb-3'>{recompense.name}</strong>
-          <pre>{recompense.instructions}</pre>
+          <div style={{ whiteSpace: 'pre-line' }}>{recompense.instructions}</div>
+          {/* <pre>{recompense.instructions}</pre> */}
         </div>
       ) : (
         <Skeleton height='30px' count={3} />

@@ -7,6 +7,7 @@ import {
   GetAllChallengesAcceptedParams,
   GetAllChallengesAcceptedPayload,
   GetChallengeAcceptedPayload,
+  GetReadOnlyChallengeAcceptedPayload,
   RedeemRecompensePayload,
   SendChallengeResponseDTO,
   SendChallengeResponsePayload,
@@ -30,6 +31,18 @@ export const getAllChallengesAccepted = async (filters: GetAllChallengesAccepted
 
 export const getChallengeAccepted = async (id: number) => {
   const { data, headers } = await api.get<ApiResponse<GetChallengeAcceptedPayload>>(`/challenge-accepted/${id}`);
+
+  if (data.status === 'SUCCESS' || data.status === 'WARNING') {
+    return data;
+  } else {
+    throw new APIError(data.message, data, headers);
+  }
+};
+
+export const getReadOnlyChallengeAccepted = async (id: number) => {
+  const { data, headers } = await api.get<ApiResponse<GetReadOnlyChallengeAcceptedPayload>>(
+    `/challenge-accepted/read-only/${id}`
+  );
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

@@ -65,9 +65,9 @@ export class SocialMediaController {
       //     ['twitter'],
       //   );
 
-      return this.utilsService.apiResponseSuccess<null>({
+      return this.utilsService.apiResponseSuccess<any>({
         message: 'A lista de publicações disponíveis foi atualizada.',
-        payload: null,
+        payload: { instagramHashtagsPosts, twitterHashtagsPosts },
       });
     } catch (error) {
       return this.utilsService.apiResponseFail({

@@ -225,7 +225,7 @@ const ViewViewChallenge: React.FunctionComponent<ViewViewChallengeProps> = ({
                   {ReactCanvasConfetti}
                   <ButtonRounded
                     variant='primary'
-                    className='w-100 flex-center bg-primary-gradiant'
+                    className='w-100 flex-center bg-primary-gradient'
                     isLoading={isAwaitingRecompense}
                     style={{ marginTop: '-30px' }}
                     onClick={() => handleOnRedeemRecompense(challengeAccepted.id)}

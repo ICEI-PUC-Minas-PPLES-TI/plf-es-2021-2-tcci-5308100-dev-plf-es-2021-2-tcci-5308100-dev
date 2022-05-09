@@ -11,7 +11,6 @@ type ManagePostCardProps = {
   post: Post;
   onApprove: (id: number) => Promise<boolean>;
   onDisapprove: (id: number) => Promise<boolean>;
-  backgroundColor: CSSProperties['backgroundColor'];
 };
 
 const ManagePostCard: FunctionComponent<ManagePostCardProps> = ({ post, onApprove, onDisapprove }) => {

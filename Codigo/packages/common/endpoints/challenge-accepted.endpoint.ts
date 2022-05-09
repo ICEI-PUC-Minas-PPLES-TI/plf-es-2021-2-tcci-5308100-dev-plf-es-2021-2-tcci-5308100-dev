@@ -25,3 +25,7 @@ export type SendChallengeResponsePayload = {
 export type RedeemRecompensePayload = {
   recompense: Recompense;
 };
+
+export type GetReadOnlyChallengeAcceptedPayload = {
+  challengeAccepted: ChallengeAccepted;
+};

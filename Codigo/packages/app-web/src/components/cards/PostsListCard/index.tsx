@@ -1,10 +1,14 @@
 import SocialMediaPostList from '@Components/lists/SocialMediaPostList';
 import { Post } from '@sec/common';
-import { UIEventHandler, useContext, useEffect, useState } from 'react';
+import { FunctionComponent, UIEventHandler, useContext, useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { SocialMediaPostContext } from '~/context/SocialMediaPostContext';
 
-const PostsListCard = () => {
+type PostsListCardProps = {
+  doubleSize?: boolean;
+};
+
+const PostsListCard: FunctionComponent<PostsListCardProps> = ({ doubleSize }) => {
   const { posts } = useContext(SocialMediaPostContext);
   const location = useLocation();
 
@@ -34,7 +38,12 @@ const PostsListCard = () => {
   return (
     <div
       className='card rounded-md overflow-hidden-overlay custom-scrollbar-light'
-      style={{ minHeight: '40vh', maxHeight: '80vh', overflowX: 'hidden', overflowY: 'scroll' }}
+      style={{
+        minHeight: doubleSize ? '83.5vh' : '40vh',
+        maxHeight: doubleSize ? '83.5vh' : '80vh',
+        overflowX: 'hidden',
+        overflowY: 'scroll',
+      }}
       onScroll={triggerPagination}
     >
       <SocialMediaPostList keyPrefix={location.pathname} posts={listShowed} />

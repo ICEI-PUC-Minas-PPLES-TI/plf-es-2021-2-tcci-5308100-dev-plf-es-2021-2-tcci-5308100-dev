@@ -99,3 +99,7 @@
 .custom-scrollbar-light::-webkit-scrollbar-thumb:hover {
   background: #acacac;
 }
+
+.search-input-height-on-small {
+  height: 75px !important;
+}

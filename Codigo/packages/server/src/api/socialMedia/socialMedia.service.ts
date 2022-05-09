@@ -183,16 +183,18 @@ export class SocialMediaService extends BaseService<SocialMedia> {
       .map(({ param }) => param);
 
     const postsSaved = await this.postService.getRepository().upsert(
-      posts.map((post) => ({
-        token: post.postid,
-        status:
-          accountsWithApproveAll.includes(post.user.userid) ||
-          post.tags.some(({ text }) => hashtagsWithApproveAll.includes(text))
-            ? PostStatus.APPROVED
-            : PostStatus.UNDER_REVIEW,
-        url: post.url,
-        socialMedia: socialMedias[post.network].id,
-      })),
+      posts
+        .filter((post) => !!post)
+        .map((post) => ({
+          token: post.postid,
+          status:
+            accountsWithApproveAll.includes(post.user.userid) ||
+            post.tags?.some(({ text }) => hashtagsWithApproveAll.includes(text))
+              ? PostStatus.APPROVED
+              : PostStatus.UNDER_REVIEW,
+          url: post.url,
+          socialMedia: socialMedias[post.network].id,
+        })),
       { conflictPaths: ['token'], skipUpdateIfNoValuesChanged: true },
     );
 
@@ -216,7 +218,7 @@ type SocialSearcherPosts = {
     name: string;
     count: number;
   }[];
-  tags: {
+  tags?: {
     text: string;
     url: string;
   }[];

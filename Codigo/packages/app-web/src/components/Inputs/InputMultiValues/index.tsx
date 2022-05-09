@@ -69,7 +69,7 @@ const InputMultiValues: React.FunctionComponent<InputMultiValuesProps> = ({
         <Textarea
           disabled={readOnly}
           className='no-border'
-          minRows={2}
+          minRows={3}
           style={{ width: '100%', resize: 'none' }}
           value={textInput.value}
           onChange={(e) => textInput.onChange(e.target.value)}

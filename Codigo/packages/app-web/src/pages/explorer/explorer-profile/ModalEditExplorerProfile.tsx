@@ -165,6 +165,7 @@ const ModalEditExplorerProfile: FunctionComponent<ModalEditExplorerProfileProps>
             defaultValue={''}
             name='favoriteProduct'
             label='Produto favorito'
+            maxLength={30}
           />
           <InputControlled
             type='text'

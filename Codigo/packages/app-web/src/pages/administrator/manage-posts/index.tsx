@@ -145,7 +145,6 @@ const ManagePosts: FunctionComponent = () => {
                 post={post}
                 onApprove={onApprovePost}
                 onDisapprove={onDisapprovePost}
-                backgroundColor='red'
               />
             ))}
           </Masonry>
