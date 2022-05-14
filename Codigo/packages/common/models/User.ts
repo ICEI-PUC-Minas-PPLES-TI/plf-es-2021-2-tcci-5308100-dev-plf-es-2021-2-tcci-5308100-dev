@@ -9,6 +9,7 @@ export enum UserType {
 }
 
 export interface User extends Model {
+  status: string;
   nickname: string;
   email: string;
   name: string;

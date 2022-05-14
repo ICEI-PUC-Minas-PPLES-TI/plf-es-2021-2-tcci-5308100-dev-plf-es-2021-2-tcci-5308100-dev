@@ -4,12 +4,13 @@ import { Model } from './Model.abstract';
 import { User } from './User.entity';
 import { Comment as IComment } from '@sec/common';
 
-console.log(Model);
+console.log('Comment :>>', Model);
 @Entity()
 export class Comment extends Model implements IComment {
   @Column({ length: 200 })
   text: string;
 
+  // FIXME: Bug; Dependência circular encontrada.
   @ManyToOne(() => User /* , (user) => user.comments */)
   user: User;
 
@@ -17,5 +18,5 @@ export class Comment extends Model implements IComment {
     () => ChallengeAccepted,
     (challengeAccepted) => challengeAccepted.comments,
   )
-  acceptedChallenges: ChallengeAccepted;
+  acceptedChallenge: ChallengeAccepted;
 }

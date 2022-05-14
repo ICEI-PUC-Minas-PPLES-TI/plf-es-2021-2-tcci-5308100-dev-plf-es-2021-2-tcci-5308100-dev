@@ -49,7 +49,7 @@ const ToastProvider: React.FunctionComponent = ({ children }) => {
   const [states, setStates] = useState<{ [index: string]: boolean }>({});
 
   const updateState = (id: string, status: boolean, timeout?: number) => {
-    setStates({ ...states, [id]: status });
+    setStates((states) => ({ ...states, [id]: status }));
 
     if (!!timeout && status) {
       setTimeout(() => {
@@ -101,7 +101,7 @@ const ToastProvider: React.FunctionComponent = ({ children }) => {
       id: id,
     };
 
-    setToasts({ ...toasts, [id]: toast });
+    setToasts((toasts) => ({ ...toasts, [id]: toast }));
   };
   return (
     <ToastContext.Provider
@@ -109,7 +109,8 @@ const ToastProvider: React.FunctionComponent = ({ children }) => {
         showToastInfo: (props) => createToast({ title: 'Atenção!', ...props, type: ToastVariant.INFO }),
         showToastSuccess: (props) => createToast({ title: 'Atenção!', ...props, type: ToastVariant.SUCCESS }),
         showToastWarning: (props) => createToast({ title: 'Atenção!', ...props, type: ToastVariant.WARNING }),
-        showToastDanger: (props) => createToast({ title: 'Atenção!', icon: 'far fa-bell', ...props, type: ToastVariant.DANGER }),
+        showToastDanger: (props) =>
+          createToast({ title: 'Atenção!', icon: 'far fa-bell', ...props, type: ToastVariant.DANGER }),
         showToast: (props) => createToast(props),
       }}
     >

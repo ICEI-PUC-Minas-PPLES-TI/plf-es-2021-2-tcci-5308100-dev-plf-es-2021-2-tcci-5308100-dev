@@ -36,3 +36,8 @@ package-lock.json
 # Documentation here: https://yarnpkg.com/features/zero-installs
 !/.yarn/cache
 #/.pnp.*
+
+# TODO file from extension TODO+: https://marketplace.visualstudio.com/items?itemName=fabiospampinato.vscode-todo-plus
+TODO
+
+.localstack/data/**/*

@@ -15,13 +15,33 @@ import Error404 from '~/pages/error404';
 import ErrorCatcher from '~/components/error/ErrorCatcher';
 
 import AdministratorLogin from '@Pages/administrator/login';
+import AdministratorDashboard from '@Pages/administrator/dashboard';
 import AdministratorAdministrators from '@Pages/administrator/administrators';
 import AdministratorAdministratorsSave from '@Pages/administrator/administrators/save';
 import AdministratorExplorers from '@Pages/administrator/explorers';
 import AdministratorChallenges from '@Pages/administrator/challenges';
 import AdministratorChallengesSave from '@Pages/administrator/challenges/save';
+import AdministratorChallengesAccepted from '@Pages/administrator/challenges-accepted';
+import AdministratorChallengesAcceptedSave from '@Pages/administrator/challenges-accepted/save';
+import AdministratorRecompenses from '@Pages/administrator/recompenses';
+import AdministratorRecompensesSave from '@Pages/administrator/recompenses/save';
+import AdministratorSocialMedias from '@Pages/administrator/social-medias';
+import AdministratorSocialMediasSave from '@Pages/administrator/social-medias/save';
+import AdministratorManagePosts from '@Pages/administrator/manage-posts';
 
 import ExplorerLogin from '@Pages/explorer/login';
+import ExplorerNewAccount from '@Pages/explorer/login/NewAccount';
+
+import ExplorerHome from '@Pages/explorer/home';
+import ExplorerExplorerProfile from '@Pages/explorer/explorer-profile';
+import ExplorerExplorePosts from '@Pages/explorer/explore-publications';
+import ExplorerExploreExplorers from '@Pages/explorer/explore-explorers';
+import ExplorerAnotherExplorerProfile from '@Pages/explorer/another-explorer-profile';
+import ExplorerChallengeAccepted from '@Pages/explorer/explorer-profile/ChallengeAccepted';
+import ExplorerReadOnlyChallengeAccepted from '@Pages/explorer/another-explorer-profile/ReadOnlyChallengeAccepted';
+
+import ExplorerChallenge from '@Pages/explorer/home/Challenge';
+import ExplorerIndicate from '@Pages/explorer/indicate';
 
 const urlPrefix = {
   [UserType.SUPER_ADMINISTRATOR]: '/administrador',
@@ -35,9 +55,9 @@ const routesAdministrator: RouteSettings[] = [
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
     label: 'Dashboard',
     iconClass: 'fas fa-chart-line',
-    component: () => <div>Dashboard</div>,
+    component: AdministratorDashboard,
     show: true,
-    hasNavMenu: false,
+    hasNavMenu: true,
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios',
@@ -58,6 +78,27 @@ const routesAdministrator: RouteSettings[] = [
     path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios/salvar/:id',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
     component: AdministratorChallengesSave,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios-aceitos',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    label: 'Desafios aceitos',
+    iconClass: 'fas fa-check-circle',
+    component: AdministratorChallengesAccepted,
+    show: true,
+    hasNavMenu: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios-aceitos/salvar',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    component: AdministratorChallengesAcceptedSave,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/desafios-aceitos/salvar/:id',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    component: AdministratorChallengesAcceptedSave,
     show: false,
   },
   {
@@ -95,20 +136,47 @@ const routesAdministrator: RouteSettings[] = [
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
     label: 'Recompensas',
     iconClass: 'fas fa-gift',
-    component: () => <div>Recompensas</div>,
+    component: AdministratorRecompenses,
     show: true,
     hasNavMenu: false,
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/recompensas/salvar',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
-    component: () => <div>Recompensas</div>,
+    component: AdministratorRecompensesSave,
     show: false,
   },
   {
     path: urlPrefix[UserType.ADMINISTRATOR] + '/recompensas/salvar/:id',
     allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
-    component: () => <div>Recompensas</div>,
+    component: AdministratorRecompensesSave,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/redes-sociais',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    label: 'Redes Sociais',
+    iconClass: 'fas fa-hashtag',
+    component: AdministratorSocialMedias,
+    show: true,
+    hasNavMenu: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/redes-sociais/salvar',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    component: AdministratorSocialMediasSave,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/redes-sociais/salvar/:id',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    component: AdministratorSocialMediasSave,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.ADMINISTRATOR] + '/redes-sociais/publicacoes',
+    allowedUsers: [UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR],
+    component: AdministratorManagePosts,
     show: false,
   },
 ];
@@ -119,9 +187,79 @@ const routesExplorer: RouteSettings[] = [
     allowedUsers: [UserType.EXPLORER],
     label: 'Home',
     iconClass: 'fas fa-home',
-    component: () => <div>teste</div>,
+    bgClass: 'bg-gradient bg-primary-gradient text-white',
+    // bgClass: 'bg-primary',
+    component: ExplorerHome,
     show: true,
     hasNavMenu: true,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/perfil/:id',
+    allowedUsers: [UserType.EXPLORER],
+    component: ExplorerAnotherExplorerProfile,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/perfil',
+    allowedUsers: [UserType.EXPLORER],
+    label: 'Perfil',
+    iconClass: 'fas fa-hand-sparkles',
+    bgClass: 'bg-gradient bg-gold-gradient text-white',
+    // bgClass: 'bg-yellow',
+    component: ExplorerExplorerProfile,
+    show: true,
+    hasNavMenu: true,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/explorar-publicacoes',
+    allowedUsers: [UserType.EXPLORER],
+    label: 'Explorar publicações',
+    iconClass: 'fas fa-hashtag',
+    bgClass: 'bg-gradient bg-red-gradient text-white',
+    // bgClass: 'bg-red',
+    component: ExplorerExplorePosts,
+    show: true,
+    hasNavMenu: true,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/encontrar-exploradores',
+    allowedUsers: [UserType.EXPLORER],
+    label: 'Encontrar exploradores',
+    iconClass: 'fas fa-user',
+    bgClass: 'bg-gradient bg-primary-gradient text-white',
+    // bgClass: 'bg-primary',
+    component: ExplorerExploreExplorers,
+    show: true,
+    hasNavMenu: true,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/desafio-aceito/:id',
+    allowedUsers: [UserType.EXPLORER],
+    component: ExplorerChallengeAccepted,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/ver-desafio-aceito/:id',
+    allowedUsers: [UserType.EXPLORER],
+    component: ExplorerReadOnlyChallengeAccepted,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/desafio/:id',
+    allowedUsers: [UserType.EXPLORER],
+    component: ExplorerChallenge,
+    show: false,
+  },
+  {
+    path: urlPrefix[UserType.EXPLORER] + '/indicar',
+    allowedUsers: [UserType.EXPLORER],
+    label: 'Indicar',
+    iconClass: 'fas fa-share-alt',
+    bgClass: 'bg-gradient bg-orange-gradient text-white',
+    // bgClass: 'bg-orange',
+    component: ExplorerIndicate,
+    show: true,
+    hasNavMenu: false,
   },
 ];
 
@@ -139,7 +277,9 @@ const Routes: React.FunctionComponent = () => {
     urlPrefix: string;
     loginPage: string;
   }) => {
-    const allowedRoutes: RouteSettings[] = routes.filter((route) => allowedUsers.some((r) => route.allowedUsers.includes(r)));
+    const allowedRoutes: RouteSettings[] = routes.filter((route) =>
+      allowedUsers.some((r) => route.allowedUsers.includes(r))
+    );
 
     return (
       <Route
@@ -154,7 +294,9 @@ const Routes: React.FunctionComponent = () => {
                     path={route.path.replace(urlPrefix, '')}
                     element={
                       <ErrorCatcher>
-                        <RouteWithRoleGuard allowedUsers={route.allowedUsers}>{React.createElement(route.component)}</RouteWithRoleGuard>
+                        <RouteWithRoleGuard allowedUsers={route.allowedUsers}>
+                          {React.createElement(route.component)}
+                        </RouteWithRoleGuard>
                       </ErrorCatcher>
                     }
                   />
@@ -188,14 +330,30 @@ const Routes: React.FunctionComponent = () => {
       <Route
         path='/'
         element={
-          <div style={{ width: '100vw', height: '100vh', display: 'flex', justifyContent: 'center', alignItems: 'center', flexDirection: 'column' }}>
+          <div
+            style={{
+              width: '100vw',
+              height: '100vh',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              flexDirection: 'column',
+            }}
+          >
             <a href='/login'>explorador</a>
             <a href='/administrador/login'>administrador</a>
           </div>
         }
       />
-      <Route path='/login' element={<LoginLayout>{<ExplorerLogin />}</LoginLayout>} />
-      <Route path='/administrador/login' element={<LoginLayout>{<AdministratorLogin />}</LoginLayout>} />
+      <Route path='/login' element={<LoginLayout type={UserType.EXPLORER}>{<ExplorerLogin />}</LoginLayout>} />
+      <Route
+        path='/criar-conta'
+        element={<LoginLayout type={UserType.EXPLORER}>{<ExplorerNewAccount />}</LoginLayout>}
+      />
+      <Route
+        path='/administrador/login'
+        element={<LoginLayout type={UserType.ADMINISTRATOR}>{<AdministratorLogin />}</LoginLayout>}
+      />
       <Route path='/nao-autorizado' element={<Error403 fullPage />} />
       <Route path='/*' element={<Error404 fullPage />} />
     </ReactRoutes>

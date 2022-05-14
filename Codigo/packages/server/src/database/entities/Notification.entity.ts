@@ -3,13 +3,16 @@ import { Model } from './Model.abstract';
 import { User } from './User.entity';
 import { Notification as INotification, NotificationStatus } from '@sec/common';
 
-console.log(Model);
+console.log('Notification :>>', Model);
 @Entity()
 export class Notification extends Model implements INotification {
   @Column()
+  title: string;
+
+  @Column()
   text: string;
 
-  @Column({ enum: NotificationStatus })
+  @Column({ type: 'enum', enum: NotificationStatus })
   status: NotificationStatus;
 
   @ManyToOne(() => User, (user) => user.notifications)

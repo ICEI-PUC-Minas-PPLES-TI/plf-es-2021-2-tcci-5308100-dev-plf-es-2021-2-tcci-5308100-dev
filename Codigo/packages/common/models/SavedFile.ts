@@ -5,12 +5,6 @@ export enum FileType {
   PHOTO = 'PHOTO',
 }
 
-export enum SavedFilePath {
-  CHALLENGE_ACCEPTED = 'CHALLENGE_ACCEPTED',
-  FAQ = 'FAQ',
-  CHALLENGE = 'CHALLENGE',
-}
-
 export interface SavedFile extends Model {
   name: string;
   filename: string;
@@ -20,6 +14,5 @@ export interface SavedFile extends Model {
   urlPath: string;
 
   getPath: () => string;
-
   getUrlPath: () => string;
 }

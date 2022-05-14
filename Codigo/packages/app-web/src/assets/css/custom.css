@@ -1,4 +1,4 @@
-@media (min-width: 768px) {
+@media (min-width: 767px) {
   .login-background-light {
     --bs-bg-opacity: 1;
     background-color: rgba(var(--bs-light-rgb), var(--bs-bg-opacity)) !important;
@@ -12,26 +12,9 @@
 
 .login-background:after {
   opacity: 0.85;
-  /* background: linear-gradient(to bottom, #ffa534 0%, #ff5221 100%);
-  background-size: 150% 150%; */
-
-  /* background-color: #9dc5c3;
-  background-image: linear-gradient(315deg, #9dc5c3 0%, #5e5c5c 74%); */
-
-  /* background-color: #485461;
-  background-image: linear-gradient(315deg, #485461 0%, #28313b 74%); */
-
-  /* background-color: #ffffff;
-  background-image: linear-gradient(315deg, #ffffff 0%, #d7e1ec 74%); */
 
   background-color: #2f4353;
   background-image: linear-gradient(315deg, #2f4353 0%, #d2ccc4 74%);
-
-  /* background: linear-gradient(to bottom, #ffa534 0%, #ff5221 100%); */
-  /* filter: grayscale(100%); */
-
-  /* background-color: #9dc5c3; */
-  /* background-image: linear-gradient(315deg, #9dc5c3 0%, #5e5c5c 74%); */
 
   display: block;
   content: '';
@@ -41,4 +24,96 @@
   top: 0;
   left: 0;
   z-index: 2;
+}
+
+.bg-instagram {
+  background-color: #ac2bac;
+}
+
+.bg-tik-tok {
+  background-color: black;
+}
+
+.bg-twitter {
+  background-color: #55acee;
+}
+
+.bg-facebook {
+  background-color: #3b5998;
+}
+
+.bg-linked-in {
+  background-color: #0082ca;
+}
+
+.border-grey {
+  border: 1px solid grey;
+  border-color: grey !important;
+}
+.input-multi-values-disabled {
+  background: #80808017;
+}
+
+.input-multi-values-disabled textarea:disabled {
+  background: transparent;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.blink-tab-recompense {
+  --blink-time: 0.6s;
+  --timing-function: ease-in;
+  --iteration-count: 4;
+
+  -webkit-animation: blink var(--blink-time) var(--timing-function) var(--iteration-count);
+  -moz-animation: blink var(--blink-time) var(--timing-function) var(--iteration-count);
+  -o-animation: blink var(--blink-time) var(--timing-function) var(--iteration-count);
+  animation: blink var(--blink-time) var(--timing-function) var(--iteration-count);
+}
+
+.overflow-hidden-overlay {
+  overflow: hidden overlay;
+}
+
+.post-min-width {
+  min-width: 330px;
+  width: 330px;
+}
+
+.custom-scrollbar-light::-webkit-scrollbar {
+  width: 12px;
+  border-radius: 0 8px 8px 0;
+}
+
+.custom-scrollbar-light::-webkit-scrollbar-track {
+  border-radius: 6px;
+}
+
+.custom-scrollbar-light::-webkit-scrollbar-thumb {
+  background: #d0d0d0;
+  border: 3px solid transparent;
+  border-radius: 6px;
+  background-clip: padding-box;
+}
+
+.custom-scrollbar-light::-webkit-scrollbar-thumb:hover {
+  background: #acacac;
+  background-clip: padding-box;
+}
+
+.custom-scrollbar-bg-white.custom-scrollbar-light::-webkit-scrollbar {
+  background-color: white;
+}
+
+.search-input-height-on-small {
+  height: 75px !important;
+}
+
+.dropdown-item.active,
+.no-active.dropdown-item:active {
+  background-color: inherit;
 }

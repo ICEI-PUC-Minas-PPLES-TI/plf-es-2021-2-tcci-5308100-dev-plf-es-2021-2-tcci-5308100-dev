@@ -11,7 +11,7 @@ import { ApiModule } from '~/api/api.module';
     PassportModule,
     JwtModule.register({
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '1d' },
+      signOptions: { expiresIn: '6h' },
     }),
   ],
   providers: [AuthenticationService, JwtStrategy],

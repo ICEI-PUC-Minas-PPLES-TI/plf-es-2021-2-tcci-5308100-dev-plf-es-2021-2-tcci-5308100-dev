@@ -7,22 +7,22 @@ import {
   RecompenseStatus,
 } from '@sec/common';
 
-console.log(Model);
+console.log('Recompense :>>', Model);
 @Entity()
 export class Recompense extends Model implements IRecompense {
   @Column()
   name: string;
 
-  @Column({ length: 2000 })
+  @Column({ length: 2000, select: false })
   instructions: string;
 
-  @Column({ enum: RecompenseType })
+  @Column({ type: 'enum', enum: RecompenseType })
   type: RecompenseType;
 
-  @Column({ nullable: true })
-  code: string;
+  @Column({ nullable: true, select: false })
+  code?: string;
 
-  @Column({ enum: RecompenseStatus })
+  @Column({ type: 'enum', enum: RecompenseStatus })
   status: RecompenseStatus;
 
   @OneToMany(() => Challenge, (challenge) => challenge.recompense)

@@ -1,11 +1,14 @@
 import { Module } from '@nestjs/common';
+import { APP_GUARD } from '@nestjs/core';
 import { AuthenticationModule } from '~/authentication/authentication.module';
+import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
+import { RolesGuardClass } from '~/authentication/roles.guard';
 import { DatabaseModule } from '~/database/database.module';
+import { FilesModule } from '~/files/files.module';
 import { ShopifyModule } from '~/shopify/shopify.module';
 import { UtilsModule } from '~/utils/utils.module';
 import { AdministratorController } from './administrator/administrator.controller';
 import { AdministratorService } from './administrator/administrator.service';
-import { ChallengeAcceptedResponseController } from './challenge-accepted-response/challenge-accepted-response.controller';
 import { ChallengeAcceptedResponseService } from './challenge-accepted-response/challenge-accepted-response.service';
 import { ChallengeAcceptedController } from './challenge-accepted/challenge-accepted.controller';
 import { ChallengeAcceptedService } from './challenge-accepted/challenge-accepted.service';
@@ -31,14 +34,24 @@ import { SocialMediaParamController } from './socialMediaParam/socialMediaParam.
 import { SocialMediaParamService } from './socialMediaParam/socialMediaParam.service';
 import { UserController } from './user/user.controller';
 import { UserService } from './user/user.service';
+import { ReportsService } from './reports/reports.service';
+import { ReportsController } from './reports/reports.controller';
+import { UserAccessService } from './user-access/user-access.service';
+import { EmailModule } from '~/email/email.module';
 
 @Module({
-  imports: [UtilsModule, DatabaseModule, AuthenticationModule, ShopifyModule],
+  imports: [
+    UtilsModule,
+    DatabaseModule,
+    AuthenticationModule,
+    ShopifyModule,
+    FilesModule,
+    EmailModule,
+  ],
   controllers: [
     AdministratorController,
     ChallengeController,
     ChallengeAcceptedController,
-    ChallengeAcceptedResponseController,
     CommentController,
     ExplorerController,
     NotificationController,
@@ -49,8 +62,17 @@ import { UserService } from './user/user.service';
     SocialMediaController,
     SocialMediaParamController,
     UserController,
+    ReportsController,
   ],
   providers: [
+    {
+      provide: APP_GUARD,
+      useClass: JwtAuthGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: RolesGuardClass,
+    },
     AdministratorService,
     ChallengeService,
     ChallengeAcceptedService,
@@ -65,6 +87,8 @@ import { UserService } from './user/user.service';
     SocialMediaService,
     SocialMediaParamService,
     UserService,
+    ReportsService,
+    UserAccessService,
   ],
   exports: [AdministratorService],
 })

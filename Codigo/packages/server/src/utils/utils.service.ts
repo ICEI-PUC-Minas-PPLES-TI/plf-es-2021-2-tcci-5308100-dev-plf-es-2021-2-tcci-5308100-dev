@@ -14,7 +14,7 @@ export class UtilsService {
     return this.apiResponse<null>({
       status: 'FAIL',
       message: 'O formulário possui dados inválidos.',
-      ...(process.env.NODE_ENV === 'DEVELOPMENT'
+      ...(process.env.NODE_ENV === 'development'
         ? { error: error }
         : undefined),
       payload: null,
@@ -53,7 +53,13 @@ export class UtilsService {
     });
   }
 
-  apiResponseWarning({ message, payload }: { message: string; payload?: any }) {
+  apiResponseWarning<T>({
+    message,
+    payload,
+  }: {
+    message: string;
+    payload?: T;
+  }) {
     return this.apiResponse({
       status: 'WARNING',
       message,
@@ -66,5 +72,13 @@ export class UtilsService {
       .getRandomValues(new Uint32Array(Math.ceil(length / 6)))
       .reduce((acc, word) => acc + word.toString(36), '')
       .slice(0, length);
+  }
+
+  compareArray<T>(array1: T[], array2: T[]) {
+    let i = array1.length;
+    while (i--) {
+      if (array1[i] !== array2[i]) return false;
+    }
+    return true;
   }
 }

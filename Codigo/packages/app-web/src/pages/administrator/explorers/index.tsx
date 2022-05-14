@@ -36,7 +36,11 @@ const Explorers: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    setExplorersFiltered(matchSorter(explorers, searchBox, { keys: ['nickname', 'name', 'email'] }));
+    if (searchBox !== '') {
+      setExplorersFiltered(matchSorter(explorers, searchBox, { keys: ['nickname', 'name', 'email'] }));
+    } else {
+      setExplorersFiltered([...explorers]);
+    }
   }, [searchBox, explorers]);
 
   const fetchData = async (filter: GetAllExplorersFilters | null = null) => {
@@ -59,9 +63,9 @@ const Explorers: FunctionComponent = () => {
     else setExplorersSelected((prev) => prev.filter((p) => p !== value));
   };
 
-  const handleSaveExplorer = async (explorers: Explorer[]) => {
+  const handleSaveExplorer = async (explorer: Explorer) => {
     setExplorerSelected(null);
-    setExplorers(explorers);
+    setExplorers((currentExplorers) => [explorer, ...currentExplorers.filter((c) => c.id !== explorer.id)]);
     modalSave.current?.closeModal();
   };
 
@@ -167,7 +171,13 @@ const Explorers: FunctionComponent = () => {
             { field: 'email', label: 'Email' },
             { field: 'createdAt', label: 'Data de cadastro', alignment: 'center', formatter: formatDate },
             { field: 'countChallengeCompleted', label: 'Desafios conquistados', alignment: 'center' },
-            { field: 'status', label: 'Status', alignment: 'center', classNameFttr: explorerStatusBadge, formatter: explorerStatusFttr },
+            {
+              field: 'status',
+              label: 'Status',
+              alignment: 'center',
+              classNameFttr: explorerStatusBadge,
+              formatter: explorerStatusFttr,
+            },
           ]}
           actions={[
             {

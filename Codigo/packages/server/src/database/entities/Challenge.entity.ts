@@ -1,4 +1,5 @@
 import {
+  AfterLoad,
   Column,
   Entity,
   JoinColumn,
@@ -13,14 +14,13 @@ import { Recompense } from './Recompense.entity';
 import { SavedFile } from './SavedFile.entity';
 import { Challenge as IChallenge, ChallengeStatus } from '@sec/common';
 
-console.log(Model);
+console.log('Challenge :>>', Model);
 @Entity()
 export class Challenge extends Model implements IChallenge {
-  @Column({ enum: ChallengeStatus })
-  status: ChallengeStatus;
+  public static coverFilenamePrefix = (id) => `challenge-cover-${id}`;
 
-  @Column()
-  isHighlighted: boolean;
+  @Column({ type: 'enum', enum: ChallengeStatus })
+  status: ChallengeStatus;
 
   @Column()
   title: string;
@@ -28,7 +28,7 @@ export class Challenge extends Model implements IChallenge {
   @Column({ length: 2000 })
   description: string;
 
-  @OneToOne(() => SavedFile)
+  @OneToOne(() => SavedFile, { cascade: true })
   @JoinColumn()
   cover: SavedFile;
 

@@ -16,7 +16,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   }
 
   validate(payload: any): Token {
-    Object.assign(RequestContextStorage.context.getStore(), payload);
+    // Object.assign(RequestContextStorage.context.getStore(), payload);
     return { ...payload };
   }
 }

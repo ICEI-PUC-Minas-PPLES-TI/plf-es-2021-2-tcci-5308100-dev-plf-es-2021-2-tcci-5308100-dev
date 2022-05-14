@@ -8,7 +8,13 @@ import BaseController from '../BaseController';
 
 const { Group, Control } = Form;
 
-const InputMaskControlled: <T>(props: InputMaskControlledProps<T>) => JSX.Element = ({ isMoneyMask, isNumberMask, isDisabled, name, ...rest }) => {
+const InputMaskControlled: <T>(props: InputMaskControlledProps<T>) => JSX.Element = ({
+  isMoneyMask,
+  isNumberMask,
+  isDisabled,
+  name,
+  ...rest
+}) => {
   return (
     <BaseController
       {...rest}
@@ -22,7 +28,11 @@ const InputMaskControlled: <T>(props: InputMaskControlledProps<T>) => JSX.Elemen
           defaultValue={isMoneyMask ? value * 100 : value}
           value={isMoneyMask ? value * 100 : value}
           onValueChange={(e) =>
-            isMoneyMask ? onChange(e.floatValue ? e.floatValue / 100 : undefined) : isNumberMask ? onChange(e.floatValue) : onChange(e.value)
+            isMoneyMask
+              ? onChange(e.floatValue ? e.floatValue / 100 : undefined)
+              : isNumberMask
+              ? onChange(e.floatValue)
+              : onChange(e.value)
           }
         />
       )}

@@ -5,17 +5,17 @@ import { ApiResponse, AuthenticationPayload } from '@sec/common';
 export const loginAdministrator = async ({
   email,
   password,
+  name,
 }: {
   email: string;
   password: string;
+  name?: string;
 }) => {
-  const { data, headers } = await api.post<ApiResponse<AuthenticationPayload>>(
-    '/administrator/login',
-    {
-      email,
-      password,
-    }
-  );
+  const { data, headers } = await api.post<ApiResponse<AuthenticationPayload>>('/administrator/login', {
+    email,
+    password,
+    name,
+  });
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;
@@ -24,20 +24,12 @@ export const loginAdministrator = async ({
   }
 };
 
-export const loginExplorer = async ({
-  email,
-  password,
-}: {
-  email: string;
-  password: string;
-}) => {
-  const { data, headers } = await api.post<ApiResponse<AuthenticationPayload>>(
-    '/explorer/login',
-    {
-      email,
-      password,
-    }
-  );
+export const loginExplorer = async ({ email, password, name }: { email: string; password: string; name?: string }) => {
+  const { data, headers } = await api.post<ApiResponse<AuthenticationPayload>>('/explorer/login', {
+    email,
+    password,
+    name,
+  });
 
   if (data.status === 'SUCCESS' || data.status === 'WARNING') {
     return data;

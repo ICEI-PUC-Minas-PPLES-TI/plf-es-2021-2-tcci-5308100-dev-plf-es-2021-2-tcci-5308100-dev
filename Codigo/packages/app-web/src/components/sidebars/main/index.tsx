@@ -10,7 +10,7 @@ const MainSidebar: FunctionComponent<MainSidebarType> = ({ routes }) => {
   return (
     <nav id='sidebarMenu' className='d-md-block sidebar collapse collapse-horizontal'>
       <div
-        className='position-sticky mx-3 my-2 px-3 pt-3 rounded-md bg-white shadow-lg h-100'
+        className='position-sticky mx-3 my-2 px-3 pt-3 rounded-md bg-white shadow-c-lg h-100'
         style={{ paddingBottom: 70, border: '1px solid rgba(0,0,0,.125)' }}
       >
         {/* <h6 className='sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted'>
@@ -28,7 +28,10 @@ const MainSidebar: FunctionComponent<MainSidebarType> = ({ routes }) => {
                 route.show && (
                   <li key={`menu_entry_${route.path}`} className='nav-item'>
                     <NavLink className={({ isActive }) => `nav-link ${isActive ? 'active' : ''}`} to={route.path}>
-                      <i className={`btn-round-md bg-gradient me-3 ${route.iconClass} ${route.bgClass}`} />
+                      <i
+                        className={`btn-round-md me-3 ${route.iconClass} ${route.bgClass || ''}`}
+                        style={{ width: 45, height: 45, minWidth: 45 }}
+                      />
                       {route.label}
                     </NavLink>
                   </li>

@@ -1,9 +1,8 @@
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import ISeed from '~/database/seed.interface';
-import { ExplorerStatus, UserType } from '@sec/common';
+import { ExplorerStatus } from '@sec/common';
 import { Explorer } from '@Models/Explorer.entity';
-import { Injectable } from '@nestjs/common';
 
 export class ExplorerSeed implements ISeed {
   constructor(
@@ -18,6 +17,7 @@ export class ExplorerSeed implements ISeed {
       name: 'Explorador Teste',
       profile: 3 as any,
       status: ExplorerStatus.ACTIVE,
+      background: '#fbd499',
     });
   }
 }

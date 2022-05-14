@@ -6,6 +6,8 @@ export const defaultErrorHandler = (
   error: APIError | AxiosError | Error | unknown,
   messageReporter: (data: ToastFunction) => void
 ) => {
+  if (process.env.NODE_ENV === 'development') console.log('error :>> ', error);
+
   if (error instanceof APIError) {
     //TODO: ZIP Error
     messageReporter({ message: error.message });
@@ -13,8 +15,7 @@ export const defaultErrorHandler = (
     messageReporter({ message: error.response?.data.message });
   } else {
     messageReporter({
-      message:
-        'Ocorreu um erro inesperado. Por favor, recarregue a página e tente novamente.',
+      message: 'Ocorreu um erro inesperado. Por favor, recarregue a página e tente novamente.',
     });
   }
 };

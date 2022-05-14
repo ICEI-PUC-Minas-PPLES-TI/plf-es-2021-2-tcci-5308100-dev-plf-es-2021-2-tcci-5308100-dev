@@ -4,10 +4,10 @@ import { Post } from './Post.entity';
 import { SocialMediaParam } from './SocialMediaParam.entity';
 import { SocialMedia as ISocialMedia, SocialMediaName } from '@sec/common';
 
-console.log(Model);
+console.log('SocialMedia :>>', Model);
 @Entity()
 export class SocialMedia extends Model implements ISocialMedia {
-  @Column({ enum: SocialMediaName })
+  @Column({ type: 'enum', enum: SocialMediaName })
   name: SocialMediaName;
 
   @OneToMany(() => Post, (post) => post.socialMedia)

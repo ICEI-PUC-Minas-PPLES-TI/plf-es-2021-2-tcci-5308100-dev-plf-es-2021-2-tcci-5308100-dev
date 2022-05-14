@@ -1,15 +1,15 @@
 import {
   Controller,
-  UseGuards,
   Body,
-  Req,
   Get,
   Query,
   Param,
   Post,
   Put,
+  UseInterceptors,
+  UploadedFile,
+  Request,
 } from '@nestjs/common';
-import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
 import { UtilsService } from '~/utils/utils.service';
 import { ExplorerService } from './explorer.service';
 import {
@@ -21,75 +21,188 @@ import {
   UpdateExplorerDTO,
   updateExplorerValidator,
   AuthenticationPayload,
-  Token,
   UserType,
   ExplorerStatus,
   ActiveExplorersParams,
   ActiveExplorersPayload,
   BanExplorersParams,
   BanExplorersPayload,
+  UpdateExplorerProfileDTO,
+  updateExplorerProfileValidator,
+  GetAvailableExplorersPayload,
 } from '@sec/common';
-import { In } from 'typeorm';
+import { ILike, In } from 'typeorm';
 import { PublicRoute } from '~/utils/public-route.decorator';
 import { ShopifyService } from '~/shopify/shopify.service';
-import Shopify from '@shopify/shopify-api';
 import { AuthenticationService } from '~/authentication/authentication.service';
-import { RoleGuard } from '~/authentication/role.guard';
+import { UserAccessService } from '../user-access/user-access.service';
+import { Roles } from '~/authentication/role.guard';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { EmailService } from '~/email/email.service';
+import { RequestWithUser } from '~/authentication/roles.guard';
+import { SearchExplorersPayload } from '@sec/common/endpoints/explorer.endpoint';
 
 @Controller('explorer')
-@UseGuards(RoleGuard([UserType.SUPER_ADMINISTRATOR, UserType.ADMINISTRATOR]))
-@UseGuards(JwtAuthGuard)
 export class ExplorerController {
   constructor(
     private readonly explorerService: ExplorerService,
     private readonly utilsService: UtilsService,
     private readonly shopifyService: ShopifyService,
     private readonly authenticationService: AuthenticationService,
+    private readonly userAccessService: UserAccessService,
+    private readonly emailService: EmailService,
   ) {}
 
   @PublicRoute()
   @Post('login')
   async login(
-    @Body() { email, password }: { email: string; password: string },
+    @Body()
+    {
+      email,
+      password,
+      name,
+    }: {
+      email: string;
+      password: string;
+      name?: string;
+    },
   ) {
     const explorer = await this.explorerService.findOne({
       where: { email: email, profile: { type: UserType.EXPLORER } },
       relations: ['profile'],
     });
 
-    const data =
-      explorer === undefined
-        ? null
-        : await this.shopifyService.explorerLogin({ email, password });
+    const data = await this.shopifyService.explorerLogin({ email, password });
 
-    if (!explorer || !data) {
+    const explorerStatusMessage: {
+      [key in ExplorerStatus | 'CREATING']: string;
+    } = {
+      ACTIVE: 'Login realizado com sucesso.',
+      BANNED:
+        'Usuário bloqueado. Sentimos muito, mas não será possível realizar o login.',
+      INACTIVE:
+        'Usuário inativo. Sentimos muito, mas não será possível realizar o login.',
+      UNDER_REVIEW:
+        'Ainda estamos analisando a sua solicitação. Por favor, aguarde mais um pouco.',
+      CREATING:
+        'Solicitação registrada. Iremos analisar a sua solicitação o mais rápido possível.',
+    };
+
+    if ((!explorer && !data) || (!explorer && data && !name)) {
       return this.utilsService.apiResponseFail({
         message:
           'E-mail e/ou senha inválidos. Por favor, confira as credenciais e tente novamente.',
-        payload: null,
+      });
+    } else if (!explorer && data) {
+      await this.explorerService.saveNewExplorer({
+        email,
+        name: name,
+      });
+
+      return this.utilsService.apiResponseWarning({
+        message: explorerStatusMessage['CREATING'],
+      });
+    } else if (explorer && !data) {
+      return this.utilsService.apiResponseFail({
+        message:
+          'E-mail e/ou senha inválidos. Por favor, confira as credenciais e tente novamente.',
+      });
+    } else if (explorer.status === ExplorerStatus.UNDER_REVIEW) {
+      return this.utilsService.apiResponseWarning({
+        message: explorerStatusMessage['UNDER_REVIEW'],
+      });
+    } else if (
+      [ExplorerStatus.BANNED, ExplorerStatus.INACTIVE].includes(explorer.status)
+    ) {
+      return this.utilsService.apiResponseFail({
+        message: explorerStatusMessage[explorer.status],
+      });
+    } else {
+      const payload = await this.explorerService.createExplorerToken(
+        explorer,
+        data.token,
+      );
+
+      return this.utilsService.apiResponseSuccess<AuthenticationPayload>({
+        message: explorerStatusMessage['ACTIVE'],
+        payload: payload,
       });
     }
+  }
 
-    await this.explorerService.updateById(explorer.id, { token: data.token });
+  @Get('profile/:id')
+  @Roles('*')
+  async getExplorerProfile(
+    @Param('id') id: string,
+    @Request() requestWithUser: RequestWithUser,
+  ) {
+    if (!Number(id)) return this.utilsService.apiResponseInvalidBody(null);
 
-    const tokenBase: Token = {
-      id: explorer.id,
-      email: explorer.email,
-      name: explorer.name,
-      type: explorer.profile.type,
-    };
+    const { user } = requestWithUser;
+    const explorer =
+      +id === user.id
+        ? await this.explorerService.getExplorerProfile(+id)
+        : await this.explorerService.getAnotherExplorerProfile(+id);
 
-    const { token } = this.authenticationService.createToken(tokenBase);
-
-    const payload: AuthenticationPayload = {
-      user: tokenBase,
-      token: token,
-    };
-
-    return this.utilsService.apiResponseSuccess<AuthenticationPayload>({
-      message: 'Login realizado com sucesso.',
-      payload: payload,
+    return this.utilsService.apiResponse<GetExplorerPayload>({
+      status: !!explorer ? 'SUCCESS' : 'FAIL',
+      message: 'Detalhes do explorador.',
+      payload: { explorer: explorer },
     });
+  }
+
+  @Put('profile')
+  @Roles([UserType.EXPLORER])
+  @UseInterceptors(FileInterceptor('newAvatar'))
+  async updateExplorerProfile(
+    @Body() body: { object: string },
+    @UploadedFile() newAvatar: Express.Multer.File,
+    @Request() requestWithUser: RequestWithUser,
+  ) {
+    const data: UpdateExplorerProfileDTO = JSON.parse(body.object);
+    const { success, dto, error } = await updateExplorerProfileValidator(data);
+
+    if (!success) return this.utilsService.apiResponseInvalidBody(error);
+
+    const { user } = requestWithUser;
+    const explorer = await this.explorerService.updateExplorerProfile(user.id, {
+      ...dto,
+      newAvatar,
+    });
+
+    return this.utilsService.apiResponseSuccessOrFail<GetExplorerPayload>({
+      success: !!explorer,
+      onSuccess: {
+        message: 'O perfil foi atualizado.',
+        payload: { explorer },
+      },
+      onFail: {
+        message:
+          'Ocorreu um erro ao atualizar o perfil. Por favor, tente novamente.',
+      },
+    });
+  }
+
+  @Get('available')
+  @Roles('*')
+  public async getAvailableExplorers(@Query() params: { all?: string }) {
+    try {
+      const explorers = await this.explorerService.getAvailableExplorers(
+        params.all === 'true' ? null : 200,
+      );
+
+      return this.utilsService.apiResponseSuccess<GetAvailableExplorersPayload>(
+        {
+          message: 'Lista de exploradores.',
+          payload: { explorers },
+        },
+      );
+    } catch (error) {
+      console.log(error);
+      return this.utilsService.apiResponseFail({
+        message: 'Erro ao buscar exploradores.',
+      });
+    }
   }
 
   @Get()
@@ -98,6 +211,7 @@ export class ExplorerController {
       where: {
         ...(queries.status ? { status: In(queries.status) } : undefined),
       },
+      relations: ['avatar'],
     });
 
     return this.utilsService.apiResponse<GetAllExplorersPayload>({
@@ -145,13 +259,12 @@ export class ExplorerController {
     if (!success) return this.utilsService.apiResponseInvalidBody(error);
 
     const explorer = await this.explorerService.updateById(body.id, dto);
-    const explorers = await this.explorerService.findAll();
 
-    return this.utilsService.apiResponseSuccessOrFail<GetAllExplorersPayload>({
+    return this.utilsService.apiResponseSuccessOrFail<GetExplorerPayload>({
       success: !!explorer,
       onSuccess: {
         message: 'O explorador foi atualizado.',
-        payload: { explorers },
+        payload: { explorer },
       },
       onFail: { message: 'Ocorreu um erro ao atualizar o explorador.' },
     });
@@ -159,6 +272,7 @@ export class ExplorerController {
 
   @Put('active-explorers')
   async activeExplorers(@Body() dto: ActiveExplorersParams) {
+    // TODO: Send email on active explorer
     try {
       await this.explorerService
         .getRepository()
@@ -195,5 +309,48 @@ export class ExplorerController {
         message: 'Erro ao banir os exploradores.',
       });
     }
+  }
+
+  @Post('indicate-explorer')
+  @Roles('*')
+  async indicateExplorer(@Body() body: { email: string }) {
+    const { email } = body;
+    const result = await this.emailService.indicateExplorer({ email });
+
+    return this.utilsService.apiResponseSuccessOrFail({
+      success: result,
+      onSuccess: {
+        message: 'Obrigado pela indicação.',
+        payload: null,
+      },
+      onFail: {
+        message:
+          'Ocorreu um erro ao registrar a indicação. Por favor, tente novamente.',
+      },
+    });
+  }
+
+  @Get('search-explorers/:name')
+  @Roles('*')
+  async searchExplorers(@Param('name') name: string) {
+    const explorers = await this.explorerService.findWithRelations({
+      where: [
+        { nickname: ILike(`%${name}%`) },
+        { name: ILike(`%${name}%`) },
+        { email: ILike(`%${name}%`) },
+      ],
+      relations: ['avatar'],
+    });
+
+    return this.utilsService.apiResponseSuccessOrFail<SearchExplorersPayload>({
+      success: !!explorers,
+      onSuccess: {
+        message: '',
+        payload: { explorers },
+      },
+      onFail: {
+        message: '',
+      },
+    });
   }
 }

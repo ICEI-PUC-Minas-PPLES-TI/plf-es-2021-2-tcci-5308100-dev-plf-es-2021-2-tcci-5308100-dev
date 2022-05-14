@@ -1,41 +1,64 @@
-import { AfterLoad, ChildEntity, Column, Entity, OneToMany } from 'typeorm';
+import {
+  AfterLoad,
+  ChildEntity,
+  Column,
+  Entity,
+  JoinColumn,
+  OneToMany,
+  OneToOne,
+} from 'typeorm';
 import { Challenge } from './Challenge.entity';
 import { ChallengeAccepted } from './ChallengeAccepted.entity';
 import { User } from './User.entity';
-import { Explorer as IExplorer, ExplorerStatus, UserType } from '@sec/common';
+import {
+  ChallengeAcceptedStatus,
+  Explorer as IExplorer,
+  ExplorerStatus,
+  UserType,
+} from '@sec/common';
+import { SavedFile } from './SavedFile.entity';
 
-console.log(User);
+console.log('Explorer :>>', User);
 @ChildEntity(UserType.EXPLORER)
 export class Explorer extends User implements IExplorer {
   constructor() {
     super();
   }
 
-  @Column({ nullable: true })
-  token: string;
+  public static avatarFilenamePrefix = (id) => `explorer-avatar-${id}`;
 
-  @Column({ nullable: true })
-  biography: string;
+  @OneToOne(() => SavedFile, { cascade: true })
+  @JoinColumn()
+  avatar?: SavedFile;
 
-  @Column({ nullable: true })
-  favoriteProduct: string;
+  @Column({ nullable: true, select: false })
+  token?: string;
 
-  @Column({ nullable: true })
-  instagram: string;
+  @Column({ nullable: true, length: 20 })
+  background?: string;
 
-  @Column({ nullable: true })
-  tikTok: string;
+  @Column({ nullable: true, length: 40 })
+  biography?: string;
 
-  @Column({ nullable: true })
-  twitter: string;
+  @Column({ nullable: true, length: 30 })
+  favoriteProduct?: string;
 
-  @Column({ nullable: true })
-  facebook: string;
+  @Column({ nullable: true, length: 20 })
+  instagram?: string;
 
-  @Column({ nullable: true })
-  linkedIn: string;
+  @Column({ nullable: true, length: 20 })
+  tikTok?: string;
 
-  @Column({ enum: ExplorerStatus })
+  @Column({ nullable: true, length: 20 })
+  twitter?: string;
+
+  @Column({ nullable: true, length: 20 })
+  facebook?: string;
+
+  @Column({ nullable: true, length: 20 })
+  linkedIn?: string;
+
+  // @Column({ type: 'enum', enum: ExplorerStatus })
   status: ExplorerStatus;
 
   @OneToMany(
@@ -49,14 +72,20 @@ export class Explorer extends User implements IExplorer {
 
   countChallengeCompleted: number;
 
-  // TODO: terminar método
   @AfterLoad()
   getCountChallengeCompleted() {
-    const countChallengeCompleted =
-      (this.acceptedChallenges?.length || 0) +
-      (this.exclusiveChallenges?.length || 0);
+    if (Array.isArray(this.acceptedChallenges)) {
+      const countChallengeCompleted = this.acceptedChallenges.reduce(
+        (acc, curr) =>
+          curr.status === ChallengeAcceptedStatus.COMPLETE ? ++acc : acc,
+        0,
+      );
 
-    this.countChallengeCompleted = countChallengeCompleted;
-    return countChallengeCompleted;
+      this.countChallengeCompleted = countChallengeCompleted;
+      return countChallengeCompleted;
+    } else {
+      this.countChallengeCompleted = null;
+      return null;
+    }
   }
 }

@@ -30,7 +30,11 @@ const Administrators: FunctionComponent = () => {
   }, []);
 
   useEffect(() => {
-    setAdministratorsFiltered(matchSorter(administrators, searchBox, { keys: ['nickname', 'name', 'email'] }));
+    if (searchBox !== '') {
+      setAdministratorsFiltered([...matchSorter(administrators, searchBox, { keys: ['nickname', 'name', 'email'] })]);
+    } else {
+      setAdministratorsFiltered([...administrators]);
+    }
   }, [searchBox, administrators]);
 
   const fetchData = async (filter: GetAllAdministratorsFilters | null = null) => {
@@ -75,7 +79,13 @@ const Administrators: FunctionComponent = () => {
             { field: 'name', label: 'Nome' },
             { field: 'email', label: 'Email' },
             { field: 'createdAt', label: 'Data de cadastro', alignment: 'center', formatter: formatDate },
-            { field: 'status', label: 'Status', alignment: 'center', classNameFttr: administratorStatusBadge, formatter: administratorStatusFttr },
+            {
+              field: 'status',
+              label: 'Status',
+              alignment: 'center',
+              classNameFttr: administratorStatusBadge,
+              formatter: administratorStatusFttr,
+            },
           ]}
           actions={[
             {

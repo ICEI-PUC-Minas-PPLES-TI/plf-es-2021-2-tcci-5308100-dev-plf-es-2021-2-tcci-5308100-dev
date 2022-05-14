@@ -4,7 +4,10 @@ import { ErrorBoundary, FallbackProps } from 'react-error-boundary';
 
 const ErrorCatcher: React.FunctionComponent = ({ children }) => {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback} /* onReset={() => {}} onError={() => {}} */>
+    <ErrorBoundary
+      FallbackComponent={ErrorFallback}
+      onError={process.env.NODE_ENV === 'development' ? alert : undefined}
+    >
       {children}
     </ErrorBoundary>
   );

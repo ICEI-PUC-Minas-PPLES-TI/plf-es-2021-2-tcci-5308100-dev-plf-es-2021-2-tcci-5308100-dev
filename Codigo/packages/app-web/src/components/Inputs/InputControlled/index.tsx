@@ -8,13 +8,22 @@ const { Group, Control } = Form;
 
 // <T>(props: InputControlledProps<T>) => JSX.Element
 // React.FunctionComponent<InputControlledProps>
-const InputControlled: <T>(props: InputControlledProps<T>) => JSX.Element = ({ type, isDisabled, onBlur, inputStyle, placeholder, ...rest }) => {
+const InputControlled: <T>(props: InputControlledProps<T>) => JSX.Element = ({
+  type,
+  isDisabled,
+  onBlur,
+  inputStyle,
+  placeholder,
+  maxLength,
+  autoComplete,
+  ...rest
+}) => {
   return (
     <BaseController
       {...rest}
       render={({ ref, value, onChange }) => (
         <Control
-          autoComplete={type === 'password' ? 'new-password' : undefined}
+          autoComplete={autoComplete}
           ref={ref}
           type={type}
           value={value}
@@ -27,6 +36,7 @@ const InputControlled: <T>(props: InputControlledProps<T>) => JSX.Element = ({ t
             onChange(value);
           }}
           onBlur={onBlur}
+          maxLength={maxLength}
         />
       )}
     />

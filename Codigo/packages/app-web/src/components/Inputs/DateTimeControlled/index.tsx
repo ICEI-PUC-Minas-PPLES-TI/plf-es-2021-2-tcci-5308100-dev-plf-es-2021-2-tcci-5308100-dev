@@ -10,8 +10,12 @@ import BaseController from '../BaseController';
 
 const { Group, Control } = Form;
 
-
-const DateTimeControlled: <T>(props: DateTimeControlledProps<T>) => JSX.Element = ({ withTime = false, isDisabled, outputFormat, ...rest }) => {
+const DateTimeControlled: <T>(props: DateTimeControlledProps<T>) => JSX.Element = ({
+  withTime = false,
+  isDisabled,
+  outputFormat,
+  ...rest
+}) => {
   return (
     <BaseController
       {...rest}

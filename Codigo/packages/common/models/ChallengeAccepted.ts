@@ -5,7 +5,7 @@ import { Explorer } from './Explorer';
 import { Model } from './Model';
 
 export enum ChallengeAcceptedStatus {
-  PARTICIPATING = 'PARTICIPATING',
+  // PARTICIPATING = 'PARTICIPATING',
   UNDER_REVIEW = 'UNDER_REVIEW',
   PENDING = 'PENDING',
   COMPLETE = 'COMPLETE',
@@ -23,4 +23,7 @@ export interface ChallengeAccepted extends Model {
   challenge: Challenge;
   comments: Comment[];
   responses: ChallengeAcceptedResponse[];
+
+  commentsCount: { explorer: number; administrator: number };
+  responsesCount: number;
 }

@@ -16,11 +16,12 @@
     "dev:common": "yarn workspace @sec/common dev",
     "dev:server": "yarn workspace @sec/server dev",
     "dev:app-web": "yarn workspace @sec/app-web dev",
-    "start:server": "yarn workspace @sec/server start",
-    "start:app-web": "yarn workspace @sec/app-web start",
-    "prod": "yarn workspace @sec/server prod"
+    "common": "yarn workspace @sec/common --",
+    "server": "yarn workspace @sec/server --",
+    "app-web": "yarn workspace @sec/app-web --"
   },
   "dependencies": {
+    "rimraf": "^3.0.2",
     "yup": "^0.32.11"
   },
   "devDependencies": {

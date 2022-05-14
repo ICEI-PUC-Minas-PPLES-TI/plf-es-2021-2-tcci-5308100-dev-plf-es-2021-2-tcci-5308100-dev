@@ -15,6 +15,8 @@ const ExplorerLogin = () => {
         </>
       }
       onSubmit={(credentials) => signIn(UserType.EXPLORER, credentials)}
+      onForgotPassword={{ label: 'Esqueci minha senha', href: '/' }}
+      onRequestNewAccount={{ label: 'Criar nova conta', href: '/criar-conta' }}
     />
   );
 };

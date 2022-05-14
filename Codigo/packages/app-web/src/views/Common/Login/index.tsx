@@ -8,29 +8,41 @@ import LoginBackground from '@Assets/img/login-background.jpg';
 import InputControlled from '@Components/Inputs/InputControlled';
 import Alert from '@Components/alert';
 import { Link } from 'react-router-dom';
-import { AuthContext, SignInSuccess, SignInFail } from '~/context/AuthContext';
+import { AuthContext, SignInSuccess, SignInFail, SignInWarning } from '~/context/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import { APIError } from '~/error/APIError';
 import { urlPrefix } from '~/routes';
 
 interface FormInput {
+  name?: string;
   email: string;
   password: string;
 }
 
 interface CommonLoginViewProps {
   cardHeader: JSX.Element;
-  onSubmit: (data: FormInput) => Promise<SignInSuccess | SignInFail>;
+  onSubmit: (data: FormInput) => Promise<SignInSuccess | SignInWarning | SignInFail>;
+  onForgotPassword?: { label: string; href: string };
+  onRequestNewAccount?: { label: string; href: string };
+  showNameField?: boolean;
 }
 
-const schema: yup.SchemaOf<FormInput> = yup.object().shape({
-  email: yup.string().email().required(),
-  password: yup.string().required(),
-});
-
-const CommonLoginView: FunctionComponent<CommonLoginViewProps> = ({ onSubmit, cardHeader }) => {
+const CommonLoginView: FunctionComponent<CommonLoginViewProps> = ({
+  onSubmit,
+  cardHeader,
+  onForgotPassword,
+  onRequestNewAccount,
+  showNameField,
+}) => {
   const { signOut } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const schema: yup.SchemaOf<FormInput> = yup.object().shape({
+    name: yup.string(),
+    email: yup.string().email().required(),
+    password: yup.string().required(),
+  });
+
   const {
     handleSubmit: submitter,
     control,
@@ -41,19 +53,22 @@ const CommonLoginView: FunctionComponent<CommonLoginViewProps> = ({ onSubmit, ca
 
   const [isSending, setIsSending] = useState(false);
   const [message, setMessage] = useState('');
+  const [accountUnderReview, setAccountUnderReview] = useState(false);
 
   useEffect(() => {
     signOut();
   }, [signOut]);
 
-  const handleOnSubmit = async (data: FormInput): Promise<void> => {
+  const handleOnSubmit = async ({ email, password, name }: FormInput): Promise<void> => {
     try {
       setIsSending(true);
 
-      const response = await onSubmit(data);
+      const response = await onSubmit({ email: email.trim(), password, name: name?.trim() });
 
-      if (response.success === true) {
+      if (response.status === 'SUCCESS') {
         navigate(urlPrefix[response.type] + '/');
+      } else if (response.status === 'WARNING') {
+        setAccountUnderReview(true);
       } else {
         setMessage(response.message || '');
       }
@@ -76,48 +91,87 @@ const CommonLoginView: FunctionComponent<CommonLoginViewProps> = ({ onSubmit, ca
           <div className='card col-sm-8 col-md-10 col-lg-10 col-xl-7 d-flex flex-column p-5 px-sm-3 px-md-5 align-items-center rounded-md'>
             <img className='d-md-none card-img-top' src={Logo} alt='Logo' style={{ maxWidth: '200px' }} />
             <div className='card-body'>
-              <div className='mb-3'>{cardHeader}</div>
-              <Alert title='Atenção!' text={message} variant='danger' isShow={message !== ''} />
-              <form onSubmit={submitter(handleOnSubmit)}>
-                <div className='mb-3'>
-                  <InputControlled
-                    isRequired
-                    control={control}
-                    hasError={!!errors.email}
-                    type='email'
-                    defaultValue={''}
-                    name='email'
-                    label='E-mail'
-                    onBlur={() => setMessage('')}
-                  />
-                </div>
-                <div className='mb-3'>
-                  <InputControlled
-                    isRequired
-                    control={control}
-                    hasError={!!errors.password}
-                    type='password'
-                    defaultValue={''}
-                    name='password'
-                    label='Senha'
-                    onBlur={() => setMessage('')}
-                  />
-                </div>
-                <div className='mb-3'>
-                  <Link to={'/administrador/esqueci-minha-senha'}>Esqueci minha senha</Link>
-                </div>
-                <div className='mb-3'>
-                  {isSending ? (
-                    <button type='button' className='btn btn-success w-100'>
-                      Processando...
-                    </button>
-                  ) : (
-                    <button type='submit' className='btn btn-success w-100'>
-                      Login
-                    </button>
-                  )}
-                </div>
-              </form>
+              {accountUnderReview ? (
+                <>
+                  <div className='mb-3'>
+                    <h4>Obrigado pelo cadastro,</h4>a sua conta está em análise para a utilização do sistema.
+                  </div>
+                  <div>
+                    Aguarde enquanto nossa equipe realiza a conferência das informações (aproximadamente 3 dias úteis).
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className='mb-3'>{cardHeader}</div>
+                  <Alert title='Atenção!' text={message} variant='danger' isShow={message !== ''} />
+                  <form onSubmit={submitter(handleOnSubmit)}>
+                    <div className='mb-3'>
+                      {showNameField && (
+                        <InputControlled
+                          isRequired
+                          control={control}
+                          hasError={!!errors.name}
+                          type='text'
+                          defaultValue={''}
+                          name='name'
+                          label='Nome completo'
+                          onBlur={() => setMessage('')}
+                        />
+                      )}
+                      <InputControlled
+                        isRequired
+                        control={control}
+                        hasError={!!errors.email}
+                        type='email'
+                        autoComplete='username'
+                        defaultValue={''}
+                        name='email'
+                        label='E-mail'
+                        onBlur={() => setMessage('')}
+                      />
+                    </div>
+                    <div className='mb-3'>
+                      <InputControlled
+                        isRequired
+                        control={control}
+                        hasError={!!errors.password}
+                        type='password'
+                        autoComplete='current-password'
+                        defaultValue={''}
+                        name='password'
+                        label='Senha'
+                        onBlur={() => setMessage('')}
+                      />
+                    </div>
+                    <div className='mb-3'>
+                      {onForgotPassword && (
+                        <Link className='d-block' to={onForgotPassword.href}>
+                          {onForgotPassword.label}
+                        </Link>
+                      )}
+                      {onRequestNewAccount && (
+                        <Link className='d-block' to={onRequestNewAccount.href}>
+                          {onRequestNewAccount.label}
+                        </Link>
+                      )}
+                    </div>
+                    <div className='mb-3'>
+                      {isSending ? (
+                        <button type='button' className='btn btn-success w-100'>
+                          Processando...
+                        </button>
+                      ) : (
+                        <button type='submit' className='btn btn-success w-100'>
+                          Login
+                        </button>
+                      )}
+                      <button className='btn btn-secondary w-100 mt-1' onClick={() => navigate('/')}>
+                        Voltar
+                      </button>
+                    </div>
+                  </form>
+                </>
+              )}
             </div>
           </div>
         </div>
