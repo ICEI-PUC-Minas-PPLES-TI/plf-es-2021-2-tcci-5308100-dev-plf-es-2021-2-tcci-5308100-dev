@@ -9,12 +9,14 @@ import { JwtAuthGuard } from '~/authentication/jwt-auth.guard';
 import { Roles } from '~/authentication/role.guard';
 import { RequestWithUser } from '~/authentication/roles.guard';
 import { UtilsService } from '~/utils/utils.service';
+import { NotificationService } from '../notification/notification.service';
 import { CommentService } from './comment.service';
 
 @Controller('comment')
 export class CommentController {
   constructor(
     private readonly commentService: CommentService,
+    private readonly notificationService: NotificationService,
     private readonly utilsService: UtilsService,
   ) {}
 
@@ -33,12 +35,19 @@ export class CommentController {
     if (!success) return this.utilsService.apiResponseInvalidBody(error);
 
     const { user } = request;
-    const { id } = await this.commentService.createAndSaveAux({
+    const commentSaved = await this.commentService.createAndSaveAux({
       ...dto,
       explorerId: user.id,
     });
 
-    const comment = await this.commentService.getOneById(id);
+    if (commentSaved && user.type !== UserType.EXPLORER)
+      await this.notificationService.notifyExplorerNewComment(
+        dto.acceptedChallengeId,
+      );
+
+    const comment = commentSaved
+      ? await this.commentService.getOneById(commentSaved.id)
+      : undefined;
     return this.utilsService.apiResponseSuccessOrFail<CreateCommentPayload>({
       success: !!comment,
       onSuccess: {

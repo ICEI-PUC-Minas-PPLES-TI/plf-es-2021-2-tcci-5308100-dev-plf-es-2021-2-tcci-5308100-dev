@@ -17,6 +17,7 @@ export type FormInput = {
   id: number;
   nickname: string;
   name: string;
+  background?: string;
   favoriteProduct?: string;
   biography?: string;
   instagram?: string;
@@ -47,6 +48,7 @@ const ModalEditExplorerProfile: FunctionComponent<ModalEditExplorerProfileProps>
     nickname: yup.string().required(),
     name: yup.string().required(),
     favoriteProduct: yup.string(),
+    background: yup.string(),
     biography: yup.string(),
     instagram: yup.string(),
     tikTok: yup.string(),
@@ -142,6 +144,36 @@ const ModalEditExplorerProfile: FunctionComponent<ModalEditExplorerProfileProps>
             </div>
           </div>
 
+          <div className='d-flex flex-row'>
+            <InputControlled
+              type='text'
+              control={control}
+              checkError={errors}
+              defaultValue={''}
+              name='nickname'
+              label='Apelido'
+              className='flex-grow-1'
+            />
+            <InputControlled
+              type='color'
+              control={control}
+              checkError={errors}
+              defaultValue={''}
+              name='background'
+              // label={<>&nbsp;</>}
+              label='Fundo'
+              className='ms-1'
+            />
+          </div>
+          {/* <InputControlled
+            type='color'
+            control={control}
+            checkError={errors}
+            defaultValue={''}
+            name='nickname'
+            label='Apelido'
+          />
+
           <InputControlled
             type='text'
             control={control}
@@ -149,7 +181,7 @@ const ModalEditExplorerProfile: FunctionComponent<ModalEditExplorerProfileProps>
             defaultValue={''}
             name='nickname'
             label='Apelido'
-          />
+          /> */}
           <InputControlled
             type='text'
             control={control}

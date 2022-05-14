@@ -121,6 +121,12 @@ export const sortAcceptChallengeByStatus = () => {
     priority[statusA] - priority[statusB];
 };
 
+/**
+ * Gera um número aleatório entre "min" e "max" (Exclusivo)
+ * @param min Inclusivo
+ * @param max Exclusivo
+ * @returns
+ */
 export const generateRandom = (min: number, max: number) => Math.floor(Math.random() * (max - min)) + min;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -136,4 +142,17 @@ export const shuffleArray = <T>(arrayAux: T[]) => {
     [array[i], array[j]] = [array[j], array[i]];
   }
   return array;
+};
+
+export const generateBackgroundById = (id: number) => {
+  const colors = ['primary', 'secondary', 'success', 'danger', 'warning', 'info'];
+  // const colors = [
+  //   'primary-gradient',
+  //   'gold-gradient',
+  //   'red-gradient',
+  //   'orange-gradient',
+  //   'blue-gradient',
+  //   'green-gradient',
+  // ];
+  return colors[id % (colors.length || 1)];
 };

@@ -17,6 +17,7 @@ export class ExplorerSeed implements ISeed {
       name: 'Explorador Teste',
       profile: 3 as any,
       status: ExplorerStatus.ACTIVE,
+      background: '#fbd499',
     });
   }
 }

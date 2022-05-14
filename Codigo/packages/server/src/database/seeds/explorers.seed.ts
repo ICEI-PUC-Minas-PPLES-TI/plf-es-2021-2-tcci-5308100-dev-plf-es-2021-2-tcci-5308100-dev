@@ -23,13 +23,14 @@ export class ExplorersSeed implements ISeed {
           profile: 3 as any,
           status: ExplorerStatus.ACTIVE,
 
-          biography: faker.lorem.paragraph(1).slice(0, 30),
-          favoriteProduct: faker.lorem.paragraph(1).slice(0, 10),
-          instagram: faker.internet.userName(),
-          tikTok: faker.internet.userName(),
-          twitter: faker.internet.userName(),
-          facebook: faker.internet.userName(),
-          linkedIn: faker.internet.userName(),
+          background: faker.internet.color(),
+          biography: faker.lorem.paragraph(1).slice(0, 40),
+          favoriteProduct: faker.lorem.paragraph(1).slice(0, 30),
+          instagram: faker.internet.userName().slice(0, 20),
+          tikTok: faker.internet.userName().slice(0, 20),
+          twitter: faker.internet.userName().slice(0, 20),
+          facebook: faker.internet.userName().slice(0, 20),
+          linkedIn: faker.internet.userName().slice(0, 20),
         }),
       );
     }

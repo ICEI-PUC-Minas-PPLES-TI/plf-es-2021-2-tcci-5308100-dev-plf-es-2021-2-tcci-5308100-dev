@@ -24,7 +24,6 @@ type FormInput = {
   recompenseId: number;
 
   status: ChallengeStatus;
-  isHighlighted: boolean;
   title: string;
   description: string;
 
@@ -50,7 +49,6 @@ const ChallengesSave: FunctionComponent = () => {
     recompenseId: yup.number().required(),
 
     status: yup.mixed<ChallengeStatus>().oneOf(Object.values(ChallengeStatus)).required(),
-    isHighlighted: yup.boolean().required(),
     title: yup.string().required(),
     description: yup.string().required(),
     coverId: yup.number().when('$idState', (idState, schema) => (idState ? schema.required() : schema)),
@@ -183,13 +181,6 @@ const ChallengesSave: FunctionComponent = () => {
               defaultValue={''}
               name='title'
               label='Titulo do desafio'
-            />
-            <CheckBoxControlled
-              removeTopSpace
-              control={control}
-              defaultValue={false}
-              name='isHighlighted'
-              label='Destacar desafio?'
             />
           </div>
           <div className='col-sm-12 col-md-4'>

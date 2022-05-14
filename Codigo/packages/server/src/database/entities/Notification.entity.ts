@@ -7,6 +7,9 @@ console.log('Notification :>>', Model);
 @Entity()
 export class Notification extends Model implements INotification {
   @Column()
+  title: string;
+
+  @Column()
   text: string;
 
   @Column({ type: 'enum', enum: NotificationStatus })

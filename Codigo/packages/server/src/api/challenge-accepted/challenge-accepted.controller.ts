@@ -8,6 +8,7 @@ import {
   Param,
   UseInterceptors,
   UploadedFiles,
+  Request,
 } from '@nestjs/common';
 import {
   FileFieldsInterceptor,
@@ -34,6 +35,7 @@ import { Roles } from '~/authentication/role.guard';
 import { RequestWithUser } from '~/authentication/roles.guard';
 import { UtilsService } from '~/utils/utils.service';
 import { CommentService } from '../comment/comment.service';
+import { NotificationService } from '../notification/notification.service';
 import { ChallengeAcceptedService } from './challenge-accepted.service';
 
 @Controller('challenge-accepted')
@@ -41,6 +43,7 @@ export class ChallengeAcceptedController {
   constructor(
     private readonly challengeAcceptedService: ChallengeAcceptedService,
     private readonly commentService: CommentService,
+    private readonly notificationService: NotificationService,
     private readonly utilsService: UtilsService,
   ) {}
 
@@ -99,6 +102,11 @@ export class ChallengeAcceptedController {
         challengeAcceptedId: dto.challengeAcceptedId,
       });
 
+    if (challengeAccepted)
+      await this.notificationService.notifyChallengeResponseEvaluated(
+        challengeAccepted.id,
+      );
+
     return this.utilsService.apiResponseSuccessOrFail<GetChallengeAcceptedPayload>(
       {
         success: !!challengeAccepted,
@@ -123,6 +131,11 @@ export class ChallengeAcceptedController {
       await this.challengeAcceptedService.declineResponse({
         challengeAcceptedId: dto.challengeAcceptedId,
       });
+
+    if (challengeAccepted)
+      await this.notificationService.notifyChallengeResponseEvaluated(
+        challengeAccepted.id,
+      );
 
     return this.utilsService.apiResponseSuccessOrFail<GetChallengeAcceptedPayload>(
       {

@@ -60,11 +60,16 @@ export class CommentService extends BaseService<Comment> {
     acceptedChallengeId,
     explorerId,
   }: CreateCommentDTO & { explorerId: number }): Promise<Comment> {
-    const challenge = await super.create({
-      text,
-      acceptedChallenge: acceptedChallengeId as DeepPartial<ChallengeAccepted>,
-      user: explorerId as DeepPartial<Explorer>,
-    });
-    return await this.commentRepository.save(challenge);
+    try {
+      const challenge = await super.create({
+        text,
+        acceptedChallenge:
+          acceptedChallengeId as DeepPartial<ChallengeAccepted>,
+        user: explorerId as DeepPartial<Explorer>,
+      });
+      return await this.commentRepository.save(challenge);
+    } catch (error) {
+      return undefined;
+    }
   }
 }

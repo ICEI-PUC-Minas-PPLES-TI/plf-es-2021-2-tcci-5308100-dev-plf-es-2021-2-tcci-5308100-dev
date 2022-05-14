@@ -96,6 +96,7 @@ export class AdministratorService extends BaseService<Administrator> {
 
     const administrator = await this.createAndSave(data);
 
+    console.log(!!administrator && !!data.password)
     if (!!administrator && !!data.password)
       await this.emailService.newPasswordToAdministrator(
         administrator,

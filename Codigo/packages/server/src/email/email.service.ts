@@ -1,7 +1,6 @@
 import { Administrator } from '@Models/Administrator.entity';
 import { MailerService } from '@nestjs-modules/mailer';
 import { Injectable } from '@nestjs/common';
-import { join, resolve } from 'path';
 
 @Injectable()
 export class EmailService {

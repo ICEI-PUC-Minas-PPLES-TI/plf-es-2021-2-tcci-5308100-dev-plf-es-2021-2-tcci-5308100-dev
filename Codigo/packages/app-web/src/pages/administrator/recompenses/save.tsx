@@ -201,11 +201,11 @@ const RecompensesSave: FunctionComponent = () => {
                   value: RecompenseType.DISCOUNT_COUPON,
                   label: recompenseTypeFttr(RecompenseType.DISCOUNT_COUPON),
                 },
-                {
-                  value: RecompenseType.GIFT_CARD,
-                  label: recompenseTypeFttr(RecompenseType.GIFT_CARD),
-                  isDisabled: true,
-                },
+                // {
+                //   value: RecompenseType.GIFT_CARD,
+                //   label: recompenseTypeFttr(RecompenseType.GIFT_CARD),
+                //   isDisabled: true,
+                // },
               ]}
             />
           </div>

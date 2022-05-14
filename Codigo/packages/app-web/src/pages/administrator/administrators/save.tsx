@@ -153,7 +153,7 @@ const AdministratorsSave: FunctionComponent = () => {
               name='password'
               label='Senha'
             />
-            <CheckBoxControlled control={control} defaultValue={false} name='randomPassword' label='Senha' />
+            <CheckBoxControlled control={control} defaultValue={false} name='randomPassword' label='Senha aleatória' />
           </div>
         </div>
         <div className='row mt-3'>

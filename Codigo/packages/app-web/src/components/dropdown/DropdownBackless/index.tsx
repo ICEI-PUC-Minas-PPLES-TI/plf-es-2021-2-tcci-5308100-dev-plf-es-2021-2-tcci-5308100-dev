@@ -40,7 +40,7 @@ const DropdownBackless: FunctionComponent<DropdownBacklessProps> = ({
         {customLabel || <i className={labels[label || 'bars']} />}
       </Dropdown.Toggle>
 
-      <Dropdown.Menu className='p-4 rounded-md border-0 shadow-lg'>
+      <Dropdown.Menu className='p-4 rounded-md border-0 shadow-c-lg'>
         {menus.map(({ iconClass, title, subtitle, onClick, href }, i) => (
           <Fragment key={`DropdownBackless_Menu_${title}`}>
             {i !== 0 && <Dropdown.Divider />}

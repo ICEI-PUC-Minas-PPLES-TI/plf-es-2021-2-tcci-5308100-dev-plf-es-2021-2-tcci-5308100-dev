@@ -11,6 +11,7 @@ export type UpdateExplorerDTO = BaseExplorerDTO & { id: number; status: Explorer
 export type UpdateExplorerProfileDTO = {
   nickname: string;
   name: string;
+  background?: string;
   favoriteProduct?: string;
   biography?: string;
   instagram?: string;
@@ -51,6 +52,7 @@ export const updateExplorerProfileValidator: (body: any) => Promise<ValidatorRes
   const dto = assigner<UpdateExplorerProfileDTO>(body, {
     nickname: null,
     name: null,
+    background: null,
     favoriteProduct: null,
     biography: null,
     instagram: null,
@@ -65,6 +67,7 @@ export const updateExplorerProfileValidator: (body: any) => Promise<ValidatorRes
     yup.object().shape({
       nickname: yup.string().required(),
       name: yup.string().required(),
+      background: yup.string(),
       favoriteProduct: yup.string(),
       biography: yup.string(),
       instagram: yup.string(),

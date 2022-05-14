@@ -4,7 +4,6 @@ import { assigner, validateHandler, ValidatorBaseSchema, ValidatorResult } from 
 
 type BaseChallengeDTO = {
   status: ChallengeStatus;
-  isHighlighted: boolean;
   title: string;
   description: string;
   challengedExplorerId?: number | null;
@@ -20,7 +19,6 @@ export type UpdateChallengeDTO = BaseChallengeDTO & {
 
 const validatorBase: yup.SchemaOf<BaseChallengeDTO> = yup.object().shape({
   status: yup.mixed<ChallengeStatus>().oneOf(Object.values(ChallengeStatus)).required(),
-  isHighlighted: yup.boolean().required(),
   title: yup.string().required(),
   description: yup.string().required(),
   challengedExplorerId: yup.number().nullable(),
@@ -30,7 +28,6 @@ const validatorBase: yup.SchemaOf<BaseChallengeDTO> = yup.object().shape({
 export const createChallengeValidator: (body: any) => Promise<ValidatorResult<CreateChallengeDTO>> = async (body) => {
   const dto = assigner<CreateChallengeDTO>(body, {
     status: null,
-    isHighlighted: null,
     title: null,
     description: null,
     challengedExplorerId: null,
@@ -46,7 +43,6 @@ export const updateChallengeValidator: (body: any) => Promise<ValidatorResult<Up
   const dto = assigner<UpdateChallengeDTO>(body, {
     id: null,
     status: null,
-    isHighlighted: null,
     title: null,
     description: null,
     challengedExplorerId: null,

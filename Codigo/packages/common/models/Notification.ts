@@ -7,6 +7,7 @@ export enum NotificationStatus {
 }
 
 export interface Notification extends Model {
+  title: string;
   text: string;
   status: NotificationStatus;
   user: User;

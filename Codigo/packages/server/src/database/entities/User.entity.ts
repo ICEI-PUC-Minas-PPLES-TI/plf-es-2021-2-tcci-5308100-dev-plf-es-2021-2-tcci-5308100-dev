@@ -8,7 +8,14 @@ import {
 import { Model } from './Model.abstract';
 import { Notification } from './Notification.entity';
 import { Profile } from './Profile.entity';
-import { User as IUser, UserStatus, UserType } from '@sec/common';
+import { User as IUser, UserType } from '@sec/common';
+
+enum UserStatus {
+  ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  UNDER_REVIEW = 'UNDER_REVIEW',
+  BANNED = 'BANNED',
+}
 
 console.log('User :>>', Model);
 @Entity()

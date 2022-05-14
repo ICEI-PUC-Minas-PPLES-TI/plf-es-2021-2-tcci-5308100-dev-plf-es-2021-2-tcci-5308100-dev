@@ -34,6 +34,9 @@ export class Explorer extends User implements IExplorer {
   @Column({ nullable: true, select: false })
   token?: string;
 
+  @Column({ nullable: true, length: 20 })
+  background?: string;
+
   @Column({ nullable: true, length: 40 })
   biography?: string;
 

@@ -5,6 +5,7 @@ import { CSSProperties } from 'react';
 import Skeleton from 'react-loading-skeleton';
 import DropdownBackless from '@Components/dropdown/DropdownBackless';
 import { AuthContext } from '~/context/AuthContext';
+import { generateBackgroundById } from '@Utils/util';
 
 export type ExplorerProfileCardProps = {
   explorer: Explorer | undefined;
@@ -15,6 +16,9 @@ export type ExplorerProfileCardProps = {
 const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = ({ explorer, noOptions, onEdit }) => {
   const classSideDiv = 'flex-grow-1 flex-center flex-column justify-content-end pb-3';
   const styleSideDiv: CSSProperties = { width: 'calc(50% - 100px)', fontSize: '0.9rem', zIndex: 3 };
+
+  // eslint-disable-next-line prefer-const
+  let color = explorer && generateBackgroundById(explorer.id);
 
   const { user } = useContext(AuthContext);
 
@@ -77,8 +81,10 @@ const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = (
         ) : explorer.avatar ? (
           <img className='rounded-circle avatar-size' src={explorer.avatar.urlPath} />
         ) : (
-          <div className='rounded-circle overflow-hidden flex-center align-items-start avatar-size border-grey text-muted'>
-            <i className='fas fa-user' />
+          <div
+            className={`rounded-circle overflow-hidden flex-center align-items-start avatar-size text-muted border border-${color} border-grey bg-white`}
+          >
+            <i className={`fas fa-user text-bg-color bg-${color}`} />
           </div>
         )}
         {explorer && (
@@ -106,7 +112,17 @@ const ExplorerProfileCard: React.FunctionComponent<ExplorerProfileCardProps> = (
           </>
         )}
       </div>
-      <div style={{ position: 'absolute', left: 0, right: 0, height: '40%', background: '#fbd499', zIndex: 1 }} />
+      <div
+        className={!explorer?.background ? `bg-${color}` : undefined}
+        style={{
+          position: 'absolute',
+          left: 0,
+          right: 0,
+          height: '40%',
+          background: explorer?.background,
+          zIndex: 1,
+        }}
+      />
       {!noOptions && explorer && user.id === explorer.id && (
         <div className='' style={{ position: 'absolute', top: 0, right: '6px', zIndex: 3 }}>
           <DropdownBackless

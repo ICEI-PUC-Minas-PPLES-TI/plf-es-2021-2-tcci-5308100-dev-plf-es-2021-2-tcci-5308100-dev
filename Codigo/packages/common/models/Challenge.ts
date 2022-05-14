@@ -12,7 +12,6 @@ export enum ChallengeStatus {
 
 export interface Challenge extends Model {
   status: ChallengeStatus;
-  isHighlighted: boolean;
   title: string;
   description: string;
   cover: SavedFile;

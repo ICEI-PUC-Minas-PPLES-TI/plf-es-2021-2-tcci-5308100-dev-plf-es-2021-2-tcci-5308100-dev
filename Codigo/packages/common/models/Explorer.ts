@@ -13,6 +13,7 @@ export enum ExplorerStatus {
 export interface Explorer extends User {
   avatar?: SavedFile;
   token?: string;
+  background?: string;
   biography?: string;
   favoriteProduct?: string;
   instagram?: string;

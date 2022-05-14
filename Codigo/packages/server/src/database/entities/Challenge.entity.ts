@@ -23,9 +23,6 @@ export class Challenge extends Model implements IChallenge {
   status: ChallengeStatus;
 
   @Column()
-  isHighlighted: boolean;
-
-  @Column()
   title: string;
 
   @Column({ length: 2000 })
@@ -46,9 +43,4 @@ export class Challenge extends Model implements IChallenge {
     (challengeAccepted) => challengeAccepted.challenge,
   )
   acceptedChallenges: ChallengeAccepted[];
-
-  // disponibility: { value: number; percentage: number; ratio: string };
-
-  // @AfterLoad()
-  // calcDisponibility() {}
 }
