@@ -48,6 +48,7 @@
 
 .border-grey {
   border: 1px solid grey;
+  border-color: grey !important;
 }
 .input-multi-values-disabled {
   background: #80808017;
@@ -84,22 +85,35 @@
 }
 
 .custom-scrollbar-light::-webkit-scrollbar {
-  width: 5px;
+  width: 12px;
+  border-radius: 0 8px 8px 0;
 }
 
 .custom-scrollbar-light::-webkit-scrollbar-track {
-  border-radius: 10px;
+  border-radius: 6px;
 }
 
 .custom-scrollbar-light::-webkit-scrollbar-thumb {
   background: #d0d0d0;
-  border-radius: 10px;
+  border: 3px solid transparent;
+  border-radius: 6px;
+  background-clip: padding-box;
 }
 
 .custom-scrollbar-light::-webkit-scrollbar-thumb:hover {
   background: #acacac;
+  background-clip: padding-box;
+}
+
+.custom-scrollbar-bg-white.custom-scrollbar-light::-webkit-scrollbar {
+  background-color: white;
 }
 
 .search-input-height-on-small {
   height: 75px !important;
+}
+
+.dropdown-item.active,
+.no-active.dropdown-item:active {
+  background-color: inherit;
 }
