@@ -272,7 +272,6 @@ export class ExplorerController {
 
   @Put('active-explorers')
   async activeExplorers(@Body() dto: ActiveExplorersParams) {
-    // TODO: Send email on active explorer
     try {
       await this.explorerService
         .getRepository()

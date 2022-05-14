@@ -22,7 +22,6 @@ const DateTimeControlled: <T>(props: DateTimeControlledProps<T>) => JSX.Element 
       render={({ ref, value, onChange }) => (
         <ReactDatetime
           renderInput={(props) => (
-            // TODO: CORRIGIR
             <InputMask
               getInputRef={ref}
               {...props}

@@ -15,7 +15,6 @@ interface SocialMediaPostContextState {
 
 const SocialMediaPostContext = createContext<SocialMediaPostContextState>({} as SocialMediaPostContextState);
 
-//TODO: Adicionar paginação
 const SocialMediaPostProvider: React.FunctionComponent = ({ children }) => {
   const { isAuthenticated } = useContext(AuthContext);
   const location = useLocation();
