@@ -1,0 +1,381 @@
+.info-box {
+  box-shadow: 0 0 1px rgba(0, 0, 0, 0.125), 0 1px 3px rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem;
+  background-color: #fff;
+  display: flex;
+  margin-bottom: 1rem;
+  min-height: 80px;
+  padding: 0.5rem;
+  position: relative;
+  width: 100%;
+}
+
+.info-box .progress {
+  background-color: rgba(0, 0, 0, 0.125);
+  height: 2px;
+  margin: 5px 0;
+}
+
+.info-box .progress .progress-bar {
+  background-color: #fff;
+}
+
+.info-box .info-box-icon {
+  border-radius: 0.25rem;
+  align-items: center;
+  display: flex;
+  font-size: 1.875rem;
+  justify-content: center;
+  text-align: center;
+  width: 70px;
+}
+
+.info-box .info-box-icon > img {
+  max-width: 100%;
+}
+
+.info-box .info-box-content {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  line-height: 1.8;
+  flex: 1;
+  padding: 0 10px;
+  overflow: hidden;
+}
+
+.info-box .info-box-number {
+  display: block;
+  margin-top: 0.25rem;
+  font-weight: 700;
+}
+
+.info-box .progress-description,
+.info-box .info-box-text {
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.info-box .info-box .bg-primary,
+.info-box .info-box .bg-gradient-primary {
+  color: #fff;
+}
+
+.info-box .info-box .bg-primary .progress-bar,
+.info-box .info-box .bg-gradient-primary .progress-bar {
+  background-color: #fff;
+}
+
+.info-box .info-box .bg-secondary,
+.info-box .info-box .bg-gradient-secondary {
+  color: #fff;
+}
+
+.info-box .info-box .bg-secondary .progress-bar,
+.info-box .info-box .bg-gradient-secondary .progress-bar {
+  background-color: #fff;
+}
+
+.info-box .info-box .bg-success,
+.info-box .info-box .bg-gradient-success {
+  color: #fff;
+}
+
+.info-box .info-box .bg-success .progress-bar,
+.info-box .info-box .bg-gradient-success .progress-bar {
+  background-color: #fff;
+}
+
+.info-box .info-box .bg-info,
+.info-box .info-box .bg-gradient-info {
+  color: #fff;
+}
+
+.info-box .info-box .bg-info .progress-bar,
+.info-box .info-box .bg-gradient-info .progress-bar {
+  background-color: #fff;
+}
+
+.info-box .info-box .bg-warning,
+.info-box .info-box .bg-gradient-warning {
+  color: #1f2d3d;
+}
+
+.info-box .info-box .bg-warning .progress-bar,
+.info-box .info-box .bg-gradient-warning .progress-bar {
+  background-color: #1f2d3d;
+}
+
+.info-box .info-box .bg-danger,
+.info-box .info-box .bg-gradient-danger {
+  color: #fff;
+}
+
+.info-box .info-box .bg-danger .progress-bar,
+.info-box .info-box .bg-gradient-danger .progress-bar {
+  background-color: #fff;
+}
+
+.info-box .info-box .bg-light,
+.info-box .info-box .bg-gradient-light {
+  color: #1f2d3d;
+}
+
+.info-box .info-box .bg-light .progress-bar,
+.info-box .info-box .bg-gradient-light .progress-bar {
+  background-color: #1f2d3d;
+}
+
+.info-box .info-box .bg-dark,
+.info-box .info-box .bg-gradient-dark {
+  color: #fff;
+}
+
+.info-box .info-box .bg-dark .progress-bar,
+.info-box .info-box .bg-gradient-dark .progress-bar {
+  background-color: #fff;
+}
+
+.info-box .info-box-more {
+  display: block;
+}
+
+.info-box .progress-description {
+  margin: 0;
+}
+
+@media (min-width: 767px) {
+  .col-xl-2 .info-box .progress-description,
+  .col-lg-2 .info-box .progress-description,
+  .col-md-2 .info-box .progress-description {
+    display: none;
+  }
+  .col-xl-3 .info-box .progress-description,
+  .col-lg-3 .info-box .progress-description,
+  .col-md-3 .info-box .progress-description {
+    display: none;
+  }
+}
+
+@media (min-width: 992px) {
+  .col-xl-2 .info-box .progress-description,
+  .col-lg-2 .info-box .progress-description,
+  .col-md-2 .info-box .progress-description {
+    font-size: 0.75rem;
+    display: block;
+  }
+  .col-xl-3 .info-box .progress-description,
+  .col-lg-3 .info-box .progress-description,
+  .col-md-3 .info-box .progress-description {
+    font-size: 0.75rem;
+    display: block;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-xl-2 .info-box .progress-description,
+  .col-lg-2 .info-box .progress-description,
+  .col-md-2 .info-box .progress-description {
+    font-size: 1rem;
+    display: block;
+  }
+  .col-xl-3 .info-box .progress-description,
+  .col-lg-3 .info-box .progress-description,
+  .col-md-3 .info-box .progress-description {
+    font-size: 1rem;
+    display: block;
+  }
+}
+
+.dark-mode .info-box {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-primary,
+.dark-mode .info-box .info-box .bg-gradient-primary {
+  color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-primary .progress-bar,
+.dark-mode .info-box .info-box .bg-gradient-primary .progress-bar {
+  background-color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-secondary,
+.dark-mode .info-box .info-box .bg-gradient-secondary {
+  color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-secondary .progress-bar,
+.dark-mode .info-box .info-box .bg-gradient-secondary .progress-bar {
+  background-color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-success,
+.dark-mode .info-box .info-box .bg-gradient-success {
+  color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-success .progress-bar,
+.dark-mode .info-box .info-box .bg-gradient-success .progress-bar {
+  background-color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-info,
+.dark-mode .info-box .info-box .bg-gradient-info {
+  color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-info .progress-bar,
+.dark-mode .info-box .info-box .bg-gradient-info .progress-bar {
+  background-color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-warning,
+.dark-mode .info-box .info-box .bg-gradient-warning {
+  color: #1f2d3d;
+}
+
+.dark-mode .info-box .info-box .bg-warning .progress-bar,
+.dark-mode .info-box .info-box .bg-gradient-warning .progress-bar {
+  background-color: #1f2d3d;
+}
+
+.dark-mode .info-box .info-box .bg-danger,
+.dark-mode .info-box .info-box .bg-gradient-danger {
+  color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-danger .progress-bar,
+.dark-mode .info-box .info-box .bg-gradient-danger .progress-bar {
+  background-color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-light,
+.dark-mode .info-box .info-box .bg-gradient-light {
+  color: #1f2d3d;
+}
+
+.dark-mode .info-box .info-box .bg-light .progress-bar,
+.dark-mode .info-box .info-box .bg-gradient-light .progress-bar {
+  background-color: #1f2d3d;
+}
+
+.dark-mode .info-box .info-box .bg-dark,
+.dark-mode .info-box .info-box .bg-gradient-dark {
+  color: #fff;
+}
+
+.dark-mode .info-box .info-box .bg-dark .progress-bar,
+.dark-mode .info-box .info-box .bg-gradient-dark .progress-bar {
+  background-color: #fff;
+}
+
+/* ********************************************************************************************************** */
+
+.card > .overlay,
+.card > .loading-img,
+.overlay-wrapper > .overlay,
+.overlay-wrapper > .loading-img,
+.info-box > .overlay,
+.info-box > .loading-img,
+.small-box > .overlay,
+.small-box > .loading-img {
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+}
+
+.card .overlay,
+.overlay-wrapper .overlay,
+.info-box .overlay,
+.small-box .overlay {
+  border-radius: 0.25rem;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.7);
+  display: flex;
+  justify-content: center;
+  z-index: 50;
+}
+
+.card .overlay > .fa,
+.card .overlay > .fas,
+.card .overlay > .far,
+.card .overlay > .fab,
+.card .overlay > .fal,
+.card .overlay > .fad,
+.card .overlay > .svg-inline--fa,
+.card .overlay > .ion,
+.overlay-wrapper .overlay > .fa,
+.overlay-wrapper .overlay > .fas,
+.overlay-wrapper .overlay > .far,
+.overlay-wrapper .overlay > .fab,
+.overlay-wrapper .overlay > .fal,
+.overlay-wrapper .overlay > .fad,
+.overlay-wrapper .overlay > .svg-inline--fa,
+.overlay-wrapper .overlay > .ion,
+.info-box .overlay > .fa,
+.info-box .overlay > .fas,
+.info-box .overlay > .far,
+.info-box .overlay > .fab,
+.info-box .overlay > .fal,
+.info-box .overlay > .fad,
+.info-box .overlay > .svg-inline--fa,
+.info-box .overlay > .ion,
+.small-box .overlay > .fa,
+.small-box .overlay > .fas,
+.small-box .overlay > .far,
+.small-box .overlay > .fab,
+.small-box .overlay > .fal,
+.small-box .overlay > .fad,
+.small-box .overlay > .svg-inline--fa,
+.small-box .overlay > .ion {
+  color: #343a40;
+}
+
+.card .overlay.dark,
+.overlay-wrapper .overlay.dark,
+.info-box .overlay.dark,
+.small-box .overlay.dark {
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.card .overlay.dark > .fa,
+.card .overlay.dark > .fas,
+.card .overlay.dark > .far,
+.card .overlay.dark > .fab,
+.card .overlay.dark > .fal,
+.card .overlay.dark > .fad,
+.card .overlay.dark > .svg-inline--fa,
+.card .overlay.dark > .ion,
+.overlay-wrapper .overlay.dark > .fa,
+.overlay-wrapper .overlay.dark > .fas,
+.overlay-wrapper .overlay.dark > .far,
+.overlay-wrapper .overlay.dark > .fab,
+.overlay-wrapper .overlay.dark > .fal,
+.overlay-wrapper .overlay.dark > .fad,
+.overlay-wrapper .overlay.dark > .svg-inline--fa,
+.overlay-wrapper .overlay.dark > .ion,
+.info-box .overlay.dark > .fa,
+.info-box .overlay.dark > .fas,
+.info-box .overlay.dark > .far,
+.info-box .overlay.dark > .fab,
+.info-box .overlay.dark > .fal,
+.info-box .overlay.dark > .fad,
+.info-box .overlay.dark > .svg-inline--fa,
+.info-box .overlay.dark > .ion,
+.small-box .overlay.dark > .fa,
+.small-box .overlay.dark > .fas,
+.small-box .overlay.dark > .far,
+.small-box .overlay.dark > .fab,
+.small-box .overlay.dark > .fal,
+.small-box .overlay.dark > .fad,
+.small-box .overlay.dark > .svg-inline--fa,
+.small-box .overlay.dark > .ion {
+  color: #ced4da;
+}

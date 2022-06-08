@@ -1,0 +1,185 @@
+:root {
+  --bubbles-loader-bubble-size: .5em;
+}
+
+.bubbles-loader {
+  color: var(--default-color);
+  font-size: 20px;
+  margin: 100px auto;
+  width: var(--bubbles-loader-bubble-size);
+  height: var(--bubbles-loader-bubble-size);
+  border-radius: 50%;
+  position: relative;
+  text-indent: -9999em;
+  -webkit-animation: bubbles-load 1.3s infinite linear;
+  animation: bubbles-load 1.3s infinite linear;
+  -webkit-transform: translateZ(0);
+  -ms-transform: translateZ(0);
+  transform: translateZ(0);
+}
+@-webkit-keyframes bubbles-load {
+  0%,
+  100% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em 0em,
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em 0;
+  }
+  12.5% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 0,
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size));
+  }
+  25% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(-0.5 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em 0,
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size));
+  }
+  37.5% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0em 0,
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em 0em,
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size));
+  }
+  50% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em 0em,
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size));
+  }
+  62.5% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0 0,
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size));
+  }
+  75% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em 0;
+  }
+  87.5% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0em 0,
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size));
+  }
+}
+@keyframes bubbles-load {
+  0%,
+  100% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em 0em,
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em 0;
+  }
+  12.5% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 0,
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size));
+  }
+  25% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(-0.5 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em 0,
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size));
+  }
+  37.5% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0em 0,
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em 0em,
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size));
+  }
+  50% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em 0em,
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size));
+  }
+  62.5% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0 0,
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size));
+  }
+  75% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0em calc(0.2 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em 0;
+  }
+  87.5% {
+    box-shadow: 0em calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(3 * var(--bubbles-loader-bubble-size)) 0em 0 calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      0em calc(3 * var(--bubbles-loader-bubble-size)) 0em calc(-1 * var(--bubbles-loader-bubble-size)),
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(2 * var(--bubbles-loader-bubble-size)) 0em 0,
+      calc(-3 * var(--bubbles-loader-bubble-size)) 0em 0em 0,
+      calc(-2 * var(--bubbles-loader-bubble-size)) calc(-2 * var(--bubbles-loader-bubble-size)) 0em calc(0.2 * var(--bubbles-loader-bubble-size));
+  }
+}

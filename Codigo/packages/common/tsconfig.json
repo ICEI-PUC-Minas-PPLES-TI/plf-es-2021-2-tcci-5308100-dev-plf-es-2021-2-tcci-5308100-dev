@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "es2017",
+    "experimentalDecorators": true,
+    "skipLibCheck": true,
+    "baseUrl": "./",
+    "outDir": "./dist/",
+    "declarationMap": true
+  }
+}

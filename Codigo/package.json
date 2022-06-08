@@ -1,0 +1,32 @@
+{
+  "name": "sec",
+  "version": "1.0.0",
+  "license": "ISC",
+  "private": true,
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ]
+  },
+  "scripts": {
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('You must use Yarn to install, not NPM')\"",
+    "build:common": "yarn workspace @sec/common build",
+    "build:server": "yarn workspace @sec/server build",
+    "build:app-web": "yarn workspace @sec/app-web build",
+    "dev:common": "yarn workspace @sec/common dev",
+    "dev:server": "yarn workspace @sec/server dev",
+    "dev:app-web": "yarn workspace @sec/app-web dev",
+    "common": "yarn workspace @sec/common --",
+    "server": "yarn workspace @sec/server --",
+    "app-web": "yarn workspace @sec/app-web --"
+  },
+  "dependencies": {
+    "rimraf": "^3.0.2",
+    "yup": "^0.32.11"
+  },
+  "devDependencies": {
+    "prettier": "^2.3.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.5"
+  }
+}

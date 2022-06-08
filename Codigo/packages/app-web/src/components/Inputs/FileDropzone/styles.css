@@ -1,0 +1,54 @@
+.dropContainer {
+  border: 2px dashed #ddd;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: height 0.2 ease;
+  min-height: 75px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropContainerMessageDefault {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 15px 0 !important;
+}
+
+.dropContainerMessageDanger {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 15px 0 !important;
+  color: #e57878;
+}
+
+.dropContainerMessageSuccess {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  padding: 15px 0 !important;
+  color: #78e5d5;
+}
+
+.drop-container-image-box {
+  position: relative;
+  width: fit-content;
+  padding: 1%;
+  cursor: pointer;
+}
+
+.drop-container-image-box img {
+  max-height: 100%;
+  max-width: 100%;
+  padding: 1%;
+}
+
+.drop-container-image-box i {
+  top: 0%;
+  right: 0%;
+  position: absolute;
+  color: red;
+}

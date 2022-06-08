@@ -1,0 +1,12 @@
+{
+  "name": "@sec/common",
+  "version": "1.0.0",
+  "main": "dist/index.js",
+  "license": "ISC",
+  "scripts": {
+    "prebuild": "rimraf dist",
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('You must use Yarn to install, not NPM')\"",
+    "build": "tsc",
+    "dev": "tsc -w"
+  }
+}

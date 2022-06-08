@@ -1,0 +1,44 @@
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 100;
+  padding: 112px 0 16px;
+}
+
+.sidebar-sticky {
+  position: relative;
+  top: 0;
+  height: calc(100vh - 112px);
+  padding-top: 0.5rem;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.sidebar .nav-link {
+  color: var(--bs-gray-700);
+  display: flex;
+  align-items: center;
+
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.sidebar .nav-link i {
+  color: var(--bs-gray-700);
+}
+
+.sidebar .nav-link.active {
+  color: #2470dc;
+}
+
+.sidebar .nav-link:hover i,
+.sidebar .nav-link.active i {
+  color: inherit;
+}
+
+.sidebar-heading {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+}
