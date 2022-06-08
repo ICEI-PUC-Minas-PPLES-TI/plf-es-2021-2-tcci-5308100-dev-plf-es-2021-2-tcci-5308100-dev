@@ -1,3 +1,3 @@
 # Documentação do Projeto
 
-Inclua documentação do projeto, como relatórios da PROEX.
+Este diretório contém documentos relacionados as entregas feitas nas tarefas de TCC.

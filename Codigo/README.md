@@ -1,3 +1,5 @@
 # Código do Projeto
 
-Mantenha neste diretório todo o código do projeto. Se necessário, descreva neste arquivo aspectos relevantes da estrutura de diretórios criada para organização do código.
+Este diretório contém todo o código implementado para este sistema. Utilizamos uma estrutura de mono repositório configurada através do Yarn Workspaces.
+
+As instruções para executar este sistema estão contidos no README principal (README da pasta raiz).
